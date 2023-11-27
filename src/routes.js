@@ -1,5 +1,7 @@
 import React from 'react'
 
+/* eslint-disable */
+
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -35,20 +37,29 @@ const Range = React.lazy(() => import('./views/forms/range/Range'))
 const Select = React.lazy(() => import('./views/forms/select/Select'))
 const Validation = React.lazy(() => import('./views/forms/validation/Validation'))
 
-const Charts = React.lazy(() => import('./views/charts/Charts'))
+
 
 // Icons
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
 const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
-
 // Notifications
 const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
 const Badges = React.lazy(() => import('./views/notifications/badges/Badges'))
 const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
+const SupportType = React.lazy(() => import('./page/Settings/SupportType/Index'))
+const EnquirySource = React.lazy(() => import('./page/Settings/EnquirySource/Index'))
+const EnquiryMode = React.lazy(() => import('./page/Settings/EnquiryMode'))
+const OrgType = React.lazy(() => import('./page/Settings/OrgType/Index'))
+const OrgCategory = React.lazy(() => import('./page/Settings/OrgCategory/Index'))
+const ProductServices = React.lazy(() => import('./page/Settings/ProductServices/Index'))
+const EnquiryType = React.lazy(() => import('./page/Settings/EnquiryType/Index'))
+const EnquiryManagement = React.lazy(() => import('./page/EnquiryMangement/Index'))
+const Licensee = React.lazy(() => import('./page/Licensee/index'))
+const MyTeam = React.lazy(() => import('./page/MyTeam/index'))
+const SupportEnquiry = React.lazy(() => import('./page/SupportEnquiry/Index'));
 
-const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -74,27 +85,95 @@ const routes = [
   { path: '/buttons', name: 'Buttons', element: Buttons, exact: true },
   { path: '/buttons/buttons', name: 'Buttons', element: Buttons },
   { path: '/buttons/dropdowns', name: 'Dropdowns', element: Dropdowns },
-  { path: '/buttons/button-groups', name: 'Button Groups', element: ButtonGroups },
-  { path: '/charts', name: 'Charts', element: Charts },
+  {
+    path: '/buttons/button-groups',
+    name: 'Button Groups',
+    element: ButtonGroups,
+  },
+
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
   { path: '/forms/select', name: 'Select', element: Select },
-  { path: '/forms/checks-radios', name: 'Checks & Radios', element: ChecksRadios },
+  {
+    path: '/forms/checks-radios',
+    name: 'Checks & Radios',
+    element: ChecksRadios,
+  },
   { path: '/forms/range', name: 'Range', element: Range },
   { path: '/forms/input-group', name: 'Input Group', element: InputGroup },
-  { path: '/forms/floating-labels', name: 'Floating Labels', element: FloatingLabels },
+  {
+    path: '/forms/floating-labels',
+    name: 'Floating Labels',
+    element: FloatingLabels,
+  },
   { path: '/forms/layout', name: 'Layout', element: Layout },
   { path: '/forms/validation', name: 'Validation', element: Validation },
   { path: '/icons', exact: true, name: 'Icons', element: CoreUIIcons },
   { path: '/icons/coreui-icons', name: 'CoreUI Icons', element: CoreUIIcons },
   { path: '/icons/flags', name: 'Flags', element: Flags },
   { path: '/icons/brands', name: 'Brands', element: Brands },
-  { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },
+  {
+    path: '/notifications',
+    name: 'Notifications',
+    element: Alerts,
+    exact: true,
+  },
   { path: '/notifications/alerts', name: 'Alerts', element: Alerts },
   { path: '/notifications/badges', name: 'Badges', element: Badges },
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
-  { path: '/widgets', name: 'Widgets', element: Widgets },
+ 
+  { path: '/EnquiryManagement', name: 'Enquiries', element: EnquiryManagement, exact: true },
+  
+
+  { path: '/Licensee', name: 'Licensee', element: Licensee, exact: true },
+
+  { path: '/MyTeam', name: 'My Team', element: MyTeam, exact: true },
+  { path: '/SupportEnquiry', name: 'SupportEnquiry', element: SupportEnquiry, exact: true },
+
+  { path: '/Settings', name: 'Settings', element: EnquirySource, exact: true },
+  { path: '/Settings/EnquirySource', name: 'EnquirySource', element: EnquirySource },
+  {
+    path: '/Settings/EnquirySource',
+    name: ' EnquirySource',
+    element: EnquirySource,
+  },
+  { path: '/Settings', name: 'Settings', element: EnquiryMode, exact: true },
+  { path: '/Settings/EnquiryMode', name: 'EnquiryMode', element: EnquiryMode },
+
+  {
+    path: '/Settings/EnquiryType',
+    name: ' EnquiryType',
+    element: EnquiryType,
+  },
+  {
+    path: '/Settings/SupportType',
+    name: ' SupportType',
+    element: SupportType,
+  },
+  {
+    path: '/Settings/EnquiryMode',
+    name: ' EnquiryMode',
+    element: EnquiryMode,
+  },
+  {
+    path: '/Settings/OrgType',
+    name: 'OrgType ',
+    element: OrgType,
+  },
+  {
+    path: '/Settings/OrgCategory',
+    name: 'OrgCategory ',
+    element: OrgCategory,
+  },
+  {
+    path: '/Settings/ProductServices',
+    name: 'ProductServices ',
+    element: ProductServices,
+  }
+
+
+
 ]
 
 export default routes

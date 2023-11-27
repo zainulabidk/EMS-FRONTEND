@@ -1,0 +1,28 @@
+.view{
+    display: flex;
+    justify-content: space-between;
+}
+.view-label{
+   color: #1d7fb8;
+   margin-bottom: 5px;
+}
+.view-data {
+    font-weight: 500;
+    color: #585858;
+    font-size: 17px;
+}
+.view-data {
+    border: none;
+    outline: none; /* Optional: removes the outline when the textarea is focused */
+    width: 100%;
+  }
+  .lebel-2{
+    width: 60%;
+  }
+  .stts-btn{
+    background: orange;
+    color: white;
+    padding: 6px 13px;
+    border-radius: 5px;
+    border: none;
+  }

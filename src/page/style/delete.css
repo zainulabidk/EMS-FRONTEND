@@ -1,0 +1,30 @@
+
+
+.delete-modal {
+  max-width: 360px;
+  margin: auto auto; 
+  border-radius: 10px;
+}
+
+.delete-modal .modal-content {
+  border: none;
+}
+
+.delete-modal .modal-header, .delete-modal .modal-footer {
+  border: none;
+  text-align: center;
+}
+.delete-modal .modal-footer{
+  text-align: center;
+  margin: 5px 15px 15px 15px;
+  display: flex; 
+  justify-content: center; 
+}
+
+
+.delete-modal .modal-footer .btn-success {
+  background-color: #003366; 
+  border-color: #003366; 
+}
+
+

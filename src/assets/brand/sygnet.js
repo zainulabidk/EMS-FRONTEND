@@ -1,4 +1,4 @@
-export const sygnet = [
+/*export const sygnet = [
   '160 160',
   `
   <title>coreui logo</title>
@@ -10,3 +10,4 @@ export const sygnet = [
   </g>
 `,
 ]
+*/

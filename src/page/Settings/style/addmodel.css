@@ -1,0 +1,123 @@
+
+  .custom-modal {
+    --bs-modal-width: 790px !important; 
+    --bs-modal-header-padding: 1rem 2rem !important;
+  }
+.modal-box{
+    --bs-modal-width: 800px !important;
+    --bs-modal-header-padding: 1rem 2rem !important;
+}
+.modal {
+    --bs-modal-header-padding: 1rem 2rem !important;
+}
+
+.form-label{
+  font-size: 14px;
+  color: #949494;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.form-input{
+  margin-bottom: 15px;
+}
+.input-group-append {
+    position: absolute;
+    right: 0px;
+    top: 13%;
+}
+
+  .input-group-text {
+    background: transparent !important;
+    border: none !important;
+    padding: 8px 10px !important;
+    color: #a3a3a3;
+}
+.form-control{
+    border-radius: 6px !important;
+    padding: 10px 10px !important;
+}
+
+
+.floating-label-group {
+    position: relative;
+    height: 50px;
+ 
+  }
+  
+  .floating-label-group label {
+    position: absolute;
+    top: 35%;
+    left: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: 0.3s;
+    z-index: 0;
+    padding: 0px 5px;
+
+  }
+  
+  .floating-label-group input:focus + label,
+  .floating-label-group input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 0.8rem;
+    color: #007bff !important;
+    background-color: white;
+  }
+  
+  .floating-label-group input:focus,
+  .floating-label-group input:not(:placeholder-shown) {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .floating-label-group input:not(:placeholder-shown) {
+    border-color: #007bff;
+  }
+  
+  .floating {
+    top: 0;
+    font-size: 0.8rem;
+    /* color: #007bff; */
+    background-color: white;
+  }
+  .error-border {
+    border-color: red !important;
+  }
+  .error{
+    font-size: 13px;
+    font-weight: 400;
+    padding: 0px 10px;
+    color: red;
+  }
+  .radio-group {
+    display: flex;
+  flex-direction: row; /* Change to row to align items horizontally */
+  align-items: center;
+   height: 50px;
+  }
+  
+  .radio-group label {
+    margin-right: 30px;  /* Added margin between radio buttons */
+    font-size: 14px;
+    color: #949494;
+    font-weight: 400;
+  }
+  
+  .radio-group input:focus + label,
+  .radio-group input:checked + label {
+    font-size: 0.8rem;
+    color: #007bff !important;
+    background-color: white;
+  }
+  
+  .radio-group input:focus,
+  .radio-group input:checked {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .radio-group input:checked {
+    border-color: #007bff;
+  }
+  

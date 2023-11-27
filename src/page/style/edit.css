@@ -1,0 +1,9 @@
+.modal-title {
+    font-size: 18px;
+    font-weight: 600 !important;
+}
+
+.modal {
+    --bs-modal-width: 653px !important;
+    --bs-modal-header-padding: 1rem 2rem !important;
+}

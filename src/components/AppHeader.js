@@ -20,10 +20,10 @@ import { logo } from 'src/assets/brand/logo'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const sidebarShow = useSelector((state) => state.nav.sidebarShow)
 
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader style={{boxShadow:'0 0 4px 4px rgba(0,0,0,0.08)'}} position="sticky" className="">
       <CContainer fluid>
         <CHeaderToggler
           className="ps-1"
@@ -34,7 +34,7 @@ const AppHeader = () => {
         <CHeaderBrand className="mx-auto d-md-none" to="/">
           <CIcon icon={logo} height={48} alt="Logo" />
         </CHeaderBrand>
-        <CHeaderNav className="d-none d-md-flex me-auto">
+        <CHeaderNav   className="d-none d-md-flex me-auto">
           <CNavItem>
             <CNavLink to="/dashboard" component={NavLink}>
               Dashboard
