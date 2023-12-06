@@ -74,7 +74,7 @@ fetchSupportType();
     const response = await axios.get('http://localhost:3000/productService');
     const filteredEnqTo = response.data.product.filter(to => !to.isDeleted);
     setEnqTo(filteredEnqTo);
-    console.log(filteredEnqTo);
+    // console.log(filteredEnqTo);
   } catch (error) {
     console.error(error);
   }
@@ -85,7 +85,7 @@ const fetchSupportType = async () => {
     const response = await axios.get('http://localhost:3000/supportType');
     const filteredSupportType = response.data.supportType.filter(type => !type.isDeleted) || [];
     setSupportType(filteredSupportType);
-    console.log(filteredSupportType);
+    // console.log(filteredSupportType);
   } catch (error) {
     console.error(error);
   }

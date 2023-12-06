@@ -18,9 +18,9 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/userroles');
-        setData(response.data.userRole);
-        console.log(response.data.userRole);
+        const response = await axios.get('http://localhost:3000/users');
+        setData(response.data.users);
+        console.log(response.data.users);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -42,7 +42,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
       password: selectedDatas?.password || '',
       confirmPassword: selectedDatas?.confirmPassword || '',
       mobile: selectedDatas?.mobile || '',
-      userType: selectedDatas?.userType || '',
+      userType: selectedDatas?.userRoles || '', // Change from userRoles to userType
     },
     validationSchema: Yup.object({
       fname: Yup.string().required('First name is required'),
@@ -66,11 +66,26 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
     handleClose();
   };
 
+  useEffect(() => {
+    console.log("selectedDatas:", selectedDatas);
+    formik.setValues({
+      fname: selectedDatas?.fname || '',
+      lname: selectedDatas?.lname || '',
+      email: selectedDatas?.email || '',
+      mobile: selectedDatas?.mobile || '',
+      password: selectedDatas?.password || '',
+      confirmPassword: selectedDatas?.confirmPassword || '',
+      userRoles: selectedDatas?.userRoles || '',
+      
+    });
+  }, [selectedDatas]);
+  
+
   // Render the modal only when data is available
   return (
     <Modal show={showModal} onHide={handleModalHide} centered backdrop="static" keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Licensee</Modal.Title>
+        <Modal.Title>Edit My Team</Modal.Title>
       </Modal.Header>
       <Modal.Body>
       <Container>
@@ -78,136 +93,122 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
             <Form onSubmit={formik.handleSubmit}>
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="fname">
-                    <Form.Label style={{ fontSize: '14px' }}>First Name</Form.Label>
+                  <Form.Group className="mb-3 " controlId="fname">
+                  <Form.Label style={{fontSize:'14px'}}>First Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="fname"
+                      placeholder=" "
                       value={formik.values.fname}
                       onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      onBlur={() => formik.setFieldTouched('fname', true)}
+                      onFocus={() => formik.setFieldTouched('fname', false)} // Reset touch state on focus
                     />
-                    {formik.touched.fname && formik.errors.fname ? (
-                      <div className="error" style={{ color: 'red' }}>
-                        {formik.errors.fname}
-                      </div>
-                    ) : null}
+                   
+              
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="lname">
-                    <Form.Label style={{ fontSize: '14px' }}>Last Name</Form.Label>
+                  <Form.Group className="mb-3 " controlId="lname">
+                  <Form.Label style={{fontSize:'14px'}}>Last Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="lname"
+                      placeholder=" "
                       value={formik.values.lname}
                       onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      onBlur={() => formik.setFieldTouched('lname', true)}
+                      onFocus={() => formik.setFieldTouched('lname', false)} // Reset touch state on focus
                     />
-                    {formik.touched.lname && formik.errors.lname ? (
-                      <div className="error" style={{ color: 'red' }}>
-                        {formik.errors.lname}
-                      </div>
-                    ) : null}
+                    
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="email">
-                    <Form.Label style={{ fontSize: '14px' }}>Email</Form.Label>
+                  <Form.Group className="mb-3 " controlId="email">
+                  <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
                     <Form.Control
                       type="email"
                       name="email"
+                      placeholder=" "
                       value={formik.values.email}
                       onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      onBlur={() => formik.setFieldTouched('email', true)}
+                      onFocus={() => formik.setFieldTouched('email', false)} // Reset touch state on focus
                     />
-                    {formik.touched.email && formik.errors.email ? (
-                      <div className="error" style={{ color: 'red' }}>
-                        {formik.errors.email}
-                      </div>
-                    ) : null}
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="mobile">
-                    <Form.Label style={{ fontSize: '14px' }}>Mobile</Form.Label>
+                  <Form.Group className="mb-3 " controlId="mobile">
+                  <Form.Label style={{fontSize:'14px'}}>Mobile</Form.Label>
                     <Form.Control
                       type="text"
                       name="mobile"
+                      placeholder=" "
                       value={formik.values.mobile}
                       onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      onBlur={() => formik.setFieldTouched('mobile', true)}
+                      onFocus={() => formik.setFieldTouched('mobile', false)} // Reset touch state on focus
                     />
-                    {formik.touched.mobile && formik.errors.mobile ? (
-                      <div className="error" style={{ color: 'red' }}>
-                        {formik.errors.mobile}
-                      </div>
-                    ) : null}
-                  </Form.Group>
-                </Col>
-
-                       <Col md={6}>
-                  <Form.Group className="mb-3" controlId="password">
-                    <Form.Label style={{ fontSize: '14px' }}>Password</Form.Label>
-                    <div className="password-input-container input-group">
-                      <Form.Control
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        className="form-control"
-                      />
-                      <div className="input-group-append">
-                        <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
-                          {showPassword ? <BsEyeSlash /> : <BsEye />}
-                        </div>
-                      </div>
-                    </div>
-                    {formik.touched.password && formik.errors.password ? (
-                      <div className="error" style={{ color: 'red' }}>
-                        {formik.errors.password}
-                      </div>
-                    ) : null}
                   </Form.Group>
                 </Col>
 
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="confirmPassword">
-                    <Form.Label style={{ fontSize: '14px' }}>Confirm Password</Form.Label>
+  <Form.Group className="mb-3" style={{position:'relative'}} controlId="password">
+  <Form.Label style={{fontSize:'14px'}}>Password</Form.Label>
+      <Form.Control
+        type={showPassword ? 'text' : 'password'}
+        name="password"
+        placeholder=''
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={() => formik.setFieldTouched('password', true)}
+        onFocus={() => formik.setFieldTouched('password', false)}
+      />
+      
+      <div className="input-group-append">
+        <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
+          {showPassword ? <BsEyeSlash /> : <BsEye />}
+        </div>
+      </div>
+  </Form.Group>
+</Col>
+
+                <Col md={6}>
+                  <Form.Group  className="mb-3 " controlId="confirmPassword">
+                  <Form.Label style={{fontSize:'14px'}}>Confirm Password</Form.Label>
                     <Form.Control
                       type="password"
+                      placeholder=" "
                       name="confirmPassword"
                       value={formik.values.confirmPassword}
                       onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      onBlur={() => formik.setFieldTouched('confirmPassword', true)}
+                      onFocus={() => formik.setFieldTouched('confirmPassword', false)} 
                     />
+                    
                     {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                      <div className="error" style={{ color: 'red' }}>
+                      <div className="error" >
                         {formik.errors.confirmPassword}
                       </div>
                     ) : null}
                   </Form.Group>
                 </Col>
 
+
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="userType">
-                    <Form.Label style={{ fontSize: '14px' }}>User Roles</Form.Label>
-                    <Form.Select
+                 <Form.Group className="mb-3 input-box" controlId="userType">
+                    <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
+                    <Form.Control
+                      className='input-controll'
+                      type="text"
+                      placeholder="Licensee"
                       name="userType"
                       value={formik.values.userType}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                    >
-                      <option value="" label="Select a role" />
-                      {data.map(item => (
-                        <option key={item.id} value={item.userType}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Form.Select>
+                    />
                     {formik.touched.userType && formik.errors.userType ? (
-                      <div className="error" style={{ color: 'red' }}>
+                      <div className="error">
                         {formik.errors.userType}
                       </div>
                     ) : null}
@@ -216,7 +217,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
               </Row>
             </Form>
         ) : (
-          <p>Loading user roles...</p>
+          <p>Loading users...</p>
         )}
         </Container>
       </Modal.Body>

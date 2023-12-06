@@ -59,6 +59,7 @@ const EnquiryManagement = React.lazy(() => import('./page/EnquiryMangement/Index
 const Licensee = React.lazy(() => import('./page/Licensee/index'))
 const MyTeam = React.lazy(() => import('./page/MyTeam/index'))
 const SupportEnquiry = React.lazy(() => import('./page/SupportEnquiry/Index'));
+const userroles = React.lazy(() => import('./page/Settings/UserRole/index'));
 
 
 const routes = [

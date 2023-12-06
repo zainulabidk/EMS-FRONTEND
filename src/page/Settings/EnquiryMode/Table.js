@@ -50,18 +50,30 @@ function Table() {
 
 
  
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/enquirymode');
+  //     const modifiedDatas = response.enquiryModes.map(item => ({
+  //       ...item,
+  //       name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
+  //       desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
+       
+  //     }));
+  
+  //     setDatas(modifiedDatas);
+  //     setFilteredDatas(modifiedDatas);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirymode');
-      const modifiedDatas = response.data.enquiryModes.map(item => ({
-        ...item,
-        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-        desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
-       
-      }));
-  
-      setDatas(modifiedDatas);
-      setFilteredDatas(modifiedDatas);
+      console.log('Responsse from zain:', response.data.enquiryModes);
+      setDatas(response.data.enquiryModes);
+      setFilteredDatas(response.data.enquiryModes);
+      console.log(response.data.enquiryModes);
     } catch (error) {
       console.error(error);
     }

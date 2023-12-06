@@ -197,20 +197,22 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
 
                 <Col md={6}>
                   <Form.Group  className="mb-3 input-box" controlId="userRoles">
-                    <Form.Select className='input-controll'
-                      name="userRoles"
-                      value={formik.values.userRoles}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    >
-                       <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
-                      <option value="" label="Select a role" style={{color:'black'}} />
-                      {data.map(item => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Form.Select>
+                  <Form.Select className='input-controll'
+  name="userRoles"
+  value={formik.values.userRoles}
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+>
+  <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
+  <option value="" label="Select a role" style={{ color: 'black' }} />
+  {data.map(item => (
+    <option key={item._id} value={item.name}>
+      {item.name}
+    </option>
+  ))}
+</Form.Select>
+
+
                   </Form.Group>
                 </Col>
               </Row>

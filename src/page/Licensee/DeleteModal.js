@@ -28,7 +28,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-        axios.patch(`http://localhost:3000/enquiryType/${_id}`)
+        axios.patch(`http://localhost:3000/users/${_id}`)
           .then(() => {
             if (response.status === 200) {
                 toast.success('User Successfully Deleted !', {

@@ -49,23 +49,33 @@ function Table() {
   };
 
 
- 
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirySource');
-      const modifiedDatas = response.data.enquiriesSource.map(item => ({
-        ...item,
-        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-        desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
-       
-      }));
-  
-      setDatas(modifiedDatas);
-      setFilteredDatas(modifiedDatas);
+      console.log('Responsse from zain:', response.data.enquiriesSource);
+      setDatas(response.data.enquiriesSource);
+      setFilteredDatas(response.data.enquiriesSource);
+      console.log(response.data.enquiriesSource);
     } catch (error) {
       console.error(error);
     }
   };
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/enquirySource');
+  //     const modifiedDatas = response.data.enquiriesSource.map(item => ({
+  //       ...item,
+  //       name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
+  //       desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
+       
+  //     }));
+  
+  //     setDatas(modifiedDatas);
+  //     setFilteredDatas(modifiedDatas);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleUpdate = async (orgId, updatedData) => {
     try {

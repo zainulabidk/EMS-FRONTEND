@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 import ToggleButton from 'react-toggle-button';
 
@@ -42,7 +44,12 @@ function AddModal() {
         
         const response = await axios.post('http://localhost:3000/enquirymode', values);
         console.log('Response:', response.data);
-        alert('Successfully added');
+
+        toast.success('Data successfully added', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          className: 'toast-message',
+        });
 
         handleClose();
 
@@ -64,6 +71,7 @@ function AddModal() {
 
   return (
     <>
+      <ToastContainer autoClose={50000} />
       <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
         + New
       </Button>

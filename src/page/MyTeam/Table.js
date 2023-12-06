@@ -46,18 +46,29 @@ function Table() {
     }
   };
 
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/users');
+  //     const formattedData = response.data.users.map((user) => ({
+  //       ...user,
+  //       fname: capitalizeFirstLetter(user.fname),
+  //       lname: capitalizeFirstLetter(user.lname),
+  //     }));
+  //     setDatas(formattedData);
+  //     setFilteredDatas(formattedData);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/users');
-      const formattedData = response.data.users.map((user) => ({
-        ...user,
-        fname: capitalizeFirstLetter(user.fname),
-        lname: capitalizeFirstLetter(user.lname),
-      }));
-      setDatas(formattedData);
-      setFilteredDatas(formattedData);
+      console.log('Responsse from zain:', response.data.users);
+      setDatas(response.data.users);
+      setFilteredDatas(response.data.users);
+      console.log(response.data.users);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error(error);
     }
   };
 
@@ -96,8 +107,17 @@ function Table() {
     },
     {
       name: "USER ROLE",
-      selector: (row) => row.userRoles,
+      selector: (row) => {
+        if (Array.isArray(row.userRoles)) {
+          return row.userRoles.map(userRole => userRole.name).join(', ');
+        } else if (row.userRoles && typeof row.userRoles === 'object') {
+          return row.userRoles.name;
+        } else {
+          return 'Unknown Role';
+        }
+      },
     },
+    
     {
       name: "ACTIONS",
       cell: (row) => (
@@ -109,9 +129,9 @@ function Table() {
             <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
               <FontAwesomeIcon icon={faEye} />
             </Button>
-            <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
+            <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+          <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
+        </Button>
           </div>
         </>
       ),
@@ -155,26 +175,25 @@ function Table() {
           subHeader
           subHeaderComponent={
             <div className='table-top'>
-              <div ><AddModal/></div>
-              <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
-                <div>
-                  <div className="search-input-container">
+              <div ><AddModal  getDatas={getDatas} /></div>
+              <div style={{display:'flex',alignItems:'center',width: '36%', justifyContent:'space-between'}}>
+            <div>
+            <div className="search-input-container">
                     <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="w-35 form-control-srch"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className='count-div'>
+              <input
+                type='text'
+                placeholder='Search'
+                className='w-35 form-control'
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            </div>
+            <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
                 </div>
-              </div>
+            </div>
             </div>
           }
           subHeaderAlign='right'
