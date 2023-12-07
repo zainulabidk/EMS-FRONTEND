@@ -171,6 +171,11 @@ const routes = [
     path: '/Settings/ProductServices',
     name: 'ProductServices ',
     element: ProductServices,
+  },
+  {
+    path: '/Settings/userroles',
+    name: 'userroles ',
+    element: userroles,
   }
 
 
