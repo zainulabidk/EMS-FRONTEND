@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react'
-import { ToastContainer, toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal'; 
 import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import axios from 'axios';
 import '../style/delete.css';
 
@@ -30,22 +31,24 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
     const onDelete = (_id) => {
         axios.patch(`http://localhost:3000/enquiries/${_id}`)
           .then(() => {
-            if (response.status === 200) {
+          
                 toast.success('User Successfully Deleted !', {
                   toastId: 'success',
                   position: toast.POSITION.TOP_RIGHT,
                 })
-              }
+              
             getDatas();
           })
           .catch((error) => {
             console.error('Error deleting data:', error);
+            toast.error("Error in deleting the user")
           });
       };
     
 
       return (
         <>
+        <ToastContainer/>
         <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>

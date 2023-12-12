@@ -35,7 +35,7 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
             
             <Col md={6}>
               <p className='view-label'>Password:</p>
-              <p className='view-data'> {selectedDatas?.password}</p>
+              <p className='view-data'> {selectedDatas?.userRoles}</p>
             </Col>
             
             </Row>

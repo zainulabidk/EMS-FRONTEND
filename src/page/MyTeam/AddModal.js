@@ -1,7 +1,4 @@
 
-
-
-
 // export default App;
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -253,7 +250,7 @@ useEffect(() => {
 
       <div className="input-group-append">
         <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
-          {showPassword ? <BsEyeSlash /> : <BsEye />}
+          {showPassword ?   <BsEye />: <BsEyeSlash />}
         </div>
       </div>
     {formik.touched.password && formik.errors.password ? (

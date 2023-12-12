@@ -23,6 +23,8 @@ function Table() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
+  const [deleteModal,setDeleteModal] =useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -46,20 +48,6 @@ function Table() {
     }
   };
 
-  // const getDatas = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/users');
-  //     const formattedData = response.data.users.map((user) => ({
-  //       ...user,
-  //       fname: capitalizeFirstLetter(user.fname),
-  //       lname: capitalizeFirstLetter(user.lname),
-  //     }));
-  //     setDatas(formattedData);
-  //     setFilteredDatas(formattedData);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/users');
@@ -90,6 +78,23 @@ function Table() {
     setSelectedDatas(row);
     setShowViewModal(true);
   };
+
+    
+//DELETE MODAL
+
+const deleteModalClose = () => {
+  setDeleteModal(false);
+};
+
+const deleteModalShow = () => {
+  setDeleteModal(true);
+};
+
+
+const handleClickDelete = (row) => {
+  setSelectedId(row._id);
+  deleteModalShow();
+};
 
   const columns = [
     {
@@ -129,7 +134,7 @@ function Table() {
             <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
               <FontAwesomeIcon icon={faEye} />
             </Button>
-            <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
           </div>
@@ -207,7 +212,7 @@ function Table() {
       <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
 
       {/* Modal for Delete Confirmation */}
-      <DeleteModal show={showDeleteModal} handleClose={handleClose} handleDelete={handleDelete} />
+      <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

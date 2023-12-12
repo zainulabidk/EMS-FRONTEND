@@ -28,7 +28,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-        axios.patch(`http://localhost:3000/orgCategory/${_id}`)
+        axios.patch(`http://localhost:3000/supportEnquiry/${_id}`)
           .then(() => {
             if (response.status === 200) {
                 toast.success('User Successfully Deleted !', {
@@ -46,9 +46,9 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
 
 
-  return (
-    <>
-      <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
+      return (
+        <>
+        <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>
           </Modal.Header>
@@ -71,8 +71,8 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
             </Button>
           </Modal.Footer>
         </Modal>
-  </>
-  )
+      </>
+      )
 }
 
 export default DeleteModal
