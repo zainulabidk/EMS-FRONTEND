@@ -116,3 +116,8 @@
     font-weight: 500;
     color: rgb(0 0 0 / 42%);
 }
+
+.deleted-row {
+    background-color: #ffcccc; /* Red background color */
+  }
+  

@@ -23,8 +23,9 @@ function Table() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
-  const [deleteModal,setDeleteModal] =useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedUserRole, setSelectedUserRole] = useState("All"); // Default user role filter option
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -50,11 +51,16 @@ function Table() {
 
   const getDatas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/users');
-      console.log('Responsse from zain:', response.data.users);
+      let url = 'http://localhost:3000/users';
+
+      // If a specific user role is selected, append it to the URL
+      if (selectedUserRole !== "All") {
+        url += `?userRole=${selectedUserRole}`;
+      }
+
+      const response = await axios.get(url);
       setDatas(response.data.users);
       setFilteredDatas(response.data.users);
-      console.log(response.data.users);
     } catch (error) {
       console.error(error);
     }
@@ -79,22 +85,18 @@ function Table() {
     setShowViewModal(true);
   };
 
-    
-//DELETE MODAL
+  const deleteModalClose = () => {
+    setDeleteModal(false);
+  };
 
-const deleteModalClose = () => {
-  setDeleteModal(false);
-};
+  const deleteModalShow = () => {
+    setDeleteModal(true);
+  };
 
-const deleteModalShow = () => {
-  setDeleteModal(true);
-};
-
-
-const handleClickDelete = (row) => {
-  setSelectedId(row._id);
-  deleteModalShow();
-};
+  const handleClickDelete = (row) => {
+    setSelectedId(row._id);
+    deleteModalShow();
+  };
 
   const columns = [
     {
@@ -113,7 +115,7 @@ const handleClickDelete = (row) => {
     {
       name: "USER ROLE",
       selector: (row) => {
-        if (Array.isArray(row.userRoles)) {
+        if (Array.isArray(row)) {
           return row.userRoles.map(userRole => userRole.name).join(', ');
         } else if (row.userRoles && typeof row.userRoles === 'object') {
           return row.userRoles.name;
@@ -122,30 +124,39 @@ const handleClickDelete = (row) => {
         }
       },
     },
-    
     {
       name: "ACTIONS",
       cell: (row) => (
-        <>
-          <div>
-            <Button style={{ paddingLeft: '0px' }} className='btn btn-1 mx-1' onClick={() => handleEdit(row)}>
-              <FontAwesomeIcon icon={faEdit} />
-            </Button>
-            <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
-              <FontAwesomeIcon icon={faEye} />
-            </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
-          <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
-        </Button>
-          </div>
-        </>
+        <div className={row.isDeleted ? 'deleted-row' : ''}>
+          <div></div>
+          <Button style={{ paddingLeft: '0px' }} className='btn btn-1 mx-1' onClick={() => handleEdit(row)}>
+            <FontAwesomeIcon icon={faEdit} />
+          </Button>
+          <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
+            <FontAwesomeIcon icon={faEye} />
+          </Button>
+          <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+        </div>
       ),
     },
   ];
 
+  // Define a function to conditionally apply styles to the row
+  // const conditionalRowStyles = [
+  //   {
+  //     when: (row) => row.isDeleted === true,      
+  //     style: {
+  //       backgroundColor: 'red',  
+  //       color: 'white',  
+  //     },
+  //   },
+  // ];
+
   useEffect(() => {
     getDatas();
-  }, []);
+  }, [selectedUserRole, search]);
 
   useEffect(() => {
     if (!Array.isArray(datas)) {
@@ -164,14 +175,14 @@ const handleClickDelete = (row) => {
 
   return (
     <>
-      <div className='table-div'>
-        <Datatable className='table-data-div'
+      <div className='table-div '>
+        <Datatable className='table-data-div '
           title='My Team'
           columns={columns}
           data={filteredDatas}
           pagination
           paginationPerPage={5}
-          rowsPerPageOptions={[]} 
+          rowsPerPageOptions={[]}
           fixedHeader
           fixedHeaderScrollHeight='320px'
           selectableRows
@@ -180,28 +191,35 @@ const handleClickDelete = (row) => {
           subHeader
           subHeaderComponent={
             <div className='table-top'>
-              <div ><AddModal  getDatas={getDatas} /></div>
-              <div style={{display:'flex',alignItems:'center',width: '36%', justifyContent:'space-between'}}>
-            <div>
-            <div className="search-input-container">
+              <div><AddModal getDatas={getDatas} /></div>
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%', justifyContent: 'space-between' }}>
+                <select onChange={(e) => setSelectedUserRole(e.target.value)}>
+                  <option value="All">All User Roles</option>
+                  <option value="Vendor">Vendor</option>
+                  <option value="Accountant">Accountant</option>
+                  <option value="Operator">Operator</option>
+                </select>
+                <div>
+                  <div className="search-input-container">
                     <FontAwesomeIcon icon={faSearch} className="search-icon" />
-              <input
-                type='text'
-                placeholder='Search'
-                className='w-35 form-control'
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-            </div>
-            <div className='count-div'>
+                    <input
+                      type='text'
+                      placeholder='Search'
+                      className='w-35 form-control'
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
                 </div>
-            </div>
+              </div>
             </div>
           }
           subHeaderAlign='right'
+          // conditionalRowStyles={conditionalRowStyles} // Apply conditional row styles
         />
       </div>
 
@@ -218,18 +236,3 @@ const handleClickDelete = (row) => {
 }
 
 export default Table;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
