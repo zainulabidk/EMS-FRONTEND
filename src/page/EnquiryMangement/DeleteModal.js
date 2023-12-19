@@ -32,16 +32,17 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
         axios.patch(`http://localhost:3000/enquiries/${_id}`)
           .then(() => {
           
-                toast.success('User Successfully Deleted !', {
+                toast.error('User Successfully Deleted !', {
                   toastId: 'success',
                   position: toast.POSITION.TOP_RIGHT,
+                  autoClose:1000
                 })
               
             getDatas();
           })
           .catch((error) => {
             console.error('Error deleting data:', error);
-            toast.error("Error in deleting the user")
+            toast.error("Error in deleting the user",{ autoClose: 1000 })
           });
       };
     

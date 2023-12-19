@@ -1,4 +1,4 @@
-
+/*
   .custom-modal {
     --bs-modal-width: 790px !important; 
     --bs-modal-header-padding: 1rem 2rem !important;
@@ -78,7 +78,7 @@
   .floating {
     top: 0;
     font-size: 0.8rem;
-    /* color: #007bff; */
+    /* color: #007bff; *
     background-color: white;
   }
   .error-border {
@@ -92,13 +92,13 @@
   }
   .radio-group {
     display: flex;
-  flex-direction: row; /* Change to row to align items horizontally */
+  flex-direction: row; 
   align-items: center;
    height: 50px;
   }
   
   .radio-group label {
-    margin-right: 30px;  /* Added margin between radio buttons */
+    margin-right: 30px;  
     font-size: 14px;
     color: #949494;
     font-weight: 400;
@@ -121,3 +121,4 @@
     border-color: #007bff;
   }
   
+*/

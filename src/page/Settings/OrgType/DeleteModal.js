@@ -29,18 +29,20 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-        axios.patch(`http://localhost:3000/orgCategory/${_id}`)
+        axios.patch(`http://localhost:3000/orgType/${_id}`)
           .then(() => {
-            if (response.status === 200) {
-                toast.success('User Successfully Deleted !', {
+           
+            toast.error('User Successfully Deleted !', {
                   toastId: 'success',
                   position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 1000,
                 })
-              }
+              
             getDatas();
           })
           .catch((error) => {
             console.error('Error deleting data:', error);
+            toast.error("Error in deleting the user",{ autoClose: 1000 })
           });
       };
     
@@ -49,6 +51,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
   return (
     <>
+    <ToastContainer/>
     <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
       <Modal.Header closeButton >
         <Modal.Title>Delete Confirmation</Modal.Title>

@@ -1,4 +1,3 @@
-
 // Table.js
 import React, { useState, useEffect } from 'react';
 import Datatable from 'react-data-table-component';
@@ -15,7 +14,8 @@ import { faEdit, faEye, faTrash,faFilter } from '@fortawesome/free-solid-svg-ico
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -46,9 +46,12 @@ function Table() {
     try {
       const response = await axios.put(`http://localhost:3000/orgType/${orgId}`, updatedData);
       console.log('Update response:', response.data);
-      getDatas(); // Refresh the data after update
+      getDatas();
+      toast.success('Data updated successfully!',{ autoClose: 1000 });
+
     } catch (error) {
       console.error('Error updating data:', error);
+      toast.error('Error updating data. Please try again.',{ autoClose: 1000 });
     }
   };
   const handleEdit = (row) => {
@@ -82,13 +85,13 @@ const handleClickDelete = (row) => {
   const columns = [
    
     {
-      name: "NAME",
-      selector: (row) => row.name,
+      name: "ORG TYPE",
+      selector: (row) =><div style={{ textTransform: 'capitalize' }}>{row.name}</div>,
       sortable: true,
     },
     {
       name: "DESCRIPTION",
-      selector: (row) => row.descp,
+      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.descp}</div>,
     },
     {
       name: "ACTIONS",
@@ -128,6 +131,7 @@ const handleClickDelete = (row) => {
 
   return (
     <>
+    <ToastContainer/>
     <div className='table-div'>
       <Datatable className='table-data-div'
         title='Organization Type'
@@ -144,7 +148,7 @@ const handleClickDelete = (row) => {
         subHeader
         subHeaderComponent={
           <div className='table-top'>
-              <div ><AddModal/></div>
+              <div ><AddModal  getDatas={getDatas}  /></div>
               <div style={{display:'flex',alignItems:'center',width: '36%', justifyContent:'space-between'}}>
             <div>
               <input

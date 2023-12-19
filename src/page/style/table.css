@@ -24,16 +24,21 @@
     background-color: transparent !important;
     color: #3eba43a6;
     border: none;
+ 
+  
 }
 .btn-2{
     background-color: transparent !important;
     color: #008eff85;
     border: none;
+  
 }
 .btn-3{
     background-color: transparent !important;
     color: #ff000087;
     border: none;
+   
+    margin: 0.2rem; 
 }
 .btn-1:hover{
     color: #3eba43;
@@ -44,16 +49,12 @@
 .btn-3:hover{
     color: #f02222;
 }
+
 .table-div{
   
     border: 1px solid #e8e8e8;
     background-color: #ffff;
     border-radius: 8px;
-}
-.table-data-div{
-
-    padding:0px 25px 0px 25px !important;
-    /* border-radius: 5px; */
 }
 
 .eEletC{
@@ -116,3 +117,14 @@
     font-weight: 500;
     color: rgb(0 0 0 / 42%);
 }
+
+.modal-body {
+    font-weight: 600;
+
+}
+.capitalize-text{
+text-transform: capitalize;
+}
+.follow-up-table-row {
+    background-color: #e6f7ff; 
+  }

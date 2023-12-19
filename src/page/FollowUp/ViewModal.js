@@ -17,19 +17,31 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
           <Row>
             <Col md={6}>
               <p className='view-label'>Name</p>
-              <p className='view-data'> {selectedDatas?.name}</p>
+              <p className='view-data'> {selectedDatas?.enqId.fName} {selectedDatas?.enqId.lName}</p>
             </Col>
             <Col md={6}>
-              <p className='view-label'>Description</p>
-              <p className='view-data'> {selectedDatas?.descp}</p>
+              <p className='view-label'>FollowUp Details</p>
+              <p className='view-data'>{selectedDatas?.followUpDetails}</p>
+            </Col>
+            </Row>
+            <Row>
+            <Col md={6}>
+              <p className='view-label'>Next Contact Date</p>
+              <p className='view-data'> {selectedDatas?.nextContactDate}</p>
             </Col>
             <Col md={6}>
-              <p className='view-label'>CreatedBy</p>
+              <p className='view-label'>createdBy</p>
               <p className='view-data'> {selectedDatas?.createdBy}</p>
             </Col>
+            </Row>
+            <Row>
             <Col md={6}>
-              <p className='view-label'>CreatedAt</p>
-              <p className='view-data'> {selectedDatas?.createdAt}</p>
+              <p className='view-label'>Status</p>
+              <p className='view-data'> {selectedDatas?.status}</p>
+            </Col>
+            <Col md={6}>
+              <p className='view-label'>Remarks</p>
+              <p className='view-data'> {selectedDatas?.remarks}</p>
             </Col>
             </Row>
         </Container>

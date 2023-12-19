@@ -26,7 +26,7 @@ function Table() {
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -53,19 +53,15 @@ function Table() {
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/userroles');
-      const modifiedDatas = response.data.userRole.map(item => ({
-        ...item,
-        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-        desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
-       
-      }));
-  
-      setDatas(modifiedDatas);
-      setFilteredDatas(modifiedDatas);
+      setDatas(response.data.userRole);
+      setFilteredDatas(response.data.userRole);
     } catch (error) {
       console.error(error);
     }
   };
+
+
+
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
@@ -127,9 +123,9 @@ const handleClickDelete = (row) => {
         <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
+        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+          <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
+        </Button>
         </div>
         </>
       ),
@@ -204,7 +200,7 @@ const handleClickDelete = (row) => {
 
 
        {/* Modal for Delete Confirmation */}
-         <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} handleDelete={handleDelete} />
+       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

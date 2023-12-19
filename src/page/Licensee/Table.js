@@ -11,6 +11,7 @@ import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-so
 import AddModal from './AddModal';
 import '../style/table.css';
 import { Container } from 'react-bootstrap';
+import DeleteModal from './DeleteModal';
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -20,6 +21,9 @@ function Table() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
+  const [deleteModal,setDeleteModal] =useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+ 
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -36,13 +40,14 @@ function Table() {
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:3000/users/${selectedDatas._id}`);
-      // alert('Are You Sure Delete');
       getDatas();
       handleClose();
     } catch (error) {
       console.error('Error deleting data:', error);
     }
   };
+
+
 
   const getDatas = async () => {
     try {
@@ -73,6 +78,23 @@ function Table() {
     setShowViewModal(true);
   };
 
+
+  
+//DELETE MODAL
+
+const deleteModalClose = () => {
+  setDeleteModal(false);
+};
+
+const deleteModalShow = () => {
+  setDeleteModal(true);
+};
+
+
+const handleClickDelete = (row) => {
+  setSelectedId(row._id);
+  deleteModalShow();
+}; 
   const columns = [
     {
       name: "Name",
@@ -102,9 +124,9 @@ function Table() {
             <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
               <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
             </Button>
-            <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
-              <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
-            </Button>
+            <Button className='btn btn-3 ' onClick={() => handleClickDelete(row)}>
+          <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
+        </Button>
           </div>
         </>
       ),
@@ -121,12 +143,13 @@ function Table() {
       return;
     }
 
-    const result = datas.filter((country) => {
-      return country.fname.toLowerCase().includes(search.toLowerCase());
+    const result = datas.filter((lice) => {
+      return lice.fname.toLowerCase().includes(search.toLowerCase());
     });
-    setFilteredDatas(result);
-  }, [search, datas]);
+  const licenseeResult = result.filter((user) => user.userType === 'licensee');
 
+  setFilteredDatas(licenseeResult);
+}, [search, datas]);
   const totalCount = filteredDatas.length;
 
   return (
@@ -147,7 +170,9 @@ function Table() {
           subHeader
           subHeaderComponent={
             <div className='table-top'>
-              <div ><AddModal/></div>
+              <div >
+                <AddModal  getDatas={getDatas} />
+                </div>
               <div style={{display:'flex',alignItems:'center',width: '36%', justifyContent:'space-between'}}>
                 <div>
                   <div className="search-input-container">
@@ -179,25 +204,7 @@ function Table() {
       {/* Modal for Viewing Details */}
       <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
 
-      {/* Modal for Delete Confirmation */}
-      <Modal show={showDeleteModal} onHide={handleClose} centered  backdrop="static" keyboard={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Container>
-        <Modal.Body>
-          Are you sure you want to delete this record?
-        </Modal.Body>
-        </Container>
-        <Modal.Footer>
-          <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>
-            No
-          </Button>
-          <Button style={{ background: '#5bb6ea', border: 'none', fontWeight: '600' }} onClick={handleDelete}>
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

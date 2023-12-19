@@ -6,8 +6,10 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import '../../style/addmodel.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
-function AddModal() {
+function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -17,8 +19,8 @@ function AddModal() {
 
    // Validation schema using Yup
    const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    descp: Yup.string().required('descp is required'),
+    name: Yup.string().required('OrgCategory is required'),
+    descp: Yup.string().required('Description is required'),
   });
 
   const formik = useFormik({
@@ -40,12 +42,10 @@ function AddModal() {
         
         const response = await axios.post('http://localhost:3000/orgCategory', values);
         console.log('Response:', response.data);
-        alert('Successfully added');
-
+        getDatas();
+        toast.success('Data Added successfully!',{ autoClose: 1000 });
+    
         handleClose();
-
-        // Refresh the page after successful submission
-        window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -54,7 +54,7 @@ function AddModal() {
           console.log('No response received from the server.');
         } else {
           console.log('Error:', error.message);
-          // Handle other errors
+          toast.error('Error creating data Please try again.',{ autoClose: 1000 });
         }
       }
     },
@@ -62,6 +62,7 @@ function AddModal() {
 
   return (
     <>
+    <ToastContainer/>
       <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
         + New
       </Button>

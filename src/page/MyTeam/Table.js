@@ -23,6 +23,9 @@ function Table() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [selectedUserRole, setSelectedUserRole] = useState("All"); // Default user role filter option
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -48,16 +51,18 @@ function Table() {
 
   const getDatas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/users');
-      const formattedData = response.data.users.map((user) => ({
-        ...user,
-        fname: capitalizeFirstLetter(user.fname),
-        lname: capitalizeFirstLetter(user.lname),
-      }));
-      setDatas(formattedData);
-      setFilteredDatas(formattedData);
+      let url = 'http://localhost:3000/users';
+
+      // If a specific user role is selected, append it to the URL
+      if (selectedUserRole !== "All") {
+        url += `?userRole=${selectedUserRole}`;
+      }
+
+      const response = await axios.get(url);
+      setDatas(response.data.users);
+      setFilteredDatas(response.data.users);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error(error);
     }
   };
 
@@ -80,6 +85,19 @@ function Table() {
     setShowViewModal(true);
   };
 
+  const deleteModalClose = () => {
+    setDeleteModal(false);
+  };
+
+  const deleteModalShow = () => {
+    setDeleteModal(true);
+  };
+
+  const handleClickDelete = (row) => {
+    setSelectedId(row._id);
+    deleteModalShow();
+  };
+
   const columns = [
     {
       name: "NAME",
@@ -96,31 +114,49 @@ function Table() {
     },
     {
       name: "USER ROLE",
-      selector: (row) => row.userRoles,
+      selector: (row) => {
+        if (Array.isArray(row)) {
+          return row.userRoles.map(userRole => userRole.name).join(', ');
+        } else if (row.userRoles && typeof row.userRoles === 'object') {
+          return row.userRoles.name;
+        } else {
+          return 'Unknown Role';
+        }
+      },
     },
     {
       name: "ACTIONS",
       cell: (row) => (
-        <>
-          <div>
-            <Button style={{ paddingLeft: '0px' }} className='btn btn-1 mx-1' onClick={() => handleEdit(row)}>
-              <FontAwesomeIcon icon={faEdit} />
-            </Button>
-            <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
-              <FontAwesomeIcon icon={faEye} />
-            </Button>
-            <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
-          </div>
-        </>
+        <div className={row.isDeleted ? 'deleted-row' : ''}>
+          <div></div>
+          <Button style={{ paddingLeft: '0px' }} className='btn btn-1 mx-1' onClick={() => handleEdit(row)}>
+            <FontAwesomeIcon icon={faEdit} />
+          </Button>
+          <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
+            <FontAwesomeIcon icon={faEye} />
+          </Button>
+          <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+        </div>
       ),
     },
   ];
 
+  // Define a function to conditionally apply styles to the row
+  // const conditionalRowStyles = [
+  //   {
+  //     when: (row) => row.isDeleted === true,      
+  //     style: {
+  //       backgroundColor: 'red',  
+  //       color: 'white',  
+  //     },
+  //   },
+  // ];
+
   useEffect(() => {
     getDatas();
-  }, []);
+  }, [selectedUserRole, search]);
 
   useEffect(() => {
     if (!Array.isArray(datas)) {
@@ -139,14 +175,14 @@ function Table() {
 
   return (
     <>
-      <div className='table-div'>
-        <Datatable className='table-data-div'
+      <div className='table-div '>
+        <Datatable className='table-data-div '
           title='My Team'
           columns={columns}
           data={filteredDatas}
           pagination
           paginationPerPage={5}
-          rowsPerPageOptions={[]} 
+          rowsPerPageOptions={[]}
           fixedHeader
           fixedHeaderScrollHeight='320px'
           selectableRows
@@ -155,21 +191,26 @@ function Table() {
           subHeader
           subHeaderComponent={
             <div className='table-top'>
-              <div ><AddModal/></div>
-              <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
+              <div><AddModal getDatas={getDatas} /></div>
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%', justifyContent: 'space-between' }}>
+                <select onChange={(e) => setSelectedUserRole(e.target.value)}>
+                  <option value="All">All User Roles</option>
+                  <option value="Vendor">Vendor</option>
+                  <option value="Accountant">Accountant</option>
+                  <option value="Operator">Operator</option>
+                </select>
                 <div>
                   <div className="search-input-container">
                     <FontAwesomeIcon icon={faSearch} className="search-icon" />
                     <input
-                      type="text"
-                      placeholder="Search"
-                      className="w-35 form-control-srch"
+                      type='text'
+                      placeholder='Search'
+                      className='w-35 form-control'
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
                   </div>
                 </div>
-
                 <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
@@ -178,6 +219,7 @@ function Table() {
             </div>
           }
           subHeaderAlign='right'
+          // conditionalRowStyles={conditionalRowStyles} // Apply conditional row styles
         />
       </div>
 
@@ -188,24 +230,9 @@ function Table() {
       <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
 
       {/* Modal for Delete Confirmation */}
-      <DeleteModal show={showDeleteModal} handleClose={handleClose} handleDelete={handleDelete} />
+      <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }
 
 export default Table;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

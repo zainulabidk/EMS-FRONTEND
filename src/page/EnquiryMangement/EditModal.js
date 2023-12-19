@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import "./Tab.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditModal({ showModal, handleClose, selectedDatas, handleUpdate,}) {
 
@@ -178,6 +180,8 @@ const fetchSupportType = async () => {
 
 
   return (
+    <>
+      <ToastContainer autoClose={1000}/>
     <Modal show={showModal} onHide={handleModalHide} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered  className="custom-modal" >
       <Modal.Header closeButton>
         <Modal.Title>Edit Enquiries</Modal.Title>
@@ -301,7 +305,8 @@ const fetchSupportType = async () => {
       value={formik.values.leadQuality}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-  
+      className={`form-select ${formik.touched.leadQuality && formik.errors.leadQuality ? 'is-invalid' : ''}`}
+      
     >
       <option value=" " disabled>
         Lead Quality
@@ -511,8 +516,8 @@ const fetchSupportType = async () => {
       value={formik.values.enqSource}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-      className={(formik.touched.enqSource && formik.errors.enqSource) ? 'error-border' : ''}
-    >
+      className={`form-select ${formik.touched.enqSource && formik.errors.enqSource ? 'is-invalid' : ''}`}
+   >
       <option value="" disabled>
         Enquiry Source
       </option>
@@ -539,8 +544,8 @@ const fetchSupportType = async () => {
                 value={formik.values.enqType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.enqType && formik.errors.enqType) ? 'error-border' : ''}
-              >
+                className={`form-select ${formik.touched.enqType && formik.errors.enqType ? 'is-invalid' : ''}`}
+                >
                 <option value="" disabled selected >
                    Enquiry Type
                 </option>
@@ -567,7 +572,8 @@ const fetchSupportType = async () => {
                 value={formik.values.enqMode}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.enqMode && formik.errors.enqMode) ? 'error-border' : ''}
+                className={`form-select ${formik.touched.enqMode && formik.errors.enqMode ? 'is-invalid' : ''}`}
+
        
               >
                 <option value="" disabled>
@@ -594,7 +600,8 @@ const fetchSupportType = async () => {
                 value={formik.values.enqTo}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.enqTo && formik.errors.enqTo) ? 'error-border' : ''}
+               className={`form-select ${formik.touched.enqTo && formik.errors.enqTo ? 'is-invalid' : ''}`}
+
        
               >
                 <option value="" disabled>
@@ -625,8 +632,8 @@ const fetchSupportType = async () => {
                 value={formik.values.supportType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.supportType && formik.errors.supportType) ? 'error-border' : ''}
-              >
+                className={`form-select ${formik.touched.supportType && formik.errors.supportType ? 'is-invalid' : ''}`}
+                >
                 <option value="" disabled>
                   Support Type
                 </option>
@@ -660,6 +667,7 @@ const fetchSupportType = async () => {
           </Button>
         </Modal.Footer>
     </Modal>
+    </>
   );
 }
 

@@ -46,7 +46,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
 
 
   return (
-    <Modal show={showModal} onHide={handleModalHide} backdrop="static" centered>
+    <Modal show={showModal} onHide={handleModalHide} backdrop="static" centered keyboard={false}>
       <Modal.Header closeButton>
         <Modal.Title>Edit Enquiry Mode</Modal.Title>
       </Modal.Header>

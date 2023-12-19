@@ -108,3 +108,22 @@
 .radio-group label {
   font-size: 14px; 
 }
+
+/* Add this CSS to your Tab.css file or your component stylesheet */
+.select-container {
+  position: relative;
+}
+
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the distance from the right side as needed */
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.view-exp-modal{
+ background-color: #f5f5f5;
+}
+.follow-up-table-row {
+  background-color: #f5f5f5 !important; 
+}
