@@ -28,7 +28,11 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
+<<<<<<< HEAD:src/page/FollowUp/DeleteModal.js
         axios.patch(`http://localhost:3000/followUp/${_id}`)
+=======
+        axios.patch(`http://localhost:3000/supportEnquiry/${_id}`)
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19:src/page/SupportEnquiry/DeleteModal.js
           .then(() => {
           
             toast.error('User Successfully Deleted !', {
@@ -48,10 +52,16 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
 
 
+<<<<<<< HEAD:src/page/FollowUp/DeleteModal.js
   return (
     <>
     <ToastContainer/>
       <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
+=======
+      return (
+        <>
+        <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19:src/page/SupportEnquiry/DeleteModal.js
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>
           </Modal.Header>
@@ -74,8 +84,8 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
             </Button>
           </Modal.Footer>
         </Modal>
-  </>
-  )
+      </>
+      )
 }
 
 export default DeleteModal

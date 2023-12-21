@@ -118,6 +118,7 @@
     color: rgb(0 0 0 / 42%);
 }
 
+<<<<<<< HEAD
 .modal-body {
     font-weight: 600;
 
@@ -128,3 +129,9 @@ text-transform: capitalize;
 .follow-up-table-row {
     background-color: #e6f7ff; 
   }
+=======
+.deleted-row {
+    background-color: #ffcccc; /* Red background color */
+  }
+  
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19

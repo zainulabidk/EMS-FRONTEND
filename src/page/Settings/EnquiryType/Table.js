@@ -170,6 +170,8 @@ const handleClickDelete = (row) => {
 
       {/* Modal for Viewing Details */}
       <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
+
+      {/* Handle Delete  */}
       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );

@@ -7,6 +7,10 @@ import '../../style/view.css';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function ViewModal({ showModal, handleClose, selectedDatas }) {
+  function formatDateString(dateString) {
+    return dateString ? new Date(dateString).toLocaleDateString('en-GB') : '';
+  }
+  
   return (
     <Modal show={showModal} onHide={handleClose}  backdrop="static"  centered>
       <Modal.Header closeButton>
@@ -27,10 +31,17 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
               <p className='view-label'>CreatedBy</p>
               <p className='view-data'> {selectedDatas?.createdBy}</p>
             </Col>
-            <Col md={6}>
+            {/* <Col md={6}>
               <p className='view-label'>CreatedAt</p>
               <p className='view-data'> {selectedDatas?.createdAt}</p>
-            </Col>
+            </Col> */}
+
+
+<Col md={6}>
+  <p className='view-label'>CreatedAt</p>
+  <p className='view-data'> {selectedDatas ? formatDateString(selectedDatas.createdAt) : ''}</p>
+</Col>
+
             </Row>
         </Container>
       </Modal.Body>

@@ -188,3 +188,6 @@ const handleClickDelete = (row) => {
 }
 
 export default Table;
+
+
+

@@ -31,8 +31,8 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
     const onDelete = (_id) => {
         axios.patch(`http://localhost:3000/enquiries/${_id}`)
           .then(() => {
-          
-                toast.error('User Successfully Deleted !', {
+            if (response.status === 200) {
+                toast.success('User Successfully Deleted !', {
                   toastId: 'success',
                   position: toast.POSITION.TOP_RIGHT,
                   autoClose:1000
@@ -42,7 +42,6 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
           })
           .catch((error) => {
             console.error('Error deleting data:', error);
-            toast.error("Error in deleting the user",{ autoClose: 1000 })
           });
       };
     

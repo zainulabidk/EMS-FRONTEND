@@ -30,6 +30,10 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
     }
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19
   const formik = useFormik({
     initialValues: {
       fname: selectedDatas?.fname || '',

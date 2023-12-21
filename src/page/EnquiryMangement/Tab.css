@@ -107,6 +107,7 @@
 
 .radio-group label {
   font-size: 14px; 
+<<<<<<< HEAD
 }
 
 /* Add this CSS to your Tab.css file or your component stylesheet */
@@ -126,4 +127,6 @@
 }
 .follow-up-table-row {
   background-color: #f5f5f5 !important; 
+=======
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19
 }

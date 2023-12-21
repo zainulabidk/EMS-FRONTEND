@@ -59,7 +59,12 @@ const EnquiryManagement = React.lazy(() => import('./page/EnquiryMangement/Index
 const FollowUp = React.lazy(() => import('./page/FollowUp/Index'))
 const Licensee = React.lazy(() => import('./page/Licensee/index'))
 const MyTeam = React.lazy(() => import('./page/MyTeam/index'))
+<<<<<<< HEAD
 const SupportEnquiry = React.lazy(() => import('./page/Support/Index'));
+=======
+const SupportEnquiry = React.lazy(() => import('./page/SupportEnquiry/Index'));
+const userroles = React.lazy(() => import('./page/Settings/UserRole/index'));
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19
 
 
 const routes = [
@@ -171,6 +176,11 @@ const routes = [
     path: '/Settings/ProductServices',
     name: 'ProductServices ',
     element: ProductServices,
+  },
+  {
+    path: '/Settings/userroles',
+    name: 'userroles ',
+    element: userroles,
   }
 
 

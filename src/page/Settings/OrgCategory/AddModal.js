@@ -5,28 +5,42 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import ToggleButton from 'react-toggle-button';
+
 import '../../style/addmodel.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
+<<<<<<< HEAD
 function AddModal({getDatas}) {
+=======
+
+function AddModal() {
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
     formik.resetForm(); // Reset Formik state when modal is closed
   };
   const handleShow = () => setShow(true);
+<<<<<<< HEAD
 
    // Validation schema using Yup
    const validationSchema = Yup.object({
     name: Yup.string().required('OrgCategory is required'),
     descp: Yup.string().required('Description is required'),
+=======
+  // Validation schema using Yup
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required!'),
+    desc: Yup.string().required('Description is required!'),
+>>>>>>> 794efed77d529366907c2a5c314bf5567a499f19
   });
 
   const formik = useFormik({
     initialValues: {
       name: '',
-      descp: '',
+      desc: '',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       createdBy: 'admin',
@@ -67,13 +81,14 @@ function AddModal({getDatas}) {
         + New
       </Button>
 
-      <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered className="modal-box">
+      <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontSize: '18px' }}>Add Organization Category</Modal.Title>
+          <Modal.Title style={{ fontSize: '18px' }}>Add User Role</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="name">
+          
+          <Form.Group className="mb-3" controlId="name">
               <Form.Label style={{ fontSize: '14px' }}>Name</Form.Label>
               <Form.Control
                 type="text"
@@ -87,20 +102,23 @@ function AddModal({getDatas}) {
                 <div className="error" style={{color:'red'}}>{formik.errors.name}</div>
               ) : null}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="descp">
+            <Form.Group className="mb-3" controlId="desc">
               <Form.Label style={{ fontSize: '14px' }}>Description</Form.Label>
               <Form.Control
-                as="textarea"
-                placeholder="Enter descp"
-                name="descp"
-                value={formik.values.descp}
+              as="textarea"
+                type="text"
+                placeholder="Enter Description"
+                name="desc"
+                value={formik.values.desc}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.descp && formik.errors.descp ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.descp}</div>
+              {formik.touched.desc && formik.errors.desc ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.desc}</div>
               ) : null}
             </Form.Group>
+
+          
           </Form>
         </Modal.Body>
         <Modal.Footer>
