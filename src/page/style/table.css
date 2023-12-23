@@ -111,7 +111,7 @@
   }
   .count-div{
     border: 1px solid rgb(232, 232, 232) !important;
-    padding: 6px 12px;
+    padding: 5px 12px;
     border-radius: 5px;
     font-weight: 500;
     color: rgb(0 0 0 / 42%);
@@ -120,4 +120,18 @@
 .deleted-row {
     background-color: #ffcccc; /* Red background color */
   }
+  .search-control{
+    border: 1px solid rgb(232, 232, 232) !important;
+    padding: 5px 10px;
+    color: rgb(0 0 0 / 42%);
+    outline: none;
+    border-radius: 6px ;
+
+  }
+  .capitalize {
+    text-transform: capitalize;
+  }
+
+
+  
   

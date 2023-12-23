@@ -1,5 +1,4 @@
 
-// Table.js
 import React, { useState, useEffect } from 'react';
 import Datatable from 'react-data-table-component';
 import axios from 'axios';
@@ -23,7 +22,7 @@ function Table() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
-  const [deleteModal,setDeleteModal] =useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
 
@@ -47,6 +46,19 @@ function Table() {
     }
   };
  
+  
+  const deleteModalClose = () => {
+    setDeleteModal(false);
+  };
+
+  const deleteModalShow = () => {
+    setDeleteModal(true);
+  };
+
+  const handleClickDelete = (row) => {
+    setSelectedId(row._id);
+    deleteModalShow();
+  };
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
@@ -70,21 +82,6 @@ function Table() {
 
 
 
-//DELETE MODAL
-
-const deleteModalClose = () => {
-  setDeleteModal(false);
-};
-
-const deleteModalShow = () => {
-  setDeleteModal(true);
-};
-
-
-const handleClickDelete = (row) => {
-  setSelectedId(row._id);
-  deleteModalShow();
-};
   const totalCount = filteredDatas.length;
 
   const columns = [
@@ -110,8 +107,8 @@ const handleClickDelete = (row) => {
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
         <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
-          <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
-        </Button>
+              <FontAwesomeIcon icon={faTrash} />
+            </Button>
         </div>
         </>
       ),
@@ -178,14 +175,8 @@ const handleClickDelete = (row) => {
       />
       </div>
 
-      {/* Modal for Editing */}
-      <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} />
-
-       {/* Modal for Viewing Details */}
+       <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} />
        <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
-
-
-       {/* Modal for Delete Confirmation */}
        <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );

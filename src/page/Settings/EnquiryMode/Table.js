@@ -54,8 +54,8 @@ function Table() {
     try {
       const response = await axios.get('http://localhost:3000/enquirymode');
       console.log('Responsse from zain:', response.data.enquiryModes);
-      setDatas(response.data.enquiryModes);
-      setFilteredDatas(response.data.enquiryModes);
+      // setDatas(response.data.enquiryModes);
+      // setFilteredDatas(response.data.enquiryModes);
       console.log(response.data.enquiryModes);
     } catch (error) {
       console.error(error);

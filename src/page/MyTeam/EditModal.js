@@ -5,8 +5,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { useFormik } from 'formik';
+ 
+
 import { Container, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import '../style/edit.css';
 
@@ -71,7 +74,9 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
   }, [selectedDatas]);
 
   return (
-    <Modal show={showModal} onHide={handleModalHide} centered backdrop="static" keyboard={false}>
+
+    <>
+     <Modal show={showModal} onHide={handleModalHide} centered backdrop="static" keyboard={false}>
       <Modal.Header closeButton>
         <Modal.Title>Edit My Team</Modal.Title>
       </Modal.Header>
@@ -175,7 +180,9 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
         </Button>
       </Modal.Footer>
     </Modal>
+    </>
   );
 }
+
 
 export default EditModal;

@@ -6,6 +6,8 @@ import EditModal from './EditModal';
 import ViewModal from './ViewModal';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import AddModal from './AddModal';
@@ -32,20 +34,8 @@ function Table() {
     setSelectedDatas(null);
   };
 
-  const handleDeleteConfirmation = (row) => {
-    setSelectedDatas(row);
-    setShowDeleteModal(true);
-  };
 
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3000/users/${selectedDatas._id}`);
-      getDatas();
-      handleClose();
-    } catch (error) {
-      console.error('Error deleting data:', error);
-    }
-  };
+
 
 
 
@@ -59,9 +49,19 @@ function Table() {
     }
   };
 
+
+
   const handleUpdate = async (Dataid, updatedData) => {
     try {
       await axios.put(`http://localhost:3000/users/${Dataid}`, updatedData);
+
+      
+      toast.success('Data successfully Updated', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        className: 'toast-message',
+      });
+
       getDatas();
     } catch (error) {
       console.error('Error updating data:', error);
@@ -90,11 +90,10 @@ const deleteModalShow = () => {
   setDeleteModal(true);
 };
 
-
 const handleClickDelete = (row) => {
   setSelectedId(row._id);
   deleteModalShow();
-}; 
+};
   const columns = [
     {
       name: "Name",
@@ -198,12 +197,9 @@ const handleClickDelete = (row) => {
         />
       </div>
 
-      {/* Modal for Editing */}
+
       <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} data={datas} />
-
-      {/* Modal for Viewing Details */}
       <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
-
       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
