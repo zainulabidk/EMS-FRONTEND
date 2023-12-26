@@ -1,96 +1,165 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import avatar from '../../assets/images/profile.jpeg';
 import {
   CAvatar,
-  CBadge,
   CDropdown,
   CDropdownDivider,
-  CDropdownHeader,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-} from '@coreui/react'
-import {
-  cilBell,
-  cilCreditCard,
-  cilCommentSquare,
-  cilEnvelopeOpen,
-  cilFile,
-  cilLockLocked,
-  cilSettings,
-  cilTask,
-  cilUser,
-} from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react';
+import { cilLockLocked, cilSettings, cilUser } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import './AppHeaderDropdown.css';
 
-import avatar8 from './../../assets/images/avatars/8.jpg'
+const apiUrl = 'http://localhost:3000';
+const imagesUrl = 'http://localhost:3000/public/Images';
 
 const AppHeaderDropdown = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [postImage, setPostImage] = useState(null);
+  const [userProfiles, setUserProfiles] = useState([]);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const createPost = async () => {
+    try {
+      if (postImage) {
+        const formData = new FormData();
+        formData.append('file', postImage);
+
+        const headers = { 'Content-Type': 'multipart/form-data' };
+
+        await axios.post(`${apiUrl}/userProfile/create`, formData, { headers });
+
+        console.log('Post created successfully');
+        getAllUserProfiles();
+      } else {
+        console.log('No image to upload');
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
+  };
+
+  useEffect(() => {
+    getAllUserProfiles();
+  }, []);
+
+  const getAllUserProfiles = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/userProfile/all`);
+      setUserProfiles(response.data);
+      console.log("zain" , response.data);
+    } catch (error) {
+      console.error('Error fetching user profiles:', error);
+    }
+  };
+
+  
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await createPost();
+    handleCloseModal(); 
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPostImage(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        <CAvatar   src={
+                      userProfiles.length > 0 && userProfiles[0].filename
+                        ? `${imagesUrl}/${userProfiles[0].filename}`
+                        : avatar
+                    } size="md" className='' style={{height:'40px', width:'50px'}} />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
-        <CDropdownItem href="#">
-          <CIcon icon={cilBell} className="me-2" />
-          Updates
-          <CBadge color="info" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilEnvelopeOpen} className="me-2" />
-          Messages
-          <CBadge color="success" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilTask} className="me-2" />
-          Tasks
-          <CBadge color="danger" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilCommentSquare} className="me-2" />
-          Comments
-          <CBadge color="warning" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#">
+        <CDropdownItem href="#" onClick={handleShowModal}>
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
-          Settings
+          Reset Password
         </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilCreditCard} className="me-2" />
-          Payments
-          <CBadge color="secondary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilFile} className="me-2" />
-          Projects
-          <CBadge color="primary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownDivider />
         <CDropdownItem href="#">
           <CIcon icon={cilLockLocked} className="me-2" />
-          Lock Account
+          Log Out
         </CDropdownItem>
+        <CDropdownDivider />
       </CDropdownMenu>
-    </CDropdown>
-  )
-}
 
-export default AppHeaderDropdown
+      {/* Modal */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>My Profile</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="image body1">
+              <div className="App">
+                <label htmlFor="file-upload" className="custom-file-upload">
+                  <img
+                    src={
+                      userProfiles.length > 0 && userProfiles[0].filename
+                        ? `${imagesUrl}/${userProfiles[0].filename}`
+                        : avatar
+                    }
+                    alt=""
+                  />
+                </label>
+                <input
+                  type="file"
+                  label="Image"
+                  name="file"
+                  id="file-upload"
+                  accept=".jpeg, .png, .jpg"
+                  onChange={handleFileUpload}
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control type="text" placeholder="Enter first name" />
+            </Form.Group>
+            <Form.Group>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control type="text" placeholder="Enter last name" />
+            </Form.Group>
+
+          </Form>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Saved
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </CDropdown>
+  );
+};
+
+export default AppHeaderDropdown;

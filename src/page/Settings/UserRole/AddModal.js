@@ -5,8 +5,8 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import ToggleButton from 'react-toggle-button';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../style/addmodel.css';
 
 
@@ -44,6 +44,12 @@ function AddModal() {
         console.log('Response:', response.data);
         alert('Successfully added');
 
+        toast.success('Data successfully added', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          className: 'toast-message',
+        });
+
         handleClose();
 
         // Refresh the page after successful submission
@@ -64,6 +70,7 @@ function AddModal() {
 
   return (
     <>
+    <ToastContainer autoClose={50000} />
       <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
         + New
       </Button>

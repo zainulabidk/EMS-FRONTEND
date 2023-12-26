@@ -28,13 +28,15 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-        axios.patch(`http://localhost:3000/userroles/${_id}`)
+      const response = axios.patch(`http://localhost:3000/userroles/${_id}`)
           .then(() => {
             if (response.status === 200) {
-                toast.success('User Successfully Deleted !', {
-                  toastId: 'success',
-                  position: toast.POSITION.TOP_RIGHT,
-                })
+             
+        toast.success('Data successfully added', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          className: 'toast-message',
+        });
               }
             getDatas();
           })
@@ -48,6 +50,8 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
       return (
         <>
+              <ToastContainer autoClose={50000} />
+
         <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>
