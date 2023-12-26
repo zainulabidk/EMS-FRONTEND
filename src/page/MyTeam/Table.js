@@ -64,23 +64,13 @@ function Table() {
       const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
       console.log('Filtered Data:', filteredData);
       setDatas(filteredData);
-      setFilteredDatas(filteredData);
+      // setFilteredDatas(filteredData);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // const getDatas = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/users');
-  //     console.log('Responsse from ML:', response.data.users);
-  //     setDatas(response.data.users);
-  //     setFilteredDatas(response.data.users);
-  //     console.log(response.data.users);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+
 
   const handleUpdate = async (countryId, updatedData) => {
     try {
@@ -182,15 +172,6 @@ function Table() {
   }, [search, datas]);
 
 
-  // useEffect(() => {
-  //   console.log('Search:', search);
-  //   console.log('Datas:', datas);
-  //   console.log('FilteredDatas:', filteredDatas);
-  
-  //   // ... rest of the code
-  // }, [search, datas]);
-  
-
   const FilterDropdown = () => {
     const handleFilterChange = (event) => {
       const selectedValue = event.target.value;
@@ -290,3 +271,6 @@ function Table() {
 }
 
 export default Table;
+
+
+

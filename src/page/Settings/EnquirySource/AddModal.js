@@ -72,6 +72,7 @@ function AddModal() {
 
   return (
     <>
+    <ToastContainer autoClose={50000} />
       <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
         + New
       </Button>

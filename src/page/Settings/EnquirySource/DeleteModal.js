@@ -28,7 +28,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-      const response = axios.patch(`http://localhost:3000/enquirysource/${_id}`)
+      const response = axios.patch(`http://localhost:3000/enquirySource/${_id}`)
           .then(() => {
             if (response.status === 200) {
              
