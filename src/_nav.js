@@ -13,6 +13,11 @@ import {
   cilPuzzle,
   cilLifeRing,
   cilList,
+  cilUser,
+  cilPeople,
+  cilFile,
+  
+  cilUserFollow,
   cilSpeedometer,
 
 } from '@coreui/icons'
@@ -36,22 +41,30 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Licensee',
-    to: '/Licensee',
-    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
+    name: 'Follow Up',
+    to: '/followUp',
+    icon: <CIcon icon={cilUserFollow} customClassName="nav-icon" />,
   
   },
   {
     component: CNavItem,
+    name: 'Licensee',
+    to: '/Licensee',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  
+  },
+ 
+  {
+    component: CNavItem,
     name: 'My Team',
     to: '/MyTeam',
-    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   
   },
 
   {
     component: CNavItem,
-    name: 'Support Enquiry',
+    name: 'Support',
     to: '/SupportEnquiry',
     icon: <CIcon icon={cilLifeRing} customClassName="nav-icon" />,
   
@@ -75,11 +88,11 @@ const _nav = [
         component: CNavItem,
         name: 'Enquiry Type',
         to: '/Settings/EnquiryType',
-        icon:   <CIcon icon={cilPhone}  customClassName="nav-icon"   />
+        icon:   <CIcon icon={cilFile}  customClassName="nav-icon"   />
 
        
       },
-      {
+      {  
         component: CNavItem,
         name: 'Enquiry Source',
         to: '/Settings/EnquirySource',
@@ -123,6 +136,9 @@ const _nav = [
   },
 ]
 export default _nav
+
+
+
 /*const _nav = [
  
   {

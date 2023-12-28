@@ -5,16 +5,15 @@ import axios from 'axios';
 import EditModal from './EditModal';
 import ViewModal from './ViewModal';
 import Button from 'react-bootstrap/Button';
-import '../style/table.css'
-import { ModalHeader } from 'react-bootstrap';
-import AddModal from './AddModal'
+import '../style/table.css';
+import AddModal from './AddModal';
 // Import necessary FontAwesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEye, faTrash ,faFilter} from '@fortawesome/free-solid-svg-icons';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faTrash ,faFilter,faSearch} from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Filter from './Filter';
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -25,6 +24,9 @@ function Table() {
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  
+  const [filterValue, setFilterValue] = useState(''); 
+  const [query, setQuery] = useState('');    //filter
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -42,14 +44,16 @@ function Table() {
     }
   };
 
-
   const handleUpdate = async (orgId, updatedData) => {
     try {
       const response = await axios.put(`http://localhost:3000/enquiryType/${orgId}`, updatedData);
       console.log('Update response:', response.data);
       getDatas(); // Refresh the data after update
+      toast.success('Data updated successfully!',{ autoClose: 1000 } );
+
     } catch (error) {
       console.error('Error updating data:', error);
+      toast.error('Error updating data Please try again.' ,{ autoClose: 1000 });
     }
   };
   const handleEdit = (row) => {
@@ -62,7 +66,6 @@ function Table() {
     setShowViewModal(true);
   };
 
-
 //DELETE MODAL
 
 const deleteModalClose = () => {
@@ -73,7 +76,6 @@ const deleteModalShow = () => {
   setDeleteModal(true);
 };
 
-
 const handleClickDelete = (row) => {
   setSelectedId(row._id);
   deleteModalShow();
@@ -83,13 +85,17 @@ const handleClickDelete = (row) => {
   const columns = [
    
     {
-      name: "NAME",
-      selector: (row) => row.name,
+      name: "ENQUIRY TYPE",
+      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.name}</div>,
       sortable: true,
     },
     {
       name: "DESCRIPTION",
-      selector: (row) => row.descp,
+      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.descp}</div>,
+    },
+    {
+      name: "STATUS",
+      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.status}</div>,
     },
     {
       name: "ACTIONS",
@@ -120,15 +126,19 @@ const handleClickDelete = (row) => {
       console.error("Datas is not an array!");
       return;
     }
-
     const result = datas.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
+      const nameMatch = item.name.toLowerCase().includes(search.toLowerCase());
+      const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+     // Apply both name and status filters
+       return nameMatch && (filterValue === '' || statusMatch);
     });
     setFilteredDatas(result);
-  }, [search, datas]);
+  }, [search, datas,filterValue]);
+
 
   return (
     <>
+    <ToastContainer/>
     <div className='table-div'>
       <Datatable className='table-data-div'
         title='Enquiry Type'
@@ -145,23 +155,31 @@ const handleClickDelete = (row) => {
         subHeader
         subHeaderComponent={
           <div className='table-top'>
-              <div ><AddModal/></div>
-              <div style={{display:'flex',alignItems:'center',width: '36%', justifyContent:'space-between'}}>
-            <div>
-              <input
-                type='text'
-                placeholder='Search'
-                className='w-35 form-control'
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+          <div className='d-flex justify-content-start'><AddModal  getDatas={getDatas} /></div>
+
+          <div className="search-input-container">
+          <FontAwesomeIcon icon={faSearch} className="search-icon" />
+          <input
+            type='text'
+            placeholder='Search'
+            className='w-35 form-control'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        
+        </div>
+
+        <div className='d-flex justify-content-end  end-col' >
+     <div className='border-end'>
+        <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+
+        <div className='count-div'>
+              <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+              <span style={{ whiteSpace: 'nowrap' }}>{' '}Results: {totalCount}</span>
             </div>
-            <div className='count-div'>
-                  <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-                  <span>{' '}Results: {totalCount}</span>
-                </div>
-            </div>
-          </div>
+</div></div>
+        </div>
+     
         }
         subHeaderAlign='right'
       />

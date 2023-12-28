@@ -46,19 +46,24 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
 
             <Col md={3}>
               <p className='view-label'>Location</p>
-              <p className='view-data'>{` ${selectedDatas?.location}/${selectedDatas?.district}`}</p>
+              <p className='view-data'>{selectedDatas?.location}</p>
+            </Col>
+            <Col md={3}>
+              <p className='view-label'>District</p>
+              <p className='view-data'>{selectedDatas?.district}</p>
             </Col>
           
             <Col md={3}>
               <p className='view-label'>State</p>
               <p className='view-data'> {selectedDatas?.state}</p>
             </Col>
+           
+            </Row>
+            <Row>
             <Col md={3}>
               <p className='view-label'>EnqSource</p>
               <p className='view-data'> {selectedDatas?.enqSource?.name}</p>
             </Col>
-            </Row>
-            <Row>
             <Col md={3}>
               <p className='view-label'>SupportType</p>
               <p className='view-data'> {selectedDatas?.supportType?.name}</p>
@@ -72,22 +77,20 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
               <p className='view-data'> {selectedDatas?.enqType?.name}</p>
             </Col>
 
+           
+            </Row>
+           
+            <Row>
+
             <Col md={3}>
               <p className='view-label'>LeadQuality</p>
               <p className='view-data'> {selectedDatas?.leadQuality}</p>
             </Col>
-            </Row>
-           
-            <Row>
             <Col md={3}>
               <p className='view-label'>EnqTo</p>
               <p className='view-data'> {selectedDatas?.enqTo?.name}</p>
             </Col>
            
-            <Col md={3}>
-              <p className='view-label'>CreatedBy</p>
-              <p className='view-data'> {selectedDatas?.createdBy}</p>
-            </Col>
             <Col md={3}>
               <p className='view-label'>Description</p>
               <p className='view-data'> {selectedDatas?.enqDescp}</p>
@@ -97,8 +100,6 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
               <p className='view-data'> {selectedDatas?.remarks}</p>
             </Col>
             </Row>
-          
-          
           
         </Container>
       </Modal.Body>

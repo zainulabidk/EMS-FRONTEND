@@ -56,9 +56,10 @@ const OrgCategory = React.lazy(() => import('./page/Settings/OrgCategory/Index')
 const ProductServices = React.lazy(() => import('./page/Settings/ProductServices/Index'))
 const EnquiryType = React.lazy(() => import('./page/Settings/EnquiryType/Index'))
 const EnquiryManagement = React.lazy(() => import('./page/EnquiryMangement/Index'))
+const FollowUp = React.lazy(() => import('./page/FollowUp/Index'))
 const Licensee = React.lazy(() => import('./page/Licensee/index'))
 const MyTeam = React.lazy(() => import('./page/MyTeam/index'))
-const SupportEnquiry = React.lazy(() => import('./page/SupportEnquiry/Index'));
+const SupportEnquiry = React.lazy(() => import('./page/Support/Index'));
 
 
 const routes = [
@@ -125,11 +126,11 @@ const routes = [
  
   { path: '/EnquiryManagement', name: 'Enquiries', element: EnquiryManagement, exact: true },
   
-
+  { path: '/followUp', name: 'FollowUp', element: FollowUp, exact: true },
   { path: '/Licensee', name: 'Licensee', element: Licensee, exact: true },
 
   { path: '/MyTeam', name: 'My Team', element: MyTeam, exact: true },
-  { path: '/SupportEnquiry', name: 'SupportEnquiry', element: SupportEnquiry, exact: true },
+  { path: '/SupportEnquiry', name: 'Suppor', element: SupportEnquiry, exact: true },
 
   { path: '/Settings', name: 'Settings', element: EnquirySource, exact: true },
   { path: '/Settings/EnquirySource', name: 'EnquirySource', element: EnquirySource },

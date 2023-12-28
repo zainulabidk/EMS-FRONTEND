@@ -3,7 +3,7 @@ import React from 'react'
 import { Modal, Button, Container, Row, Col, Form } from 'react-bootstrap'
 import './../style/view.css';
 
-const ViewModel = ({ showModal, handleClose, selectedDatas }) => {
+const ExpandedView  = ({ showModal, handleClose, selectedDatas }) => {
 console.log( 'expandible FollowUp',selectedDatas);
   return (
    <>
@@ -53,4 +53,4 @@ console.log( 'expandible FollowUp',selectedDatas);
   )
 }
 
-export default ViewModel
+export default ExpandedView 

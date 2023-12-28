@@ -15,29 +15,29 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
         <Container>
           <Row>
             <Col md={6}>
-              <p className='view-label'>First Name:</p>
+              <p className='view-label'>First Name</p>
               <p className='view-data'> {selectedDatas?.fname}</p>
             </Col>
             <Col md={6}>
-              <p className='view-label'>Last Name:</p>
+              <p className='view-label'>Last Name</p>
               <p className='view-data'> {selectedDatas?.lname}</p>
             </Col>
          
            <Col md={6}>
-              <p className='view-label'>Email:</p>
+              <p className='view-label'>Email</p>
               <p className='view-data'> {selectedDatas?.email}</p>
             </Col>
 
             <Col md={6}>
-              <p className='view-label'>Mobile:</p>
+              <p className='view-label'>Mobile</p>
               <p className='view-data'> {selectedDatas?.mobile}</p>
             </Col>
             
             <Col md={6}>
-              <p className='view-label'>Password:</p>
-              <p className='view-data'> {selectedDatas?.password}</p>
+              <p className='view-label'>User Role</p>
+              <p className='view-data'> {selectedDatas?.userRoles?.name}</p>
             </Col>
-            
+      
             </Row>
         </Container>
         

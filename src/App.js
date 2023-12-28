@@ -21,6 +21,7 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 class App extends Component {
   render() {
     return (
+      <>
       <BrowserRouter>
         <Suspense fallback={loading}>
           <Routes>
@@ -32,6 +33,8 @@ class App extends Component {
           </Routes>
         </Suspense>
       </BrowserRouter>
+     
+      </>
     )
   }
 }

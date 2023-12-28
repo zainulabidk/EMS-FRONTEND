@@ -17,7 +17,7 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
       <Container>
           <Row>
             <Col md={6}>
-              <p className='view-label'>Name</p>
+              <p className='view-label'>Product & Services</p>
               <p className='view-data'> {selectedDatas?.name}</p>
             </Col>
             <Col md={6}>

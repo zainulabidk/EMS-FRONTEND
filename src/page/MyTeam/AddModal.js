@@ -1,3 +1,5 @@
+
+// export default App;
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,27 +9,41 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../style/addmodel.css';
-
-function App() {
+const App = ({getDatas, fetchUserRoles}) => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
+  const [userRoles, setUserRoles] = useState([]);
 
-  useEffect(() => {
-    const apiUrl = 'http://localhost:3000/userroles';
 
-    axios.get(apiUrl)
-      .then(response => {
-        setData(response.data.userRole);
-        console.log(response.data.userRole);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+// userroles fetch: deafult get userroles
+
+  
+useEffect(() => {
+  const fetchUserRoles = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/userroles');
+      const filteredUserRoles = response.data.userRole.filter(role => !role.isDeleted);
+      setUserRoles(filteredUserRoles.map(role => role._id));
+      
+      
+
+      setUserRoles(response.data.userRole);
+      formik.setValues((prevValues) => ({
+        ...prevValues,
+        userRoles: response.data.userRole._id, 
+      }));
+    } catch (error) {
+      console.error('Error fetching user roles:', error);
+    }
+  };
+
+  fetchUserRoles();
+}, []);
+
+  
 
   const handleClose = () => {
     setShow(false);
@@ -36,9 +52,7 @@ function App() {
 
   const handleShow = () => setShow(true);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const validationSchema = Yup.object({
     fname: Yup.string().required('First name is required'),
@@ -49,7 +63,8 @@ function App() {
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
       .required('Confirm Password is required'),
     mobile: Yup.string().required('Mobile is required'),
-    userRoles: Yup.string().required('User roles are required'),
+    userType: Yup.string().required('User types are required'),
+    userRoles: Yup.string().required('User types are required'),
   });
 
   const formik = useFormik({
@@ -60,25 +75,29 @@ function App() {
       password: '',
       confirmPassword: '',
       mobile: '',
+      userType: 'admin',
       userRoles: '',
+
+   
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: async (values) => {
       try {
         await validationSchema.validate(values, { abortEarly: false });
-
-        const response = await axios.post('http://localhost:3000/users', values);
-        console.log('Response:', response.data.user);
-
-        // Show toast message
+    
+        const response = await axios.post('http://localhost:3000/users', {
+          ...values,
+          userRoles: values.userRoles,
+        });
+    
         toast.success('Data successfully added', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
-          className: "toast-message",
+          className: 'toast-message',
         });
-
+    
         handleClose();
-        // window.location.reload();
+        getDatas();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -87,10 +106,34 @@ function App() {
           console.log('No response received from the server.');
         } else {
           console.log('Error:', error.message);
+          // Handle other errors
         }
       }
     },
+    
   });
+
+
+   
+
+  //       toast.success('Data successfully added', {
+  //         position: toast.POSITION.TOP_RIGHT,
+  //         autoClose: 1000,
+  //         className: 'toast-message',
+  //       });
+
+  //       handleClose();
+  //     } catch (error) {
+  //       console.error('Error adding user:', error);
+  //       toast.error('Error adding user. Please try again.', {
+  //         position: toast.POSITION.TOP_RIGHT,
+  //         autoClose: 2000,
+  //         className: 'toast-message',
+  //       });
+  //     }
+  //   },
+  // });
+
 
   return (
     <>
@@ -152,14 +195,15 @@ function App() {
                 <Form.Group className="mb-3 " controlId="email" >
                     <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
                     <Form.Control
-                      type="email"
-                      name="email"
-                      placeholder=" Email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-           
-                    />
+  type="email"
+  name="email"
+  placeholder="Email"
+  value={formik.values.email}
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+  autoComplete="email" 
+/>
+
                     {formik.touched.email && formik.errors.email ? (
                       <div className="error">
                         {formik.errors.email}
@@ -192,19 +236,21 @@ function App() {
                 <Col md={6}>
   <Form.Group className="mb-3 "style={{position:'relative'}} controlId="password">
   <Form.Label style={{fontSize:'14px'}}>Password</Form.Label>
-      <Form.Control
-        type={showPassword ? 'text' : 'password'}
-        name="password"
-        placeholder=' Password'
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        onBlur={() => formik.setFieldTouched('password', true)}
-        onFocus={() => formik.setFieldTouched('password', false)}
-        className={(formik.touched.password && formik.errors.password) ? 'error-border' : ''}
-      />
+  <Form.Control
+  type={showPassword ? 'text' : 'password'}
+  name="password"
+  placeholder="Password"
+  value={formik.values.password}
+  onChange={formik.handleChange}
+  onBlur={() => formik.setFieldTouched('password', true)}
+  onFocus={() => formik.setFieldTouched('password', false)}
+  className={(formik.touched.password && formik.errors.password) ? 'error-border' : ''}
+  autoComplete="new-password"  // Add this line
+/>
+
       <div className="input-group-append">
         <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
-          {showPassword ? <BsEyeSlash /> : <BsEye />}
+          {showPassword ?   <BsEye />: <BsEyeSlash />}
         </div>
       </div>
     {formik.touched.password && formik.errors.password ? (
@@ -214,20 +260,21 @@ function App() {
     ) : null}
   </Form.Group>
 </Col>
-
                 <Col md={6}>
                   <Form.Group  className="mb-3 " controlId="confirmPassword">
                   <Form.Label style={{fontSize:'14px'}}>Confirm Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Confirm Password "
-                      name="confirmPassword"
-                      value={formik.values.confirmPassword}
-                      onChange={formik.handleChange}
-                      onBlur={() => formik.setFieldTouched('confirmPassword', true)}
-                      onFocus={() => formik.setFieldTouched('confirmPassword', false)} 
-                      className={(formik.touched.confirmPassword && formik.errors.confirmPassword) ? 'error-border' : ''}
-                    />
+                  <Form.Control
+  type="password"
+  placeholder="Confirm Password"
+  name="confirmPassword"
+  value={formik.values.confirmPassword}
+  onChange={formik.handleChange}
+  onBlur={() => formik.setFieldTouched('confirmPassword', true)}
+  onFocus={() => formik.setFieldTouched('confirmPassword', false)} 
+  className={(formik.touched.confirmPassword && formik.errors.confirmPassword) ? 'error-border' : ''}
+  autoComplete="new-password"  // Add this line
+/>
+
                      {/* <Form.Label className={formik.touched.confirmPassword || formik.values.confirmPassword ? 'floating' : ''} style={{color: formik.touched.confirmPassword && formik.errors.confirmPassword ? 'red' : '#5bb6ea !importend' }}>Confirm Password</Form.Label> */}
                     {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                       <div className="error" >
@@ -236,30 +283,26 @@ function App() {
                     ) : null}
                   </Form.Group>
                 </Col>
-
                 <Col md={6}>
-                  <Form.Group  className="mb-3 input-box" controlId="userRoles">
-                    <Form.Select className='input-controll'
-                      name="userRoles"
-                      value={formik.values.userRoles}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    >
-                       <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
-                      <option value="" label="Select a role" style={{color:'black'}} />
-                      {data.map(item => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                    {formik.touched.userRoles && formik.errors.userRoles ? (
-                      <div className="error">
-                        {formik.errors.userRoles}
-                      </div>
-                    ) : null}
-                  </Form.Group>
-                </Col>
+                <Form.Select
+  className='input-controll'
+  name="userRoles"
+  value={formik.values.userRoles} // Update this line
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+>
+
+  <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
+  <option value="" label="Select a role" />
+  {userRoles.map(role => (
+  <option key={role._id} value={role._id}>
+    {role.name}
+  </option>
+))}
+
+</Form.Select>
+</Col>
+                
               </Row>
             </Form>
           </Container>

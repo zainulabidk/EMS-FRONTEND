@@ -5,42 +5,40 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { useFormik } from 'formik';
+ 
+
 import { Container, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import '../style/edit.css';
 
 
 function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [data, setData] = useState([]);
+  const [userRole, setUserRole] = useState([]);
+  useEffect(()=>{
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/userroles');
-        setData(response.data.userRole);
-        console.log(response.data.userRole);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    fetchUserRole();
+  },[])
 
-    fetchData();
-  }, []);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const fetchUserRole = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/userroles');
+      const filteredUserRoles = response.data.userRole.filter(source => !source.isDeleted);
+      console.log("from finshi" ,  response.data.userRole);
+      setUserRole(filteredUserRoles);
+      console.log(filteredUserRoles); 
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // Formik form configuration
+
   const formik = useFormik({
     initialValues: {
       fname: selectedDatas?.fname || '',
       lname: selectedDatas?.lname || '',
       email: selectedDatas?.email || '',
-      password: selectedDatas?.password || '',
-      confirmPassword: selectedDatas?.confirmPassword || '',
       mobile: selectedDatas?.mobile || '',
       userRoles: selectedDatas?.userRoles || '',
     },
@@ -48,10 +46,6 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
       fname: Yup.string().required('First name is required'),
       lname: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email format').required('Email is required'),
-      password: Yup.string().required('Password is required'),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Confirm Password is required'),
       mobile: Yup.string().required('Mobile is required'),
       userRoles: Yup.string().required('User roles are required'),
     }),
@@ -73,23 +67,22 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
       lname: selectedDatas?.lname || '',
       email: selectedDatas?.email || '',
       mobile: selectedDatas?.mobile || '',
-      password: selectedDatas?.password || '',
-      confirmPassword: selectedDatas?.confirmPassword || '',
-      userRoles: selectedDatas?.userRoles || '',
+  
+      userRoles: selectedDatas?.userRoles?._id || '',
       
     });
   }, [selectedDatas]);
-  
 
-  // Render the modal only when data is available
   return (
-    <Modal show={showModal} onHide={handleModalHide} centered backdrop="static" keyboard={false}>
+
+    <>
+     <Modal show={showModal} onHide={handleModalHide} centered backdrop="static" keyboard={false}>
       <Modal.Header closeButton>
         <Modal.Title>Edit My Team</Modal.Title>
       </Modal.Header>
       <Modal.Body>
       <Container>
-        {data.length > 0 ? (
+        
             <Form onSubmit={formik.handleSubmit}>
               <Row>
                 <Col md={6}>
@@ -101,8 +94,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
                       placeholder=" "
                       value={formik.values.fname}
                       onChange={formik.handleChange}
-                      onBlur={() => formik.setFieldTouched('fname', true)}
-                      onFocus={() => formik.setFieldTouched('fname', false)} // Reset touch state on focus
+                      onBlur={formik.handleBlur}
                     />
                    
               
@@ -117,8 +109,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
                       placeholder=" "
                       value={formik.values.lname}
                       onChange={formik.handleChange}
-                      onBlur={() => formik.setFieldTouched('lname', true)}
-                      onFocus={() => formik.setFieldTouched('lname', false)} // Reset touch state on focus
+                      onBlur={formik.handleBlur}
                     />
                     
                   </Form.Group>
@@ -132,8 +123,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
                       placeholder=" "
                       value={formik.values.email}
                       onChange={formik.handleChange}
-                      onBlur={() => formik.setFieldTouched('email', true)}
-                      onFocus={() => formik.setFieldTouched('email', false)} // Reset touch state on focus
+                      onBlur={formik.handleBlur}
                     />
                   </Form.Group>
                 </Col>
@@ -146,78 +136,39 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
                       placeholder=" "
                       value={formik.values.mobile}
                       onChange={formik.handleChange}
-                      onBlur={() => formik.setFieldTouched('mobile', true)}
-                      onFocus={() => formik.setFieldTouched('mobile', false)} // Reset touch state on focus
-                    />
-                  </Form.Group>
-                </Col>
-
-                <Col md={6}>
-  <Form.Group className="mb-3" style={{position:'relative'}} controlId="password">
-  <Form.Label style={{fontSize:'14px'}}>Password</Form.Label>
-      <Form.Control
-        type={showPassword ? 'text' : 'password'}
-        name="password"
-        placeholder=''
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        onBlur={() => formik.setFieldTouched('password', true)}
-        onFocus={() => formik.setFieldTouched('password', false)}
-      />
-      
-      <div className="input-group-append">
-        <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
-          {showPassword ? <BsEyeSlash /> : <BsEye />}
-        </div>
-      </div>
-  </Form.Group>
-</Col>
-
-                <Col md={6}>
-                  <Form.Group  className="mb-3 " controlId="confirmPassword">
-                  <Form.Label style={{fontSize:'14px'}}>Confirm Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder=" "
-                      name="confirmPassword"
-                      value={formik.values.confirmPassword}
-                      onChange={formik.handleChange}
-                      onBlur={() => formik.setFieldTouched('confirmPassword', true)}
-                      onFocus={() => formik.setFieldTouched('confirmPassword', false)} 
-                    />
-                    
-                    {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                      <div className="error" >
-                        {formik.errors.confirmPassword}
-                      </div>
-                    ) : null}
-                  </Form.Group>
-                </Col>
-
-
-                <Col md={6}>
-                  <Form.Group  className="mb-3 input-box" controlId="userRoles">
-                    <Form.Select className='input-controll'
-                      name="userRoles"
-                      value={formik.values.userRoles}
-                      onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                    >
-                       <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
-                      <option value="" label="Select a role" style={{color:'black'}} />
-                      {data.map(item => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Form.Select>
+                    />
                   </Form.Group>
+                </Col>
+
+      
+                <Col md={6}>
+
+                  <Form.Group  className="mb-3 " controlId="userRoles">
+                  <Form.Label style={{fontSize:'14px'}}>User Role </Form.Label>
+                  <Form.Control 
+                  as="select"
+                  name="userRoles"
+                  value={formik.values.userRoles}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={(formik.touched.enqType && formik.errors.enqType) ? 'error-border' : ''}>
+  <Form.Label className='label' style={{ fontSize: '14px' }}>User Roles</Form.Label>
+  <option value="" disabled selected >User Role</option>
+  {userRole.map(type => (
+    <option key={type._id} value={type._id}>
+      {type.name}
+    </option>
+  ))}
+        </Form.Control>
+        {formik.touched.userRoles && formik.errors.enqSource ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.enqSource}</div>
+              ) : null}
+</Form.Group>
                 </Col>
               </Row>
             </Form>
-        ) : (
-          <p>Loading user roles...</p>
-        )}
+
         </Container>
       </Modal.Body>
       <Modal.Footer>
@@ -229,7 +180,9 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
         </Button>
       </Modal.Footer>
     </Modal>
+    </>
   );
 }
+
 
 export default EditModal;

@@ -49,19 +49,14 @@ function Table() {
   };
 
 
- 
+
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirymode');
-      const modifiedDatas = response.data.enquiryModes.map(item => ({
-        ...item,
-        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-        desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
-       
-      }));
-  
-      setDatas(modifiedDatas);
-      setFilteredDatas(modifiedDatas);
+      console.log('Responsse from zain:', response.data.enquiryModes);
+      // setDatas(response.data.enquiryModes);
+      // setFilteredDatas(response.data.enquiryModes);
+      console.log(response.data.enquiryModes);
     } catch (error) {
       console.error(error);
     }
@@ -127,9 +122,9 @@ const handleClickDelete = (row) => {
         <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
+        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+          <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
+        </Button>
         </div>
         </>
       ),
@@ -204,7 +199,7 @@ const handleClickDelete = (row) => {
 
 
        {/* Modal for Delete Confirmation */}
-         <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} handleDelete={handleDelete} />
+       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

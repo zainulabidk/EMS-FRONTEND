@@ -8,11 +8,10 @@ import EditModal from './EditModal';
 import ViewModal from './ViewModal';
 import Button from 'react-bootstrap/Button';
 import '../../style/table.css'
-import { ModalHeader } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AddModal from './AddModal'
-// Import necessary FontAwesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
 
@@ -26,65 +25,12 @@ function Table() {
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
   const handleClose = () => {
     setShowEditModal(false);
     setShowViewModal(false);
     setSelectedDatas(null);
-  };
-  const handleDeleteConfirmation = (row) => {
-    setSelectedDatas(row);
-    setShowDeleteModal(true);
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3000/userroles/${selectedDatas._id}`);
-      getDatas();
-      handleClose();
-    } catch (error) {
-      console.error('Error deleting data:', error);
-    }
-  };
-
-
- 
-  const getDatas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/userroles');
-      const modifiedDatas = response.data.userRole.map(item => ({
-        ...item,
-        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-        desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
-       
-      }));
-  
-      setDatas(modifiedDatas);
-      setFilteredDatas(modifiedDatas);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleUpdate = async (orgId, updatedData) => {
-    try {
-      const response = await axios.put(`http://localhost:3000/userroles/${orgId}`, updatedData);
-      console.log('Update response:', response.data);
-      getDatas(); // Refresh the data after update
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
-  };
-
-  const handleEdit = (row) => {
-    setSelectedDatas(row);
-    setShowEditModal(true);
-  };
-
-  const handleViewDetails = (row) => {
-    setSelectedDatas(row);
-    setShowViewModal(true);
   };
 
 
@@ -103,6 +49,52 @@ const handleClickDelete = (row) => {
   setSelectedId(row._id);
   deleteModalShow();
 };
+
+ 
+  const getDatas = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/userroles');
+      // setDatas(response.data.userRole);
+      const filteredData = response.data.userRole.filter(userRole => userRole.isDeleted === false || userRole.isDeleted === undefined);
+      console.log('Filtered Data:', filteredData);
+      setDatas(filteredData);
+      // setFilteredDatas(response.data.userRole);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+
+
+
+  const handleUpdate = async (orgId, updatedData) => {
+    try {
+      const response = await axios.put(`http://localhost:3000/userroles/${orgId}`, updatedData);
+      console.log('Update response:', response.data);
+      
+      toast.success('Data successfully Updated', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        className: 'toast-message',
+      });
+      getDatas();
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  };
+
+  const handleEdit = (row) => {
+    setSelectedDatas(row);
+    setShowEditModal(true);
+  };
+
+  const handleViewDetails = (row) => {
+    setSelectedDatas(row);
+    setShowViewModal(true);
+  };
+
+
   const totalCount = filteredDatas.length;
 
   const columns = [
@@ -122,14 +114,14 @@ const handleClickDelete = (row) => {
         <>
         <div>
          <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
-          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
+          <FontAwesomeIcon icon={faEdit} />
         </Button>
         <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
-          <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
+          <FontAwesomeIcon icon={faEye} />
         </Button>
-        <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
+        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+          <FontAwesomeIcon icon={faTrash} /> 
+        </Button>
         </div>
         </>
       ),
@@ -154,6 +146,7 @@ const handleClickDelete = (row) => {
 
   return (
     <>
+     <ToastContainer autoClose={50000}/>
     <div className='table-div'>
       <Datatable className='table-data-div'
         title='User Role'
@@ -171,20 +164,19 @@ const handleClickDelete = (row) => {
         subHeaderComponent={
           <div className='table-top'>
               <div ><AddModal/></div>
-              <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
-                <div>
-                  <div className="search-input-container">
+              
+              <div className="search-input-container">
                     <FontAwesomeIcon icon={faSearch} className="search-icon" />
                     <input
                       type="text"
                       placeholder="Search"
-                      className="w-35 form-control-srch"
+                      className="w-35 search-control"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
                   </div>
-                </div>
-
+              <div style={{display:'flex',alignItems:'center', justifyContent:'space-between'}}>
+          
                 <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
@@ -204,7 +196,7 @@ const handleClickDelete = (row) => {
 
 
        {/* Modal for Delete Confirmation */}
-         <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} handleDelete={handleDelete} />
+       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

@@ -1,6 +1,4 @@
 
-
-// Table.js
 import React, { useState, useEffect } from 'react';
 import Datatable from 'react-data-table-component';
 import axios from 'axios';
@@ -8,7 +6,8 @@ import EditModal from './EditModal';
 import ViewModal from './ViewModal';
 import Button from 'react-bootstrap/Button';
 import '../../style/table.css'
-import { ModalHeader } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AddModal from './AddModal'
 // Import necessary FontAwesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,53 +23,53 @@ function Table() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
-  const [deleteModal,setDeleteModal] =useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
   const handleClose = () => {
     setShowEditModal(false);
     setShowViewModal(false);
     setSelectedDatas(null);
   };
-  const handleDeleteConfirmation = (row) => {
-    setSelectedDatas(row);
-    setShowDeleteModal(true);
+
+    
+
+  const deleteModalClose = () => {
+    setDeleteModal(false);
   };
 
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3000/enquirySource/${selectedDatas._id}`);
-      getDatas();
-      handleClose();
-    } catch (error) {
-      console.error('Error deleting data:', error);
-    }
+  const deleteModalShow = () => {
+    setDeleteModal(true);
+  };
+
+  const handleClickDelete = (row) => {
+    setSelectedId(row._id);
+    deleteModalShow();
   };
 
 
- 
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirySource');
-      const modifiedDatas = response.data.enquiriesSource.map(item => ({
-        ...item,
-        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-        desc: item.desc.charAt(0).toUpperCase() + item.desc.slice(1),
-       
-      }));
-  
-      setDatas(modifiedDatas);
-      setFilteredDatas(modifiedDatas);
+      const filteredData = response.data.enquiriesSource.filter(enquiriesSource => enquiriesSource.isDeleted === false || enquiriesSource.isDeleted === undefined);
+       setDatas(filteredData);
+       // setFilteredDatas(response.data.enquiriesSource);
     } catch (error) {
       console.error(error);
     }
   };
+ 
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
       const response = await axios.put(`http://localhost:3000/enquirySource/${orgId}`, updatedData);
       console.log('Update response:', response.data);
+      toast.success('Data successfully Updated', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        className: 'toast-message',
+      });
       getDatas(); // Refresh the data after update
     } catch (error) {
       console.error('Error updating data:', error);
@@ -88,21 +87,7 @@ function Table() {
   };
 
 
-//DELETE MODAL
 
-const deleteModalClose = () => {
-  setDeleteModal(false);
-};
-
-const deleteModalShow = () => {
-  setDeleteModal(true);
-};
-
-
-const handleClickDelete = (row) => {
-  setSelectedId(row._id);
-  deleteModalShow();
-};
   const totalCount = filteredDatas.length;
 
   const columns = [
@@ -111,10 +96,20 @@ const handleClickDelete = (row) => {
       name: "NAME",
       selector: (row) => row.name,
       sortable: true,
+      cell: (row) => (
+        <div className="capitalize">
+          {`${row.name}`}
+        </div>
+      ),
     },
     {
       name: "DESCRIPTION",
       selector: (row) => row.desc,
+      cell: (row) => (
+        <div className="capitalize">
+          {`${row.desc}`}
+        </div>
+      ),
     },
     {
       name: "ACTIONS",
@@ -127,7 +122,7 @@ const handleClickDelete = (row) => {
         <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3 mx-1' onClick={() => handleDeleteConfirmation(row)}>
+        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
               <FontAwesomeIcon icon={faTrash} />
             </Button>
         </div>
@@ -154,6 +149,7 @@ const handleClickDelete = (row) => {
 
   return (
     <>
+     <ToastContainer autoClose={50000}/>
     <div className='table-div'>
       <Datatable className='table-data-div'
         title='Enquiry Source'
@@ -171,20 +167,18 @@ const handleClickDelete = (row) => {
         subHeaderComponent={
           <div className='table-top'>
               <div ><AddModal/></div>
-              <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
-                <div>
-                  <div className="search-input-container">
+              <div className="search-input-container">
                     <FontAwesomeIcon icon={faSearch} className="search-icon" />
                     <input
                       type="text"
                       placeholder="Search"
-                      className="w-35 form-control-srch"
+                      className="w-35 search-control"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
                   </div>
-                </div>
-
+              <div style={{display:'flex',alignItems:'center',width: '15  %', justifyContent:'space-between'}}>
+        
                 <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
@@ -196,15 +190,9 @@ const handleClickDelete = (row) => {
       />
       </div>
 
-      {/* Modal for Editing */}
-      <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} />
-
-       {/* Modal for Viewing Details */}
+       <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} />
        <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
-
-
-       {/* Modal for Delete Confirmation */}
-         <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} handleDelete={handleDelete} />
+       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

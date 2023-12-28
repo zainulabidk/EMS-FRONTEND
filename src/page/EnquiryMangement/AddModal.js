@@ -718,7 +718,14 @@ fetchSupportType();
   const fetchEnquirySource = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirySource');
-      const filteredEnquirySources = response.data.enquiriesSource.filter(source => !source.isDeleted);
+      const filteredEnquirySources = response.data.enquiriesSource.filter(source => !source.isDeleted)
+      .sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) return -1; // Sort in alphabetical ascending order
+        if (nameA > nameB) return 1;
+        return 0;
+      });  
       setEnquirySources(filteredEnquirySources);
       console.log(filteredEnquirySources);
     } catch (error) {
@@ -730,7 +737,14 @@ fetchSupportType();
     const fetchEnquiryType = async () => {
       try {
         const response = await axios.get('http://localhost:3000/enquiryType');
-        const filteredEnquiryTypes = response.data.enquiryType.filter(type => !type.isDeleted);
+        const filteredEnquiryTypes = response.data.enquiryType.filter(type => !type.isDeleted)
+        .sort((a, b) => {
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
+          if (nameA < nameB) return -1; // Sort in alphabetical ascending order
+          if (nameA > nameB) return 1;
+          return 0;
+        });
         setEnquiryTpe(filteredEnquiryTypes);
         console.log(filteredEnquiryTypes);
       } catch (error) {
@@ -742,7 +756,14 @@ fetchSupportType();
  const fetchEnquiryMode = async () => {
   try {
     const response = await axios.get('http://localhost:3000/enquiryMode');
-    const enquiriesMode = response.data.enquiryModes.filter(mode => !mode.isDeleted) || [];
+    const enquiriesMode = response.data.enquiryModes.filter(mode => !mode.isDeleted) 
+     .sort((a, b) => {
+      const nameA = a.name.toUpperCase();
+      const nameB = b.name.toUpperCase();
+      if (nameA < nameB) return -1; // Sort in alphabetical ascending order
+      if (nameA > nameB) return 1;
+      return 0;
+    });;
     setEnquiryMode(enquiriesMode);
     console.log(enquiriesMode);
   } catch (error) {
@@ -754,7 +775,14 @@ fetchSupportType();
  const fetchEnquiryTo = async () => {
   try {
     const response = await axios.get('http://localhost:3000/productService');
-    const filteredEnqTo = response.data.product.filter(to => !to.isDeleted);
+    const filteredEnqTo = response.data.product.filter(to => !to.isDeleted)
+    .sort((a, b) => {
+      const nameA = a.name.toUpperCase();
+      const nameB = b.name.toUpperCase();
+      if (nameA < nameB) return -1; // Sort in alphabetical ascending order
+      if (nameA > nameB) return 1;
+      return 0;
+    });
     setEnqTo(filteredEnqTo);
     console.log(filteredEnqTo);
   } catch (error) {
@@ -765,7 +793,14 @@ fetchSupportType();
 const fetchSupportType = async () => {
   try {
     const response = await axios.get('http://localhost:3000/supportType');
-    const filteredSupportType = response.data.supportType.filter(type => !type.isDeleted) || [];
+    const filteredSupportType = response.data.supportType.filter(type => !type.isDeleted) 
+    .sort((a, b) => {
+      const nameA = a.name.toUpperCase();
+      const nameB = b.name.toUpperCase();
+      if (nameA < nameB) return -1; // Sort in alphabetical ascending order
+      if (nameA > nameB) return 1;
+      return 0;
+    });
     setSupportType(filteredSupportType);
     console.log(filteredSupportType);
   } catch (error) {
@@ -776,7 +811,7 @@ const fetchSupportType = async () => {
   // Validation schema using Yup
   const validationSchema = Yup.object({
        
-    enqNo: Yup.string().required('Description is required'),
+  
     enqMode: Yup.string().required('Enquiry Mode is required'),
     enqSource: Yup.string().required('Enquiry Source is required'),
     enqType: Yup.string().required('Enquiry Type is required'),
@@ -797,7 +832,7 @@ const fetchSupportType = async () => {
 
   const formik = useFormik({
     initialValues: {
-      enqNo: '',
+     
       enqSource: '',
       enqType: '',
       enqMode: '',
@@ -811,6 +846,7 @@ const fetchSupportType = async () => {
       district: '',
       location: '',
       state: '',
+      status:"new",
       enqTo: '',
       leadQuality:'',
       referenceId: '',
@@ -827,7 +863,7 @@ const fetchSupportType = async () => {
    
 
         getDatas();
-        toast.success('Data Added successfully!');
+        toast.success('Data Added successfully!',{ autoClose: 1000 });
     
         handleClose();
    
@@ -840,13 +876,11 @@ const fetchSupportType = async () => {
           console.log('No response received from the server.');
         } else {
           console.log('Error:', error.message);
-          toast.error('Error creating data Please try again.');
+          toast.error('Error creating data Please try again.',{ autoClose: 1000 });
         }
       }
     },
   });
-
-
 
   return (
     <>
@@ -880,25 +914,7 @@ const fetchSupportType = async () => {
 <div className='contents'>
     <div className={`${toggle === 1 ? 'content active-content' :'content'}`}>
     <Row>
-                <Col md={6}>
-            <Form.Group className="mb-3 " controlId="enqNo">
-         
-              <Form.Control
-                type="text"
-                placeholder="EnqNo"
-                name="enqNo"
-                value={formik.values.enqNo}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{marginTop:'5px'}}
-              />
-             {formik.touched.enqNo && formik.errors.enqNo ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqNo}</div>
-              ) : null}
-          
-            </Form.Group>
-
-          </Col>
+             
             <Col md={6}>
   <Form.Group className="mb-3" controlId="gender">
   <Form.Label style={{ fontSize: '14px',marginTop:'2px'}}>Gender</Form.Label>
@@ -974,9 +990,9 @@ const fetchSupportType = async () => {
       value={formik.values.leadQuality}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-  
+      className={`form-select ${formik.touched.leadQuality && formik.errors.leadQuality ? 'is-invalid' : ''}`}
     >
-      <option value=" " disabled>
+      <option value="" disabled>
         Lead Quality
       </option>
       {leadQuality.map((option) => (
@@ -1052,7 +1068,7 @@ const fetchSupportType = async () => {
             <Form.Group className="mb-3" controlId="enqDescp">       
               <Form.Control
                 as="textarea"
-                placeholder="enqDescp"
+                placeholder="Description"
                 name="enqDescp"
                 value={formik.values.enqDescp}
                 onChange={formik.handleChange}
@@ -1183,7 +1199,7 @@ const fetchSupportType = async () => {
       value={formik.values.enqSource}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-      className={(formik.touched.enqSource && formik.errors.enqSource) ? 'error-border' : ''}
+      className={`form-select ${formik.touched.enqSource && formik.errors.enqSource ? 'is-invalid' : ''}`}
     >
       <option value="" disabled>
         Enquiry Source
@@ -1211,7 +1227,7 @@ const fetchSupportType = async () => {
                 value={formik.values.enqType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.enqType && formik.errors.enqType) ? 'error-border' : ''}
+               className={`form-select ${formik.touched.enqType && formik.errors.enqType ? 'is-invalid' : ''}`}
               >
                 <option value="" disabled selected >
                    Enquiry Type
@@ -1239,7 +1255,7 @@ const fetchSupportType = async () => {
                 value={formik.values.enqMode}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.enqMode && formik.errors.enqMode) ? 'error-border' : ''}
+                className={`form-select ${formik.touched.enqMode && formik.errors.enqMode ? 'is-invalid' : ''}`}
        
               >
                 <option value="" disabled>
@@ -1266,7 +1282,7 @@ const fetchSupportType = async () => {
                 value={formik.values.enqTo}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.enqTo && formik.errors.enqTo) ? 'error-border' : ''}
+                className={`form-select ${formik.touched.enqTo && formik.errors.enqTo ? 'is-invalid' : ''}`}
        
               >
                 <option value="" disabled>
@@ -1297,7 +1313,7 @@ const fetchSupportType = async () => {
                 value={formik.values.supportType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={(formik.touched.supportType && formik.errors.supportType) ? 'error-border' : ''}
+                className={`form-select ${formik.touched.supportType && formik.errors.supportType ? 'is-invalid' : ''}`}
               >
                 <option value="" disabled>
                   Support Type
