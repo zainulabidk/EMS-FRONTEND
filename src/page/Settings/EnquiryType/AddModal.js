@@ -6,11 +6,8 @@ import axios from 'axios';
 import '../../style/addmodel.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-
-function AddModal({getDatas}) {
+function AddModal() {
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -20,17 +17,16 @@ function AddModal({getDatas}) {
 
   // Validation schema using Yup
   const validationSchema = Yup.object({
-    name: Yup.string().required('Enquiry Type is required'),
-    descp: Yup.string().required('Description is required'),
+    name: Yup.string().required('Name is required'),
+    descp: Yup.string().required('descp is required'),
   });
 
   const formik = useFormik({
     initialValues: {
       name: '',
       descp: '',
-      status:'new',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       createdBy: 'admin',
       updatedBy: 'admin',
       isDeleted: false,
@@ -41,12 +37,15 @@ function AddModal({getDatas}) {
         // Validate the newItem object using Formik and Yup
         await validationSchema.validate(values, { abortEarly: false });
 
+        
         const response = await axios.post('http://localhost:3000/enquiryType', values);
         console.log('Response:', response.data);
-        getDatas();
-        toast.success('Data Added successfully!',{ autoClose: 1000 });
+        alert('Successfully added');
+
         handleClose();
 
+        // Refresh the page after successful submission
+        window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -55,7 +54,7 @@ function AddModal({getDatas}) {
           console.log('No response received from the server.');
         } else {
           console.log('Error:', error.message);
-          toast.error('Error creating data Please try again.',{ autoClose: 1000 } );
+          // Handle other errors
         }
       }
     },
@@ -63,7 +62,6 @@ function AddModal({getDatas}) {
 
   return (
     <>
-    <ToastContainer/>
       <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
         + New
       </Button>

@@ -12,7 +12,7 @@ import ToggleButton from 'react-toggle-button';
 import '../../style/addmodel.css';
 
 
-function AddModal() {
+function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -40,8 +40,7 @@ function AddModal() {
       try {
         // Validate the newItem object using Formik and Yup
         await validationSchema.validate(values, { abortEarly: false });
-
-        
+        getDatas();
         const response = await axios.post('http://localhost:3000/enquirymode', values);
         console.log('Response:', response.data);
 
@@ -54,7 +53,7 @@ function AddModal() {
         handleClose();
 
         // Refresh the page after successful submission
-        window.location.reload();
+        // window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -62,7 +61,7 @@ function AddModal() {
         } else if (error.request) {
           console.log('No response received from the server.');
         } else {
-          console.log('Error:', error.message);
+          toast.error('Error:', error.message);
           // Handle other errors
         }
       }

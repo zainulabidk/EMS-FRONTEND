@@ -14,6 +14,8 @@ import AddModal from './AddModal';
 import '../style/table.css';
 import { Container } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
+import Filter from './Filter';
+
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -25,8 +27,8 @@ function Table() {
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
- 
-
+  const [query, setQuery] = useState('');    //filter
+  const [filterValue, setFilterValue] = useState('');
   const handleClose = () => {
     setShowEditModal(false);
     setShowViewModal(false);
@@ -35,45 +37,32 @@ function Table() {
   };
 
 
-const deleteModalClose = () => {
-  setDeleteModal(false);
+
+
+
+
+const getDatas = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/users');
+    console.log('API Response:', response.data);
+    const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
+    console.log('Filtered Data:', filteredData);
+    setDatas(filteredData);
+    // setFilteredDatas(filteredData);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const deleteModalShow = () => {
-  setDeleteModal(true);
-};
-
-const handleClickDelete = (row) => {
-  setSelectedId(row._id);
-  deleteModalShow();
-};
-
-// const getDatas = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:3000/users');
-//     console.log('licensee Response:', response.data);
-//     const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
-//     console.log('Filtered Data:', filteredData);
-//     setDatas(filteredData);
-//     setFilteredDatas(filteredData);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-  const getDatas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/users');
-      const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
-      console.log('acd Data:', filteredData);
-      console.log('dca Data:', response.data.users);
-      setDatas(response.data.users);
-      setDatas(filteredData);
-      // setFilteredDatas(response.data.users);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/users');
+  //     setDatas(response.data.users);
+  //     setFilteredDatas(response.data.users);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
 
 
 
@@ -105,17 +94,26 @@ const handleClickDelete = (row) => {
   };
 
 
+  
+//DELETE MODAL
 
+const deleteModalClose = () => {
+  setDeleteModal(false);
+};
+
+const deleteModalShow = () => {
+  setDeleteModal(true);
+};
+
+const handleClickDelete = (row) => {
+  setSelectedId(row._id);
+  deleteModalShow();
+};
   const columns = [
     {
       name: "Name",
-      selector: (row) => `${row.fname} ${row.lname}`,
+      selector: (row) => row.fname,
       sortable: true,
-      cell: (row) => (
-        <div className="capitalize">
-          {`${row.fname} ${row.lname}`}
-        </div>
-      ),
     },
     {
       name: "Email",
@@ -128,12 +126,6 @@ const handleClickDelete = (row) => {
     {
       name: "User Type",
       selector: (row) => row.userType,
-      cell: (row) => (
-        <div className="capitalize">
-          {`${row.userType}`}
-        </div>
-      ),
-      
     },
     {
       name: "Actions",
@@ -167,11 +159,15 @@ const handleClickDelete = (row) => {
 
     const result = datas.filter((lice) => {
       return lice.fname.toLowerCase().includes(search.toLowerCase());
-    });
+
   const licenseeResult = result.filter((user) => user.userType === 'licensee');
 
-  setFilteredDatas(licenseeResult);
-}, [search, datas]);
+  const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+  // Apply both name and status filters
+    return nameMatch && (filterValue === '' || statusMatch);
+ });
+ setFilteredDatas(result);
+}, [search, datas,filterValue]);
   const totalCount = filteredDatas.length;
 
   return (
@@ -208,6 +204,7 @@ const handleClickDelete = (row) => {
                     />
                   </div>
                 </div>
+                <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
 
                 <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />

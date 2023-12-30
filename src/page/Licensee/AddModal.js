@@ -10,11 +10,12 @@ import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../style/addmodel.css';
+
 const App = ({getDatas}) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
-
+  const [query, setQuery] = useState('');    //filter
 
 // userroles fetch: deafult get userroles
 

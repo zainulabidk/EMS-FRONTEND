@@ -126,11 +126,9 @@ const handleClickDelete = (row) => {
       console.error("Datas is not an array!");
       return;
     }
+
     const result = datas.filter((item) => {
-      const nameMatch = item.name.toLowerCase().includes(search.toLowerCase());
-      const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
-     // Apply both name and status filters
-       return nameMatch && (filterValue === '' || statusMatch);
+      return item.name.toLowerCase().includes(search.toLowerCase());
     });
     setFilteredDatas(result);
   }, [search, datas,filterValue]);

@@ -11,8 +11,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import AddModal from './AddModal';
 import '../style/table.css';
+import Filter from './Filter';
 
 function Table() {
+  const [filterValue, setFilterValue] = useState('');
   const [datas, setDatas] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredDatas, setFilteredDatas] = useState([]);
@@ -23,7 +25,7 @@ function Table() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [roleOptions, setRoleOptions] = useState([]);
-
+  const [query, setQuery] = useState('');    //filter
   useEffect(() => {
     const fetchUserRoles = async () => {
       try {
@@ -166,52 +168,17 @@ function Table() {
     const result = datas.filter((item) => {
       const fullName = `${item.fname} ${item.lname}`.toLowerCase();
       return fullName.includes(search.toLowerCase());
-    });
+  
     
+    const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+    // Apply both name and status filters
+      return nameMatch && (filterValue === '' || statusMatch);
+   });
     setFilteredDatas(result);
-  }, [search, datas]);
+  }, [search, datas,filterValue]);
 
 
-  const FilterDropdown = () => {
-    const handleFilterChange = (event) => {
-      const selectedValue = event.target.value;
-      setSelectedFilter(selectedValue);
-    };
-
-    useEffect(() => {
-      filterData();
-    }, [selectedFilter, datas]);
-
-    const filterData = () => {
-      let filteredData = datas;
-
-      if (selectedFilter !== "all") {
-        filteredData = filteredData.filter(user => {
-          const userRoles = Array.isArray(user.userRoles) ?
-            user.userRoles.map(userRole => userRole.name) :
-            [user.userRoles.name];
-
-          return userRoles.includes(selectedFilter);
-        });
-      }
-
-      setFilteredDatas(filteredData);
-    };
-
-    return (
-      <select
-        className='count-div'
-        value={selectedFilter}
-        onChange={handleFilterChange}
-      >
-        {roleOptions.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    );
-  };
+  
 
   const totalCount = filteredDatas.length;
 
@@ -247,15 +214,17 @@ function Table() {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', width: '25%', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', width: '45%', justifyContent: 'space-between' }}>
                 <div>
+                <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+
                 </div>
                 <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
                 </div>
                 <div>
-                  <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} />
+                  {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
                 </div>
               </div>
             </div>

@@ -48,19 +48,30 @@ function Table() {
     }
   };
 
-
-
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirymode');
-      console.log('Responsse from zain:', response.data.enquiryModes);
-      // setDatas(response.data.enquiryModes);
-      // setFilteredDatas(response.data.enquiryModes);
-      console.log(response.data.enquiryModes);
+      console.log('API Response:', response.data.enquiryModes);
+      const filteredData = response.data.enquiryModes.filter(enqmode => enqmode.isDeleted === false || enqmode.isDeleted === undefined);
+      console.log('Filtered Data:', filteredData);
+      setDatas(filteredData);
+      // setFilteredDatas(filteredData);
     } catch (error) {
       console.error(error);
     }
   };
+
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/enquirymode');
+  //     console.log('Responsse from zain:', response.data.enquiryModes);
+  //     setDatas(response.data.enquiryModes);
+  //     setFilteredDatas(response.data.enquiryModes);
+  //     console.log("helo"+esponse.data.enquiryModes);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
@@ -165,7 +176,7 @@ const handleClickDelete = (row) => {
         subHeader
         subHeaderComponent={
           <div className='table-top'>
-              <div ><AddModal/></div>
+              <div ><AddModal getDatas={getDatas}  /></div>
               <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
                 <div>
                   <div className="search-input-container">
