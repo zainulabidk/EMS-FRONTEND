@@ -52,6 +52,7 @@ const OrgType = React.lazy(() => import('./page/Settings/OrgType/Index'))
 const OrgCategory = React.lazy(() => import('./page/Settings/OrgCategory/Index'))
 const ProductServices = React.lazy(() => import('./page/Settings/ProductServices/Index'))
 const EnquiryType = React.lazy(() => import('./page/Settings/EnquiryType/Index'))
+const UserRoles = React.lazy(() => import('./page/Settings/UserRole/index'))
 const EnquiryManagement = React.lazy(() => import('./page/EnquiryMangement/Index'))
 const FollowUp = React.lazy(() => import('./page/FollowUp/Index'))
 const Licensee = React.lazy(() => import('./page/Licensee/index'))
@@ -168,6 +169,11 @@ const routes = [
     path: '/Settings/ProductServices',
     name: 'ProductServices ',
     element: ProductServices,
+  },
+  {
+    path: '/Settings/UserRoles',
+    name: 'UserRoles ',
+    element: UserRoles,
   }
 
 

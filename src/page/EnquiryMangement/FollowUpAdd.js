@@ -34,9 +34,9 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
   // Validation schema using Yup
   const validationSchema = Yup.object({
     enqId: Yup.string().required('enqId is required'),
-    followUpDetails: Yup.string().required('followUpDetails is required'),
-    nextContactDate: Yup.string().required('nextContactDate is required'),
-    remarks:Yup.string().required('remarks is required'),
+    followUpDetails: Yup.string().required('Follow Up Details is required'),
+    nextContactDate: Yup.string().required('Next Contact Date is required'),
+    remarks:Yup.string().required('Remark is required'),
   });
 
   const formik = useFormik({
@@ -88,17 +88,18 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
    
       <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontSize: '18px' }}>Add FollowUp</Modal.Title>
+          <Modal.Title className='modal-title'>Add FollowUp</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
+      <Container>
           <Form onSubmit={formik.handleSubmit}>
            
             <Form.Group className="mb-3" controlId="nextContactDate">
             <Form.Label style={{ fontSize: '14px' }}>Next Contact Date</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
                 name="nextContactDate"
+                placeholder='Contact Date'
                 value={formik.values.nextContactDate}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -113,6 +114,7 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
               <Form.Control
                 as="textarea"
                 name="followUpDetails"
+                placeholder='Details'
                 value={formik.values.followUpDetails}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -123,10 +125,11 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="remarks">
-            <Form.Label style={{ fontSize: '14px' }}>Remarks</Form.Label>
+            <Form.Label style={{ fontSize: '14px' }}>Remark</Form.Label>
               <Form.Control
                 as="textarea"
                 name="remarks"
+                placeholder='Remark'
                 value={formik.values.remarks}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -137,6 +140,7 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
             </Form.Group>
             
           </Form>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

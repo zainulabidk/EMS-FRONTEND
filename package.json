@@ -1,14 +1,14 @@
 {
   "name": "@coreui/coreui-free-react-admin-template",
   "version": "4.5.0",
-  "description": "",
-  "homepage": ".",
+  "description": "[![@coreui coreui](https://img.shields.io/badge/@coreui%20-coreui-lightgrey.svg?style=flat-square)](https://github.com/coreui/coreui) [![npm package][npm-coreui-badge]][npm-coreui] [![NPM downloads][npm-coreui-download]][npm-coreui]   [![@coreui react](https://img.shields.io/badge/@coreui%20-react-lightgrey.svg?style=flat-square)](https://github.com/coreui/react) [![npm package][npm-coreui-react-badge]][npm-coreui-react] [![NPM downloads][npm-coreui-react-download]][npm-coreui-react]",
+  "homepage": "http://.",
   "bugs": {
     "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
+    "url": "git+ssh://git@github.com/coreui/coreui-free-react-admin-template.git"
   },
   "license": "MIT",
   "author": "The CoreUI Team (https://github.com/orgs/coreui/people)",
@@ -81,5 +81,6 @@
   "engines": {
     "node": ">=10",
     "npm": ">=6"
-  }
+  },
+  "main": ".eslintrc.js"
 }

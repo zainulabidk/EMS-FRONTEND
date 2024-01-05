@@ -3,7 +3,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import './../style/view.css';
+import './style/view.css';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function ViewModal({ showModal, handleClose, selectedDatas }) {
@@ -11,14 +11,15 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
 
 
   return (
-    <Modal show={showModal} onHide={handleClose}  backdrop="static" centered>
+    <Modal show={showModal} onHide={handleClose}  backdrop="static" centered className='view-modal'>
       <Modal.Header closeButton>
         <Modal.Title>View  Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
 
       <Container>
-          <Row>
+          <Row className='first-row'>
+            <h5>Details</h5>
             <Col md={3}>
             <p className='view-label'>EnqNo:</p>
             <p className='view-data'> {selectedDatas?.enqNo}</p>
@@ -38,7 +39,8 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
             </Col>
             </Row>
 
-            <Row>
+            <Row className='first-row'>
+            <h5>Details</h5>
             <Col md={3}>
               <p className='view-label'>Mobile</p>
               <p className='view-data'> {selectedDatas?.mobile}</p>
@@ -59,7 +61,8 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
             </Col>
            
             </Row>
-            <Row>
+            <Row className='first-row'>
+            <h5>Details</h5>
             <Col md={3}>
               <p className='view-label'>EnqSource</p>
               <p className='view-data'> {selectedDatas?.enqSource?.name}</p>
@@ -80,8 +83,8 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
            
             </Row>
            
-            <Row>
-
+            <Row className='first-row'>
+            <h5>Details</h5>
             <Col md={3}>
               <p className='view-label'>LeadQuality</p>
               <p className='view-data'> {selectedDatas?.leadQuality}</p>

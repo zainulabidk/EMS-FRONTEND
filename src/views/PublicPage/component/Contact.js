@@ -7,28 +7,19 @@ import img1 from '../images/photo-1541963463532-d68292c34b19.avif'
 export default function Contact() {
   return (
     <Container className='contact'>
-        <Row classNamme="mb-5 mt-3">
-            {/* <Col lg="8">
-                <h1 className='display-4 mb-4'>
-                    Contact ME
-                </h1>
-            </Col> */}
-        </Row>
+        <div class="service-title">
+
+<h6>contact us</h6>
+<h2 className='mb-4'>Get in Touch</h2>
+</div>
+        
 
         <Row className="ctn_div">
             <Col lg="5" className='ctn-dlt'>
-                <h3 className='colo-sec py-4'>Get in Touch</h3>
-                <address>
-                    <p>Email : inqport@gmail.com</p>
-           
-                      <>Phone :+91 8272 822 ***</>
-                  
-                        <p>Address : 1540 Pecks Ridge Tilton Rd Flemingsburg.</p>
-               
-                </address>
-                {/* <img src={img1} width={100} height={100} alt="Loading" /> */}
-      <img src={img2} width={200} height={200} alt="" />          
-           {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p> */}
+                {/* <h3 className='colo-sec py-4 text-center mb-4'>Get in Touch</h3> */}
+
+         <img src={img2} width={'100%'}  alt="" />          
+          
             </Col>
 
             <Col lg="7" className='d-flex align-item-center'>
@@ -56,7 +47,8 @@ export default function Contact() {
                  <br/>
                  <Row>
                     <Col lg="12" className='frm-btn'>
-                        <button className='btn ctn-btn' type='submit'>SEND</button>
+                      
+                        <button className='ctn-btn'>Send</button>
                     </Col>
                  </Row>
                 </form>

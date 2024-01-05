@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './views/pages/AuthContext';
- 
+ import './App.css'
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>

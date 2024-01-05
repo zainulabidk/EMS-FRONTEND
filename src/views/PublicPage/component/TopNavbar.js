@@ -15,7 +15,7 @@ const TopNavbar = () => {
     },
     {
       path: '/ ',
-      name: "Services",
+      name: "Features",
     },
     {
       path: '/ ',
@@ -46,7 +46,7 @@ const handlclick = () => {
             ))}
           </Nav>
           <Nav className='ms-auto' >
-            <button className="btn btn-success" onClick={handlclick} >Login</button>
+            <button className=" lg-btn" onClick={handlclick} >Login</button>
           </Nav>
         </Navbar.Collapse>
       </Container>

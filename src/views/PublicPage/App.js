@@ -4,6 +4,7 @@ import TopNavbar from './component/TopNavbar'
 import Service from './component/Service'
 import Contact from './component/Contact'
 import Footer from './component/Footer'
+import About from './component/About'
 import './component/style.css'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <div>
     <TopNavbar/>
     <Home/>
+    <About/>
     <Service/>
        <Contact/>
       <Footer/>

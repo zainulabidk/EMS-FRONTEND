@@ -114,31 +114,12 @@ useEffect(() => {
   });
 
 
-   
-
-  //       toast.success('Data successfully added', {
-  //         position: toast.POSITION.TOP_RIGHT,
-  //         autoClose: 1000,
-  //         className: 'toast-message',
-  //       });
-
-  //       handleClose();
-  //     } catch (error) {
-  //       console.error('Error adding user:', error);
-  //       toast.error('Error adding user. Please try again.', {
-  //         position: toast.POSITION.TOP_RIGHT,
-  //         autoClose: 2000,
-  //         className: 'toast-message',
-  //       });
-  //     }
-  //   },
-  // });
 
 
   return (
     <>
       <ToastContainer autoClose={50000} />
-      <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
+      <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600',marginBottom:'10px'  }} onClick={handleShow}>
         + New
       </Button>
 
@@ -226,13 +207,42 @@ useEffect(() => {
            
                     />
                     {formik.touched.mobile && formik.errors.mobile ? (
-                      <div className="error">
+                      <div className="error ">
                         {formik.errors.mobile}
                       </div>
                     ) : null}
                   </Form.Group>
                 </Col>
-
+                
+<Col md={6}>
+  <Form.Group className="mb-3" style={{ position: 'relative' }} controlId="password">
+    <Form.Label style={{ fontSize: '14px' }}>Password</Form.Label>
+    <div className="password-input-container">
+      <Form.Control
+        type={showPassword ? 'text' : 'password'}
+        name="password"
+        placeholder="Password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={() => formik.setFieldTouched('password', true)}
+        onFocus={() => formik.setFieldTouched('password', false)}
+        className={(formik.touched.password && formik.errors.password)}
+        autoComplete="new-password"  // Add this line
+      />
+      <div className="input-group-append">
+        <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
+          {showPassword ? <BsEye /> : <BsEyeSlash />}
+        </div>
+      </div>
+    </div>
+    {formik.touched.password && formik.errors.password ? (
+      <div className="error">
+        {formik.errors.password}
+      </div>
+    ) : null}
+  </Form.Group>
+</Col>
+{/* 
                 <Col md={6}>
   <Form.Group className="mb-3 "style={{position:'relative'}} controlId="password">
   <Form.Label style={{fontSize:'14px'}}>Password</Form.Label>
@@ -244,7 +254,7 @@ useEffect(() => {
   onChange={formik.handleChange}
   onBlur={() => formik.setFieldTouched('password', true)}
   onFocus={() => formik.setFieldTouched('password', false)}
-  className={(formik.touched.password && formik.errors.password) ? 'error-border' : ''}
+  className={(formik.touched.password && formik.errors.password) }
   autoComplete="new-password"  // Add this line
 />
 
@@ -259,7 +269,7 @@ useEffect(() => {
       </div>
     ) : null}
   </Form.Group>
-</Col>
+</Col> */}
                 <Col md={6}>
                   <Form.Group  className="mb-3 " controlId="confirmPassword">
                   <Form.Label style={{fontSize:'14px'}}>Confirm Password</Form.Label>
@@ -271,7 +281,7 @@ useEffect(() => {
   onChange={formik.handleChange}
   onBlur={() => formik.setFieldTouched('confirmPassword', true)}
   onFocus={() => formik.setFieldTouched('confirmPassword', false)} 
-  className={(formik.touched.confirmPassword && formik.errors.confirmPassword) ? 'error-border' : ''}
+  className={(formik.touched.confirmPassword && formik.errors.confirmPassword)}
   autoComplete="new-password"  // Add this line
 />
 
@@ -284,6 +294,8 @@ useEffect(() => {
                   </Form.Group>
                 </Col>
                 <Col md={6}>
+                <Form.Group  className="mb-3 " controlId="confirmPassword">
+                  <Form.Label style={{fontSize:'14px'}}>User Role</Form.Label>
                 <Form.Select
   className='input-controll'
   name="userRoles"
@@ -301,6 +313,7 @@ useEffect(() => {
 ))}
 
 </Form.Select>
+</Form.Group>
 </Col>
                 
               </Row>

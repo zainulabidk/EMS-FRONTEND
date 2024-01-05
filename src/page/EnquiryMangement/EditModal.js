@@ -7,7 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import "./Tab.css";
+import "./style/Tab.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -216,9 +216,10 @@ useEffect(() => {
       <ToastContainer autoClose={1000}/>
     <Modal show={showModal} onHide={handleModalHide} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered  className="custom-modal" >
       <Modal.Header closeButton>
-        <Modal.Title>Edit Enquiries</Modal.Title>
+        <Modal.Title className='modal-title'>Edit Enquiries</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      <Container>
       <Form onSubmit={formik.handleSubmit}>
         <div className='App'>
 
@@ -239,31 +240,10 @@ useEffect(() => {
 
 <div className='contents'>
     <div className={`${toggle === 1 ? 'content active-content' :'content'}`}>
-    <Row>
-                <Col md={6}>
-            <Form.Group className="mb-3 " controlId="enqNo">
-         
-              <Form.Control
-                type="text"       
-                name="enqNo"
-                value={formik.values.enqNo}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{marginTop:'5px'}}
-              />
-          {formik.touched.enqNo && formik.errors.enqNo ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqNo}</div>
-              ) : null}
-              
-        
-          
-            </Form.Group>
-
-          </Col>
-          
+    <Row> 
           <Col md={6}>
             <Form.Group className="mb-3" controlId="fName">
-         
+            <Form.Label style={{fontSize:'14px'}}>First Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="FirstName"
@@ -278,14 +258,50 @@ useEffect(() => {
               ) : null}
           
             </Form.Group>
-            </Col>    
+            </Col>   
+             
+            <Col md={6}>
+            <Form.Group className="mb-3" controlId="lName"> 
+            <Form.Label style={{fontSize:'14px'}}>Last Name</Form.Label>    
+              <Form.Control
+                type="text"
+                placeholder="LastName"
+                name="lName"
+                value={formik.values.lName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                
+              />
+           {formik.touched.lName && formik.errors.lName ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.lName}</div>
+              ) : null}
+          
+            </Form.Group>
+            </Col>
 
-   </Row>
-   <Row>
-        
-       
+            <Col md={6}>
+            <Form.Group className="mb-3" controlId="referenceId">
+            <Form.Label style={{fontSize:'14px'}}>Reference Id</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="ReferenceId"
+                name="referenceId"
+                value={formik.values.referenceId}
+                onChange={formik.handleChange}         
+                onBlur={formik.handleBlur}
+               style={{marginTop:'-10px'}}
+              />
+               {formik.touched.referenceId && formik.errors.referenceId ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+              ) : null}
+          
+          
+            </Form.Group>
+            
+            </Col>
             <Col md={6}>
   <Form.Group className="mb-3" controlId="leadQuality">
+  <Form.Label style={{fontSize:'14px'}}>Lead Quality</Form.Label>
     <Form.Control
       as="select"
       name="leadQuality"
@@ -309,47 +325,10 @@ useEffect(() => {
               ) : null}
   </Form.Group>
 </Col>
+  
 <Col md={6}>
-            <Form.Group className="mb-3" controlId="lName">           
-              <Form.Control
-                type="text"
-                placeholder="LastName"
-                name="lName"
-                value={formik.values.lName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                
-              />
-           {formik.touched.lName && formik.errors.lName ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.lName}</div>
-              ) : null}
-          
-            </Form.Group>
-            </Col>
-          
-            <Col md={6}>
-            <Form.Group className="mb-3" controlId="referenceId">
-          
-              <Form.Control
-                type="text"
-                placeholder="ReferenceId"
-                name="referenceId"
-                value={formik.values.referenceId}
-                onChange={formik.handleChange}         
-                onBlur={formik.handleBlur}
-               style={{marginTop:'-10px'}}
-              />
-               {formik.touched.referenceId && formik.errors.referenceId ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
-              ) : null}
-          
-          
-            </Form.Group>
-            
-            </Col>
-           
-            <Col md={6}>
   <Form.Group className="mb-3" controlId="remarks">
+  <Form.Label style={{fontSize:'14px'}}>Remarks</Form.Label>
     <Form.Control
       as="textarea"
       placeholder="Remarks"
@@ -367,8 +346,9 @@ useEffect(() => {
 </Col>
 
 
-            <Col md={6}>
-            <Form.Group className="mb-3" controlId="enqDescp">       
+<Col md={6}>
+            <Form.Group className="mb-3" controlId="enqDescp">
+            <Form.Label style={{fontSize:'14px'}}>Description</Form.Label>              
               <Form.Control
                 as="textarea"
                 placeholder="enqDescp"
@@ -384,27 +364,8 @@ useEffect(() => {
           
             </Form.Group>
             </Col>
-          
-            <Col md={6}>
-            <Form.Group className="mb-3" controlId="status">
-          
-              <Form.Control
-                type="text"
-                placeholder="status"
-                name="status"
-                value={formik.values.status}
-                onChange={formik.handleChange}         
-                onBlur={formik.handleBlur}
-               style={{marginTop:'-10px'}}
-              />
-               {formik.touched.status && formik.errors.status ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.status}</div>
-              ) : null}
-          
-          
-            </Form.Group>
-            
-            </Col>
+
+   
           
             </Row>
     </div>
@@ -413,9 +374,102 @@ useEffect(() => {
     <Row>
 
     <Col md={6}>
+              <Form.Group className="mb-3" controlId="email">
+              <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
+                <Form.Control
+                type="email"       
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+           {formik.touched.email && formik.errors.email ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.email}</div>
+              ) : null}
+              </Form.Group>
+               </Col>
+
+               <Col md={6}>
+              <Form.Group className="mb-3" controlId="mobile">
+              <Form.Label style={{fontSize:'14px'}}>Mobile</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Mobile"
+                  name="mobile"
+                  value={formik.values.mobile}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+               {formik.touched.mobile && formik.errors.mobile ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.mobile}</div>
+              ) : null}
+            
+              </Form.Group>
+  
+              </Col>
+
+              <Col md={6}>
+  
+              <Form.Group className="mb-3" controlId="location">
+              <Form.Label style={{fontSize:'14px'}}>Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Location"
+                  name="location"
+                  value={formik.values.location}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+               {formik.touched.location && formik.errors.location ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.location}</div>
+              ) : null}
+              </Form.Group>
+              </Col>
+
+              <Col md={6}>
+              <Form.Group className="mb-3" controlId="district">
+              <Form.Label style={{fontSize:'14px'}}>District</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="District"
+                  name="district"
+                  value={formik.values.district}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+        
+                />
+                {formik.touched.district && formik.errors.district ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.district}</div>
+              ) : null}
+            
+              </Form.Group>
+                </Col>
+                <Col md={6}>
+                <Form.Group className="mb-3" controlId="state">
+                <Form.Label style={{fontSize:'14px'}}>State</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="State"
+                  name="state"
+                  value={formik.values.state}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+        
+                />
+              {formik.touched.state && formik.errors.state ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.state}</div>
+              ) : null}
+            
+              </Form.Group>
+           </Col>
+               
+                
+
+            
+    <Col md={6}>
   <Form.Group className="mb-3" controlId="gender">
   <Form.Label style={{ fontSize: '14px'}}>Gender</Form.Label>
-    <div className="radio-group" style={{ marginTop: '-13px' }} >
+    <div className="radio-group"  >
       <Form.Check
         type="radio"
         label="Male"
@@ -440,7 +494,7 @@ useEffect(() => {
       />
         <Form.Check
         type="radio"
-        label="other"
+        label="Other"
         name="gender"
         id="other"
         value="other"
@@ -461,165 +515,70 @@ useEffect(() => {
            
              </Row>
     
-         <Row>  
-     <Col md={6}>
-  
-              <Form.Group className="mb-3" controlId="location">
-             
-                <Form.Control
-                  type="text"
-                  placeholder="Location"
-                  name="location"
-                  value={formik.values.location}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-               {formik.touched.location && formik.errors.location ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.location}</div>
-              ) : null}
-              </Form.Group>
-              </Col>
-              <Col md={6}>
-              <Form.Group className="mb-3" controlId="email">
-              
-                <Form.Control
-                type="email"       
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-           {formik.touched.email && formik.errors.email ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.email}</div>
-              ) : null}
-              </Form.Group>
-               </Col>
-
-               <Col md={6}>
-              <Form.Group className="mb-3" controlId="mobile">
-                <Form.Control
-                  type="text"
-                  placeholder="Mobile"
-                  name="mobile"
-                  value={formik.values.mobile}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-               {formik.touched.mobile && formik.errors.mobile ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.mobile}</div>
-              ) : null}
-            
-              </Form.Group>
-  
-              </Col>
-              <Col md={6}>
-              <Form.Group className="mb-3" controlId="district">
-           
-                <Form.Control
-                  type="text"
-                  placeholder="District"
-                  name="district"
-                  value={formik.values.district}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-        
-                />
-                {formik.touched.district && formik.errors.district ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.district}</div>
-              ) : null}
-            
-              </Form.Group>
-                </Col>
-               
-              </Row>
-              <Row>
-          
-        
-                <Col md={6}>
-                <Form.Group className="mb-3" controlId="state">
-                <Form.Control
-                  type="text"
-                  placeholder="State"
-                  name="state"
-                  value={formik.values.state}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-        
-                />
-              {formik.touched.state && formik.errors.state ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.state}</div>
-              ) : null}
-            
-              </Form.Group>
-           </Col>
-
-
-           </Row>
+    
     </div>
               
     <div className={`${toggle === 3 ? 'content active-content' :'content'}`}>
      <Row>
-       <Col md={6}>
+     <Col md={6}>
 
  
- <Form.Group className="mb-3" controlId="enqSource">
-   
-    <Form.Control
-      as="select"
-      name="enqSource"
-      value={formik.values.enqSource}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      className={`form-select ${formik.touched.enqSource && formik.errors.enqSource ? 'is-invalid' : ''}`}
-   >
-      <option value="" disabled>
-        Enquiry Source
-      </option>
-       {enquirySources.map(source => (
-        <option key={source._id} value={source._id}>
-          {source.name}
-        </option>
-      ))}
-    </Form.Control>
-    {formik.touched.enqSource && formik.errors.enqSource ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqSource}</div>
-              ) : null}
-  </Form.Group>
+<Form.Group className="mb-3" controlId="enqSource">
+<Form.Label style={{fontSize:'14px'}}>Enquiry Source</Form.Label>
+   <Form.Control
+     as="select"
+     name="enqSource"
+     value={formik.values.enqSource}
+     onChange={formik.handleChange}
+     onBlur={formik.handleBlur}
+     className={`form-select ${formik.touched.enqSource && formik.errors.enqSource ? 'is-invalid' : ''}`}
+  >
+     <option value="" disabled>
+       Enquiry Source
+     </option>
+      {enquirySources.map(source => (
+       <option key={source._id} value={source._id}>
+         {source.name}
+       </option>
+     ))}
+   </Form.Control>
+   {formik.touched.enqSource && formik.errors.enqSource ? (
+               <div className="error" style={{color:'red'}}>{formik.errors.enqSource}</div>
+             ) : null}
+ </Form.Group>
 </Col>
-
-        <Col md={6}>
+<Col md={6}>
          
    
-              <Form.Group className="mb-3" controlId="enqType">
-            
-              <Form.Control
-                as="select"
-                name="enqType"
-                value={formik.values.enqType}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`form-select ${formik.touched.enqType && formik.errors.enqType ? 'is-invalid' : ''}`}
-                >
-                <option value="" disabled selected >
-                   Enquiry Type
-                </option>
-                {enquiryType.map(type => (
-                  <option key={type._id} value={type._id}>
-                    {type.name}
-                  </option>
-                ))}
-              </Form.Control>
-              {formik.touched.enqType && formik.errors.enqType ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqType}</div>
-              ) : null}
-            </Form.Group>
+         <Form.Group className="mb-3" controlId="enqType">
+         <Form.Label style={{fontSize:'14px'}}>Enquiry Type</Form.Label>
+         <Form.Control
+           as="select"
+           name="enqType"
+           value={formik.values.enqType}
+           onChange={formik.handleChange}
+           onBlur={formik.handleBlur}
+           className={`form-select ${formik.touched.enqType && formik.errors.enqType ? 'is-invalid' : ''}`}
+           >
+           <option value="" disabled selected >
+              Enquiry Type
+           </option>
+           {enquiryType.map(type => (
+             <option key={type._id} value={type._id}>
+               {type.name}
+             </option>
+           ))}
+         </Form.Control>
+         {formik.touched.enqType && formik.errors.enqType ? (
+           <div className="error" style={{color:'red'}}>{formik.errors.enqType}</div>
+         ) : null}
+       </Form.Group>
 </Col>
-</Row>
-<Row>
+
 <Col md={6}>
             
                  <Form.Group className="mb-3" controlId="enqMode">
-             
+                 <Form.Label style={{fontSize:'14px'}}>Enquiry Mode</Form.Label>
               <Form.Control
                 as="select"
                 name="enqMode"
@@ -644,73 +603,114 @@ useEffect(() => {
               ) : null}
     </Form.Group>
     </Col>
+    <Col md={6}>
       
-                <Col md={6}>
-      
-             <Form.Group className="mb-3" controlId="enqTo">
+      <Form.Group className="mb-3" controlId="enqTo">
+      <Form.Label style={{fontSize:'14px'}}>Enquiry To</Form.Label>
+       <Form.Control
+         as="select"
+         name="enqTo"
+         value={formik.values.enqTo}
+         onChange={formik.handleChange}
+         onBlur={formik.handleBlur}
+        className={`form-select ${formik.touched.enqTo && formik.errors.enqTo ? 'is-invalid' : ''}`}
+
+
+       >
+         <option value="" disabled>
+          Enquiry To
+         </option>
+         {enqTo.map(to => (
+           <option key={to._id} value={to._id}>
+             {to.name}
+           </option>
+         ))}
+       </Form.Control>
+       {formik.touched.enqTo && formik.errors.enqTo ? (
+         <div className="error" style={{color:'red'}}>{formik.errors.enqTo}</div>
+       ) : null}
+     </Form.Group>
+     </Col>
+
+     <Col md={6}>
+          
+          <Form.Group className="mb-3" controlId="supportType">
+          <Form.Label style={{fontSize:'14px'}}>Support Type</Form.Label>
+               <Form.Control
+                 as="select"
+                 name="supportType"
+                 value={formik.values.supportType}
+                 onChange={formik.handleChange}
+                 onBlur={formik.handleBlur}
+                 className={`form-select ${formik.touched.supportType && formik.errors.supportType ? 'is-invalid' : ''}`}
+                 >
+                 <option value="" disabled>
+                   Support Type
+                 </option>
+                 {supportType.map(support => (
+                   <option key={support._id} value={support._id}>
+                      {support.name}
+                   </option>
+                 ))}
+               </Form.Control>
+               {formik.touched.supportType && formik.errors.supportType ? (
+                 <div className="error" style={{color:'red'}}>{formik.errors.supportType}</div>
+               ) : null}
+             </Form.Group>
+             </Col>
+
+     {/* <Col md={6}>
+            <Form.Group className="mb-3" controlId="status">
+          
               <Form.Control
-                as="select"
-                name="enqTo"
-                value={formik.values.enqTo}
+                type="text"
+                placeholder="status"
+                name="status"
+                value={formik.values.status}
+                onChange={formik.handleChange}         
+                onBlur={formik.handleBlur}
+               style={{marginTop:'-10px'}}
+              />
+               {formik.touched.status && formik.errors.status ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.status}</div>
+              ) : null}
+          
+          
+            </Form.Group>
+            
+            </Col>
+       
+<Col md={6}>
+            <Form.Group className="mb-3 " controlId="enqNo">
+         
+              <Form.Control
+                type="text"       
+                name="enqNo"
+                value={formik.values.enqNo}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-               className={`form-select ${formik.touched.enqTo && formik.errors.enqTo ? 'is-invalid' : ''}`}
+                style={{marginTop:'5px'}}
+              />
+          {formik.touched.enqNo && formik.errors.enqNo ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.enqNo}</div>
+              ) : null}
+              
+        
+          
+            </Form.Group>
+
+          </Col> */}
 
        
-              >
-                <option value="" disabled>
-                 Enquiry To
-                </option>
-                {enqTo.map(to => (
-                  <option key={to._id} value={to._id}>
-                    {to.name}
-                  </option>
-                ))}
-              </Form.Control>
-              {formik.touched.enqTo && formik.errors.enqTo ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqTo}</div>
-              ) : null}
-            </Form.Group>
-            </Col>
+</Row>
 
-               
-          </Row>
-         <Row> 
-             <Col md={6}>
-          
-         <Form.Group className="mb-3" controlId="supportType">
-           
-              <Form.Control
-                as="select"
-                name="supportType"
-                value={formik.values.supportType}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`form-select ${formik.touched.supportType && formik.errors.supportType ? 'is-invalid' : ''}`}
-                >
-                <option value="" disabled>
-                  Support Type
-                </option>
-                {supportType.map(support => (
-                  <option key={support._id} value={support._id}>
-                     {support.name}
-                  </option>
-                ))}
-              </Form.Control>
-              {formik.touched.supportType && formik.errors.supportType ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.supportType}</div>
-              ) : null}
-            </Form.Group>
-            </Col>
-          
-
-
-    </Row>
+     
     </div>
 
 </div>
     </div>
     </Form>
+    </Container>
     </Modal.Body>
     <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

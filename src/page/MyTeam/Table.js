@@ -12,8 +12,13 @@ import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-so
 import AddModal from './AddModal';
 import '../style/table.css';
 import Filter from './Filter';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useRef } from 'react';
+
+
 
 function Table() {
+
   const [filterValue, setFilterValue] = useState('');
   const [datas, setDatas] = useState([]);
   const [search, setSearch] = useState("");
@@ -25,7 +30,11 @@ function Table() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [roleOptions, setRoleOptions] = useState([]);
-  const [query, setQuery] = useState('');    //filter
+  const [query, setQuery] = useState(''); 
+  const navRef = useRef();  
+    const showNavbar = () => {
+    navRef.current.classList.toggle("responsive_nav");
+}
   useEffect(() => {
     const fetchUserRoles = async () => {
       try {
@@ -141,13 +150,13 @@ function Table() {
       cell: (row) => (
         <>
           <div>
-            <Button style={{ paddingLeft: '0px' }} className='btn btn-1 mx-1' onClick={() => handleEdit(row)}>
+            <Button className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
               <FontAwesomeIcon icon={faEdit} />
             </Button>
-            <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
+            <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
               <FontAwesomeIcon icon={faEye} />
             </Button>
-            <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+            <Button className='btn btn-3  me-3 ps-0' onClick={() => handleClickDelete(row)}>
               <FontAwesomeIcon icon={faTrash} />
             </Button>
           </div>
@@ -200,34 +209,79 @@ function Table() {
           highlightOnHover
           subHeader
           subHeaderComponent={
-            <div className='table-top'>
-              <div>
-                <AddModal getDatas={getDatas} />
-              </div>
-              <div className="search-input-container">
-                <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                <input
-                  type='text'
-                  placeholder='Search'
-                  className='w-35 search-control'
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', width: '45%', justifyContent: 'space-between' }}>
-                <div>
-                <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+            // <div className='table-top container-fluid'>
+            //   <div className='row'>
+            //     <div className='col-md-7'>
+            //       <div className='row d-flex justify-content-between'>
+            //       <div className='col-5 col-sm-4 d-flex justify-content-start'>
+            //       <AddModal getDatas={getDatas} />
+            //       </div>
+            //       <div className='col-7 col-sm-5 search-input-container'>
+            //       <FontAwesomeIcon icon={faSearch} className='search-icon' />
+            //       <input
+            //         type='text'
+            //         placeholder='Search'
+            //         className='w-100 search-control'
+            //         value={search}
+            //         onChange={(e) => setSearch(e.target.value)}
+            //       />
+            //     </div>
+            //     </div>
+            //     </div>
+             
+            //     <div className='col-md-5'>
+            //     <div className='row  d-flex justify-content-end'>
+            //       <div className='col-8 col-sm-7 '>
+            //         <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+            //       </div>
+            //       <div className=' col-4 col-sm-3 col-lg-4 col-xl-3' >
+            //         <div className='count-div'>
+            //         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+            //         <span>{' '} {totalCount}</span>
+            //         </div>
+            //       </div>
+            //       </div>
+            //     </div>
+            //   </div>
+            // </div>
 
-                </div>
-                <div className='count-div'>
-                  <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-                  <span>{' '}Results: {totalCount}</span>
-                </div>
-                <div>
-                  {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-                </div>
-              </div>
-            </div>
+            <div className='table-top'>
+         
+            <div  className='left-div'>
+                 <div>
+                   <AddModal getDatas={getDatas} />
+                 </div>
+                 <div className="search-input-container">
+                   <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                   <input
+                     type='text'
+                     placeholder='Search'
+                     className='w-35 search-control'
+                     value={search}
+                     onChange={(e) => setSearch(e.target.value)}
+                   />
+                 </div>
+                 </div>
+                 
+                 <div  ref={navRef} className='right-div'>
+                   <div className='inner-div'>
+                   <div className='count-div me-2'>
+                     <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+                     <span>{' '}Results: {totalCount}</span>
+                   </div>
+                   <div>
+                     {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+                     <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                   </div>
+                   </div>
+                   <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+                <FaTimes/>
+           </button>
+                 </div>
+                 <button className='nav-btn' onClick={showNavbar}>
+           <FaBars/>
+       </button>
+               </div>
           }
           subHeaderAlign='right'
         />

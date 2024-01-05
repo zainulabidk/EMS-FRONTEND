@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
- 
+import './login.css';
 
 import {
   CButton,
@@ -27,6 +27,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
 
   
   const handleLogin = async () => {
@@ -67,14 +68,18 @@ const Login = () => {
       <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
         <CContainer>
           <CRow className="justify-content-center">
-            <CCol md={8}>
+            <CCol md={10}>
               <CCardGroup>
-                <CCard className="p-4">
+                <CCard className="">
                   <CCardBody>
-                    <CForm>
-                      <h1>Login</h1>
+                    <CForm className="login-frm" autoComplete="on"> 
+                      <h3>Login Account</h3 >
                       <p className="text-medium-emphasis">
-                        Sign In to your account
+                      Don't have an account?
+                      <CButton color="link" className="px-0 ">
+                      Login
+                          </CButton>
+
                       </p>
                       <CInputGroup className="mb-3">
                         <CInputGroupText>
@@ -87,7 +92,7 @@ const Login = () => {
                           onChange={(e) => setEmail(e.target.value)}
                         />
                       </CInputGroup>
-                      <CInputGroup className="mb-4">
+                      <CInputGroup className="mb-2">
                         <CInputGroupText>
                           <CIcon icon={cilLockLocked} />
                         </CInputGroupText>
@@ -100,46 +105,34 @@ const Login = () => {
                         />
                       </CInputGroup>
                       <CRow>
-                        <CCol xs={6}>
-                          <CButton
-                            color="primary"
-                            className="px-4"
-                            onClick={handleLogin}
-                          >
-                            Login
-                          </CButton>
-                        </CCol>
                         <CCol xs={6} className="text-right">
-                          <CButton color="link" className="px-0">
+                          <CButton color="link" className="px-0 mb-4">
                             Forgot password?
                           </CButton>
                         </CCol>
                       </CRow>
+                      <CCol xs={12} className=" d-flex justify-content-end">
+                          <CButton
+                            className="px-4 lg-btn"
+                            onClick={handleLogin}
+                          >
+                            LOGIN
+                          </CButton>
+                        </CCol>
                     </CForm>
                   </CCardBody>
                 </CCard>
                 <CCard
-                  className="text-white bg-primary py-5"
+                  className="text-white login-right py-5"
                   style={{ width: "44%" }}
                 >
-                  <CCardBody className="text-center">
+                  <CCardBody className="">
                     <div>
-                      <h2>Sign up</h2>
+                      <h2 className="mb-4">WELCOME BACK</h2>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua.
+                     An  Inqportal improves customer satisfaction by streamlining inquiries through a user-friendly form and a central tracking dashboard. It enhances efficiency with efficient communication tools for resolving inquiries.
                       </p>
-                      <Link to="/register">
-                        <CButton
-                          color="primary"
-                          className="mt-3"
-                          active
-                          tabIndex={-1}
-                        >
-                          Register Now!
-                        </CButton>
-                      </Link>
+                    <div className="line"></div>
                     </div>
                   </CCardBody>
                 </CCard>

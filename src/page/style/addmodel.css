@@ -8,10 +8,12 @@
 .modal {
   --bs-modal-padding: 13px 32px;
 }
+.modal-title{
+  font-size: 18px;
+}
 
 .modal-footer {
-  margin: -11px 25px 15px 0px;
-  padding-top: 15px;
+  padding: 15px 30px 15px 30px;
 }
 
 .form-label {
@@ -42,7 +44,7 @@
   padding: 10px 10px !important;
 }
 
-.floating-label-group {
+/* .floating-label-group {
   position: relative;
   margin-bottom: 20px;
   height: 60px;
@@ -75,16 +77,25 @@
 
 .floating-label-group input:not(:placeholder-shown) {
   border-color: #007bff;
-}
-
+} */
+/* 
 .error-border {
   border-color: red !important;
+} */
+.password-input-container {
+  position: relative;
 }
 
+.password-toggle-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+}
 .error {
   font-size: 13px;
   font-weight: 400;
-  padding: 0px 11px;
   color: red;
 }
 
@@ -97,13 +108,19 @@
   width: 55px;
 }
 
-.form-check-input {
+/* .form-check-input {
   height: 25px;
-}
+} */
 
 /* Add the following to adjust the modal width */
 .modal-content {
   max-width: 570px;
   margin: auto;
+}
+.modal-body {
+  padding: 12px 22px ;
+}
+.modal-title {
+    color: #0000009e !important;
 }
 

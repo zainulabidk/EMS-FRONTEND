@@ -8,6 +8,7 @@ import EditModal from './EditModal';
 import ViewModal from './ViewModal';
 import Button from 'react-bootstrap/Button';
 import '../../style/table.css'
+import Filter from './Filter';
 import { ModalHeader } from 'react-bootstrap';
 import AddModal from './AddModal'
 // Import necessary FontAwesome components
@@ -15,6 +16,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useRef } from 'react';
+
 
 
 function Table() {
@@ -27,6 +31,12 @@ function Table() {
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [query, setQuery] = useState('');  
+  const [filterValue, setFilterValue] = useState(''); 
+  const navRef = useRef();  
+const showNavbar = () => {
+navRef.current.classList.toggle("responsive_nav");
+}
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -175,28 +185,69 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-          <div className='table-top'>
-              <div ><AddModal getDatas={getDatas}  /></div>
-              <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
-                <div>
-                  <div className="search-input-container">
-                    <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="w-35 form-control-srch"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </div>
-                </div>
+        //   <div className='table-top'>
+        //       <div ><AddModal getDatas={getDatas}  /></div>
+        //       <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
+        //         <div>
+        //           <div className="search-input-container">
+        //             <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        //             <input
+        //               type="text"
+        //               placeholder="Search"
+        //               className="w-35 form-control-srch"
+        //               value={search}
+        //               onChange={(e) => setSearch(e.target.value)}
+        //             />
+        //           </div>
+        //         </div>
 
-                <div className='count-div'>
-                  <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-                  <span>{' '}Results: {totalCount}</span>
-                </div>
-              </div>
-          </div>
+        //         <div className='count-div'>
+        //           <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+        //           <span>{' '}Results: {totalCount}</span>
+        //         </div>
+        //         <div>
+        //          {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+        //          <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+        //        </div>
+        //       </div>
+        //   </div>
+        <div className='table-top'>
+         
+        <div  className='left-div'>
+             <div>
+               <AddModal getDatas={getDatas} />
+             </div>
+             <div className="search-input-container">
+               <FontAwesomeIcon icon={faSearch} className="search-icon" />
+               <input
+                 type='text'
+                 placeholder='Search'
+                 className='w-35 search-control'
+                 value={search}
+                 onChange={(e) => setSearch(e.target.value)}
+               />
+             </div>
+             </div>
+             
+             <div  ref={navRef} className='right-div'>
+               <div className='inner-div'>
+               <div className='count-div me-2'>
+                 <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+                 <span>{' '}Results: {totalCount}</span>
+               </div>
+               <div>
+                 {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+                 <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+               </div>
+               </div>
+               <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+            <FaTimes/>
+       </button>
+             </div>
+             <button className='nav-btn' onClick={showNavbar}>
+       <FaBars/>
+   </button>
+           </div>
         }
         subHeaderAlign='right'
       />

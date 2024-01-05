@@ -13,6 +13,8 @@ import { faEdit, faEye, faTrash, faFilter,faSearch} from '@fortawesome/free-soli
 import DeleteModal from './DeleteModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useRef } from 'react';
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -24,7 +26,12 @@ function Table() {
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [filterValue, setFilterValue] = useState(''); 
-  const [query, setQuery] = useState('');    //filter
+  const [query, setQuery] = useState(''); 
+  const navRef = useRef();  
+  const showNavbar = () => {
+  navRef.current.classList.toggle("responsive_nav");
+}
+
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -93,7 +100,7 @@ const handleClickDelete = (row) => {
       selector: (row) =>  <div style={{ textTransform: 'capitalize' }}>{row.followUpDetails}</div> ,
     },
     {
-      name: "NEXT CONTACT DATE",
+      name: "CONTACT DATE",
       selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.nextContactDate}</div> ,
     },
     {
@@ -163,31 +170,76 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-          <div className='table-top'>
-          <div className='d-flex justify-content-start'>
-          <div className="search-input-container">
-          <FontAwesomeIcon icon={faSearch} className="search-icon" />
-          <input
-            type='text'
-            placeholder='Search'
-            className='w-35 form-control'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        
-        </div>
-          </div>
+       
+/* <div className='table-top container-fluid'>
+<div className='row'>
+  <div className='col-md-7'>
+    <div className='row d-flex justify-content-between'>
+   
+    <div className='col-7 col-sm-5 search-input-container'>
+    <FontAwesomeIcon icon={faSearch} className='search-icon' />
+    <input
+      type='text'
+      placeholder='Search'
+      className='w-100 search-control'
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  </div>
+  </div>
+  </div>
 
-        <div className='d-flex justify-content-end  end-col' >
-     <div className='border-end'>
-        <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+  <div className='col-md-5'>
+  <div className='row  d-flex justify-content-end'>
+    <div className='col-8 col-sm-7 '>
+      <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+    </div>
+    <div className=' col-4 col-sm-3 col-lg-4 col-xl-3' >
+      <div className='count-div'>
+      <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+      <span>{' '}  {totalCount}</span>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+</div> */
+<div className='table-top'>
+         
+<div  className='left-div'>
+     <div className="search-input-container">
+       <FontAwesomeIcon icon={faSearch} className="search-icon" />
+       <input
+         type='text'
+         placeholder='Search'
+         className='w-35 search-control'
+         value={search}
+         onChange={(e) => setSearch(e.target.value)}
+       />
+     </div>
+     </div>
+     
+     <div  ref={navRef} className='right-div' >
+       <div className='inner-div'>
+       <div className='count-div me-2'>
+         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+         <span>{' '}Results: {totalCount}</span>
+       </div>
+       <div>
+         {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+         <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+       </div>
+       </div>
+       <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+    <FaTimes/>
+</button>
+     </div>
+     <button className='nav-btn' onClick={showNavbar}>
+<FaBars/>
+</button>
+   </div>
 
-        <div className='count-div'>
-              <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-              <span style={{ whiteSpace: 'nowrap' }}>{' '}Results: {totalCount}</span>
-            </div>
-</div></div>
-        </div>
+
      
         }
         subHeaderAlign='right'

@@ -132,6 +132,13 @@ const _nav = [
        icon: <CIcon icon={cilBriefcase} customClassName="nav-icon" />
       
       },
+      {
+        component: CNavItem,
+        name: 'UserRoles',
+        to: '/Settings/UserRoles',
+       icon: <CIcon icon={cilBriefcase} customClassName="nav-icon" />
+      
+      },
     ],
   },
 ]

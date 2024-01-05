@@ -14,7 +14,7 @@ export default function Service() {
 <div class="service-title">
 
 						<h6>What We Provide</h6>
-						<h2>Our Services</h2>
+						<h2>Our Features</h2>
 					</div>
   <div className="row">
 
@@ -24,9 +24,9 @@ export default function Service() {
 							<i class="flaticon-project-management"></i>
 						</div>
    
-						<h3>Services</h3>
+						<h4>Streamline inquiries</h4>
                         <i class="fa-solid fa-user"></i>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p>
+						<p>Optimize and simplify the processing of customer inquiries for increased efficiency and effectiveness in resolution.</p>
 						<div class="services-btn-link">
 							<a href="#" class="services-link">Read More</a>
 						</div>
@@ -38,8 +38,8 @@ export default function Service() {
 						<div class="services-icon">
 							<i class="flaticon-project-management"></i>
 						</div>
-						<h3>Services</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p>
+						<h4>Enhance efficiency</h4>
+						<p>Improve workflow effectiveness and speed in managing tasks, resulting in overall increased operational efficiency.</p>
 						<div class="services-btn-link">
 							<a href="#" class="services-link">Read More</a>
 						</div>
@@ -51,8 +51,8 @@ export default function Service() {
 						<div class="services-icon">
 							<i class="flaticon-project-management"></i>
 						</div>
-						<h3>Services</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p>
+						<h4>Improve satisfaction</h4>
+						<p>Boost satisfaction through prompt, positive resolution of inquiries.</p>
 						<div class="services-btn-link">
 							<a href="#" class="services-link">Read More</a>
 						</div>
@@ -64,8 +64,8 @@ export default function Service() {
 						<div class="services-icon">
 							<i class="flaticon-project-management"></i>
 						</div>
-						<h3>Services</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p>
+						<h4>Centralized tracking</h4>
+						<p>Efficiently centralize and manage inquiries for streamlined tracking and resolution.</p>
 						<div class="services-btn-link">
 							<a href="#" class="services-link">Read More</a>
 						</div>
@@ -77,8 +77,8 @@ export default function Service() {
 						<div class="services-icon">
 							<i class="flaticon-project-management"></i>
 						</div>
-						<h3>Services</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p>
+						<h4>Timely notifications</h4>
+						<p>Send timely alerts to keep stakeholders informed about updates, ensuring swift responses management of inquiries.</p>
 						<div class="services-btn-link">
 							<a href="#" class="services-link">Read More</a>
 						</div>
@@ -90,8 +90,8 @@ export default function Service() {
 						<div class="services-icon">
 							<i class="flaticon-project-management"></i>
 						</div>
-						<h3>Services</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore magna aliqua</p>
+						<h4>Secure authentication</h4>
+						<p>Implement robust security measures to authenticate users, ensuring secure access to the enquiry management.</p>
 						<div class="services-btn-link">
 							<a href="#" class="services-link">Read More</a>
 						</div>

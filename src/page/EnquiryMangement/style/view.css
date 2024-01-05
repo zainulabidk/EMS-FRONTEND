@@ -1,0 +1,14 @@
+.view-modal .first-row {
+    border: 1px solid #c8cdd2;
+    margin: 15px 0px;
+    border-radius: 7px;
+    padding-top: 10px;
+}
+.view-modal .first-row h5{
+    font-weight: 600;
+    font-size: 16px;
+    color: #686868;
+}
+.view-modal .modal-content {
+    max-width: 682px;
+}

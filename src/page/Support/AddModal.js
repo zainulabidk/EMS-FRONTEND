@@ -123,7 +123,7 @@ function AddModal({getDatas}) {
   return (
     <>
   <ToastContainer />
-      <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600' }} onClick={handleShow}>
+      <Button style={{ background: '#5bb6ea', border: 'none', color: 'white', fontWeight: '600', marginBottom:'10px' }} onClick={handleShow}>
         + New
       </Button>
 

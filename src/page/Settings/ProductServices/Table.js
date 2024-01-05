@@ -1,3 +1,5 @@
+
+
 // Table.js
 import React, { useState, useEffect } from 'react';
 import Datatable from 'react-data-table-component';
@@ -5,18 +7,19 @@ import axios from 'axios';
 import EditModal from './EditModal';
 import ViewModal from './ViewModal';
 import Button from 'react-bootstrap/Button';
-import '../style/table.css'
+import '../../style/table.css'
+import Filter from './Filter';
 import { ModalHeader } from 'react-bootstrap';
 import AddModal from './AddModal'
 // Import necessary FontAwesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEye, faTrash ,faFilter,faSearch} from '@fortawesome/free-solid-svg-icons';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Filter from './Filter';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useRef } from 'react';
+
+
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -27,37 +30,66 @@ function Table() {
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [query, setQuery] = useState('');  
   const [filterValue, setFilterValue] = useState(''); 
-  const [query, setQuery] = useState('');    //filter
-
+  const navRef = useRef();  
+const showNavbar = () => {
+navRef.current.classList.toggle("responsive_nav");
+}
 
   const handleClose = () => {
     setShowEditModal(false);
     setShowViewModal(false);
     setSelectedDatas(null);
   };
+  const handleDeleteConfirmation = (row) => {
+    setSelectedDatas(row);
+    setShowDeleteModal(true);
+  };
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3000/productService/${selectedDatas._id}`);
+      getDatas();
+      handleClose();
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
 
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/productService');
-      setDatas(response.data.product);
-      setFilteredDatas(response.data.product);
+      console.log('API Response:', response.data.product);
+      const filteredData = response.data.product.filter(product => product.isDeleted === false || product.isDeleted === undefined);
+      console.log('Filtered Data:', filteredData);
+      setDatas(filteredData);
+      // setFilteredDatas(filteredData);
     } catch (error) {
       console.error(error);
     }
   };
+
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/enquirymode');
+  //     console.log('Responsse from zain:', response.data.enquiryModes);
+  //     setDatas(response.data.enquiryModes);
+  //     setFilteredDatas(response.data.enquiryModes);
+  //     console.log("helo"+esponse.data.enquiryModes);
+  //   } catch (error) {
+  //     console.error(error);uctService
+  //   }
+  // };
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
       const response = await axios.put(`http://localhost:3000/productService/${orgId}`, updatedData);
       console.log('Update response:', response.data);
       getDatas(); // Refresh the data after update
-      toast.success('Data updated successfully!',{ autoClose: 1000 });
-
     } catch (error) {
       console.error('Error updating data:', error);
-      toast.error('Error updating data. Please try again.',{ autoClose: 1000 });
     }
   };
 
@@ -92,18 +124,14 @@ const handleClickDelete = (row) => {
   const columns = [
    
     {
-      name: "PRODUCTS",
-      selector: (row) =><div style={{ textTransform: 'capitalize' }}>{row.name}</div>,
+      name: "NAME",
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: "DESCRIPTION",
-      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.descp}</div>,
+      selector: (row) => row.descp,
     },
-    {
-        name: "ISACTIVE",
-        selector: (row) => <div style={{ textTransform: 'capitalize' }}>{(row.isActive ? "True" : "False")}</div>,
-      },
     {
       name: "ACTIONS",
       cell: (row) => (
@@ -142,10 +170,9 @@ const handleClickDelete = (row) => {
 
   return (
     <>
-    <ToastContainer/>
     <div className='table-div'>
       <Datatable className='table-data-div'
-        title='product Services'
+        title='Product Service'
         columns={columns}
         data={filteredDatas}
         pagination
@@ -158,32 +185,69 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-          <div className='table-top'>
-          <div className='d-flex justify-content-start'><AddModal  getDatas={getDatas} /></div>
+        //   <div className='table-top'>
+        //       <div ><AddModal getDatas={getDatas}  /></div>
+        //       <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
+        //         <div>
+        //           <div className="search-input-container">
+        //             <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        //             <input
+        //               type="text"
+        //               placeholder="Search"
+        //               className="w-35 form-control-srch"
+        //               value={search}
+        //               onChange={(e) => setSearch(e.target.value)}
+        //             />
+        //           </div>
+        //         </div>
 
-          <div className="search-input-container">
-          <FontAwesomeIcon icon={faSearch} className="search-icon" />
-          <input
-            type='text'
-            placeholder='Search'
-            className='w-35 form-control'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        
-        </div>
-
-        <div className='d-flex justify-content-end  end-col' >
-     <div className='border-end'>
-        <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-
-        <div className='count-div'>
-              <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-              <span style={{ whiteSpace: 'nowrap' }}>{' '}Results: {totalCount}</span>
-            </div>
-</div></div>
-        </div>
-     
+        //         <div className='count-div'>
+        //           <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+        //           <span>{' '}Results: {totalCount}</span>
+        //         </div>
+        //         <div>
+        //          {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+        //          <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+        //        </div>
+        //       </div>
+        //   </div>
+        <div className='table-top'>
+         
+        <div  className='left-div'>
+             <div>
+               <AddModal getDatas={getDatas} />
+             </div>
+             <div className="search-input-container">
+               <FontAwesomeIcon icon={faSearch} className="search-icon" />
+               <input
+                 type='text'
+                 placeholder='Search'
+                 className='w-35 search-control'
+                 value={search}
+                 onChange={(e) => setSearch(e.target.value)}
+               />
+             </div>
+             </div>
+             
+             <div  ref={navRef} className='right-div'>
+               <div className='inner-div'>
+               <div className='count-div me-2'>
+                 <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+                 <span>{' '}Results: {totalCount}</span>
+               </div>
+               <div>
+                 {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+                 <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+               </div>
+               </div>
+               <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+            <FaTimes/>
+       </button>
+             </div>
+             <button className='nav-btn' onClick={showNavbar}>
+       <FaBars/>
+   </button>
+           </div>
         }
         subHeaderAlign='right'
       />
@@ -192,9 +256,12 @@ const handleClickDelete = (row) => {
       {/* Modal for Editing */}
       <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} />
 
-      {/* Modal for Viewing Details */}
-      <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
-      <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
+       {/* Modal for Viewing Details */}
+       <ViewModal showModal={showViewModal} handleClose={handleClose} selectedDatas={selectedDatas} />
+
+
+       {/* Modal for Delete Confirmation */}
+       <DeleteModal deleteclose={deleteModalClose} dlt={deleteModal} id={selectedId} getDatas={getDatas} />
     </>
   );
 }

@@ -48,7 +48,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
   return (
     <>
     <ToastContainer/>
-      <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
+      <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} ClassName="delete-modal" >
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>
           </Modal.Header>

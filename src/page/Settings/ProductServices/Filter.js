@@ -24,11 +24,11 @@ const [filterValue, setFilterValue] = useState('');
       };
   return (
    <>
-     <div style={{ width: '100%' }} className="d-flex" >
+     <div >
     
-                  <div className="me-1 " style={{  marginLeft:'50px' , width: '100px' }}>
+                  <div className="" >
                     <Form.Select
-                      className="ms-auto search_inp "
+                      className="ms-auto search_inp filter"
                       aria-label="Default select example"
                       name=""
                       onChange={handleFilterSelect}
@@ -38,13 +38,14 @@ const [filterValue, setFilterValue] = useState('');
                         value=""
                         className=" text-white"
                       >
-                        Filter
+                       All
                       </option>
                       <option >new</option>
                       <option >pending</option>
                       <option >active</option>
                       <option >converted</option>
                       <option >blocked</option>
+                     
                     </Form.Select>
                   </div>
                  

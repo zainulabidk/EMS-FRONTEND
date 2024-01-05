@@ -9,11 +9,13 @@ import '../../style/table.css'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddModal from './AddModal'
-// Import necessary FontAwesome components
+import Filter from './Filter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useRef } from 'react';
 
 
 function Table() {
@@ -25,7 +27,12 @@ function Table() {
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
+  const [filterValue, setFilterValue] = useState(''); 
+  const navRef = useRef();  
+  const [query, setQuery] = useState('');  
+  const showNavbar = () => {
+  navRef.current.classList.toggle("responsive_nav");
+}
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -166,25 +173,42 @@ function Table() {
         subHeader
         subHeaderComponent={
           <div className='table-top'>
-              <div ><AddModal/></div>
-              <div className="search-input-container">
-                    <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="w-35 search-control"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </div>
-              <div style={{display:'flex',alignItems:'center',width: '15  %', justifyContent:'space-between'}}>
-        
-                <div className='count-div'>
-                  <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-                  <span>{' '}Results: {totalCount}</span>
-                </div>
-              </div>
-          </div>
+         
+          <div  className='left-div'>
+               <div>
+                 <AddModal getDatas={getDatas} />
+               </div>
+               <div className="search-input-container">
+                 <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                 <input
+                   type='text'
+                   placeholder='Search'
+                   className='w-35 search-control'
+                   value={search}
+                   onChange={(e) => setSearch(e.target.value)}
+                 />
+               </div>
+               </div>
+               
+               <div  ref={navRef} className='right-div'>
+                 <div className='inner-div'>
+                 <div className='count-div me-2'>
+                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+                   <span>{' '}Results: {totalCount}</span>
+                 </div>
+                 <div>
+                   {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+                   <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                 </div>
+                 </div>
+                 <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+              <FaTimes/>
+         </button>
+               </div>
+               <button className='nav-btn' onClick={showNavbar}>
+         <FaBars/>
+     </button>
+             </div>
         }
         subHeaderAlign='right'
       />

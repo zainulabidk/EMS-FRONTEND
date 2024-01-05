@@ -1,7 +1,14 @@
 /* TopNavbar.css */
 
 .navbar {
-    background-color: #0d6efd;
+  background-color: #ffffff1a;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    padding: 18px 0px;
+  }
+  .navbar a{
+    font-weight: 100;
   }
   
   .navbar-brand, .nav-link {
@@ -12,11 +19,18 @@
   }
   
   .navbar-brand:hover, .nav-link:hover {
-    color: rgb(71, 175, 255) !important; /* Change the text color on hover */
+    color: rgb(194, 194, 194) !important; /* Change the text color on hover */
   }
-  
+  .lg-btn{
+    background-color: #fffdfd;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 20px;
+    color: #002448;
+    font-weight: 600;
+  }
   .btn {
-    background-color: rgb(71, 181, 255) !important;
+    /* background-color: rgb(71, 181, 255) !important; */
     border: none;
     border-radius: 20px;
   }
@@ -35,13 +49,11 @@
   .intro {
     position: relative;
     /* height: 60vh; */
-    
-    
     text-align: center;
     text-shadow: 1px 1px;
     color: #fff;
   }
-  
+
   @media (max-width: 512px) {
     .intro {
       height: 55vh;
@@ -55,15 +67,15 @@
     opacity: 0.3;
     background-color: #000;
     width: 100%;
-    height: 93.4vh;
+    height: 100vh;
     top: 0;
   }
    
   .squares-wrapper {
     background: #4e54c8;
-    background: linear-gradient(to left, #3182d5, #4e54c8);
+    background: linear-gradient(to left, #004aa9, #003366);
     width: 100%;
-    height: 93.4vh;
+    height: 100vh;
    
   }
   
@@ -72,7 +84,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 93.4vh;
+    height: 100vh;
     overflow: hidden;
     margin: 0;
     padding: 0;
@@ -137,20 +149,19 @@
   /* TopNavbar.css end */
 
 /* footer start */
-.footer a{
-    text-decoration: none;
-}
+
 .section_padding{
     padding: 4rem 6rem;
      
 }
 .footer{
-    background-color: black;
+    background-color:#002448;
     margin-top: 100px;
 }
 .sb_footer{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .sb_footer_links{
     display: flex;
@@ -241,6 +252,40 @@ hr{
 
 /* footer end */
 
+/* about start */
+.about{
+  margin-top: 20px;
+}
+.about .img-div {
+  background-image: url(../images/abt-img.png);
+  height: 515px;
+  background-position: center;
+  background-size: cover;
+} 
+.about-title{
+  font-size: 16px;
+    font-weight: 700;
+    color: #FF9800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 100px;
+}
+.about-title h2{
+  font-size: 40px;
+  color: #0b0b31;
+  margin: 10px 0 0 0;
+  font-weight: 700;
+}
+.abt-btn{
+  background-color: #1983fb;
+    outline: 4px solid #c1dbfe;
+    border-radius: 5px;
+    color: white;
+    padding: 6px 14px;
+    font-weight: 500;
+    border: none;
+}
+/* about end */
 /* service section start */
 
 .service-title{
@@ -252,7 +297,7 @@ hr{
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 .service-title h2{
 font-size: 40px;
@@ -276,6 +321,9 @@ font-size: 40px;
     transition: all 500ms ease-out;
     will-change: transform;
 }
+.service-card p{
+  height: 72px;
+}
 .service-card:hover{
     transform: translatey(10px);
 }
@@ -291,12 +339,12 @@ font-size: 40px;
     margin-top: 100px;
 }
 .ctn_div{
-    height: 500px;
     box-shadow: 2px 2px 36px -4px rgba(0,0,0,0.19);
 }
 .ctn-dlt{ 
-    background-color: #609ffe;
+  background-color: #1983fb;
     color: white;
+    padding: 70px 70px;
 }
 .ctn-frm{
     padding: 60px 30px;
@@ -316,9 +364,13 @@ font-size: 40px;
     justify-content: end;
 }
 .ctn-btn{
-    margin-top: 30px;
-    padding: 10px 25px !important;
-    background-color: #609ffe !important;
-    color: white !important;
+  background-color: #1983fb;
+  outline: 4px solid #c1dbfe;
+  border-radius: 5px;
+  color: white;
+  padding: 6px 25px;
+  margin-top: 45px;
+  font-weight: 500;
+  border: none;
 }
 /* contact end */
