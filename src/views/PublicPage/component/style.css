@@ -158,6 +158,14 @@
     background-color:#002448;
     margin-top: 100px;
 }
+.footer-content{
+  text-align: center;
+  color: white;
+  margin: 30px 0px;
+}
+.footer-content p{
+  color: #ffffffb0;
+}
 .sb_footer{
     display: flex;
     flex-direction: column;

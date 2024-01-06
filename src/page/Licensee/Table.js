@@ -157,24 +157,29 @@ const handleClickDelete = (row) => {
   useEffect(() => {
     getDatas();
   }, []);
-
   useEffect(() => {
     if (!Array.isArray(datas)) {
       console.error("Datas is not an array!");
       return;
     }
 
+    // Apply name filter
     const result = datas.filter((lice) => {
-      return lice.fname.toLowerCase().includes(search.toLowerCase());
+      const nameMatch = lice.fname.toLowerCase().includes(search.toLowerCase());
+      return nameMatch;
+    });
 
-  const licenseeResult = result.filter((user) => user.userType === 'licensee');
+    // Apply user type filter
+    const licenseeResult = result.filter((user) => user.userType === 'licensee');
 
-  const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
-  // Apply both name and status filters
-    return nameMatch && (filterValue === '' || statusMatch);
- });
- setFilteredDatas(result);
-}, [search, datas,filterValue]);
+    // Apply status filter
+    const filteredResult = licenseeResult.filter((lice) =>
+      lice.status.toLowerCase().includes(filterValue.toLowerCase())
+    );
+
+    setFilteredDatas(filteredResult);
+  }, [search, datas, filterValue]);
+
   const totalCount = filteredDatas.length;
 
   return (

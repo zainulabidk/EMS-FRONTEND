@@ -40,10 +40,11 @@ function AddModal({getDatas}) {
       try {
         // Validate the newItem object using Formik and Yup
         await validationSchema.validate(values, { abortEarly: false });
-        getDatas();
+   
         const response = await axios.post('http://localhost:3000/enquirymode', values);
-        console.log('Response:', response.data);
-
+        // console.log('Response:', response.data);
+    
+        getDatas();
         toast.success('Data successfully added', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
@@ -51,9 +52,6 @@ function AddModal({getDatas}) {
         });
 
         handleClose();
-
-        // Refresh the page after successful submission
-        // window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -62,7 +60,6 @@ function AddModal({getDatas}) {
           console.log('No response received from the server.');
         } else {
           toast.error('Error:', error.message);
-          // Handle other errors
         }
       }
     },

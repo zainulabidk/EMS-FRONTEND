@@ -27,6 +27,7 @@ function Table() {
   const [datas, setDatas] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredDatas, setFilteredDatas] = useState([]);
+  const [query, setQuery] = useState(''); 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
@@ -216,8 +217,7 @@ const handleClickDelete = (row) => {
                    <span>{' '}Results: {totalCount}</span>
                  </div>
                  <div>
-                   {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-                   <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                   <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
                  </div>
                  </div>
                  <button className='nav-btn nav-close-btn' onClick={showNavbar}>

@@ -14,18 +14,19 @@ import AddModal from './AddModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
-
+import Filter from './Filter';
 
 function Table() {
   const [datas, setDatas] = useState([]);
   const [search, setSearch] = useState("");
+  const [filterValue, setFilterValue] = useState(''); 
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedDatas, setSelectedDatas] = useState(null);
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
+  const [query, setQuery] = useState('');  
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -137,12 +138,19 @@ const handleClickDelete = (row) => {
       console.error("Datas is not an array!");
       return;
     }
-
+  
     const result = datas.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
+      const nameMatch = item?.name && item.name.toLowerCase().includes(search.toLowerCase());
+      // const descpMatch = item?.desc && item.descp.toLowerCase().includes(search.toLowerCase());
+      const statusMatch = item?.status && item.status.toLowerCase().includes(filterValue.toLowerCase());
+  
+      // Apply both name and status filters
+      return (nameMatch || descpMatch) && (filterValue === '' || statusMatch);
     });
+  
+    console.log('Filtered Data:', result); // Log the filtered data for debugging
     setFilteredDatas(result);
-  }, [search, datas]);
+  }, [search, datas, filterValue]);
 
   return (
     <>
@@ -163,7 +171,7 @@ const handleClickDelete = (row) => {
         subHeader
         subHeaderComponent={
           <div className='table-top'>
-              <div ><AddModal/></div>
+              <div ><AddModal getDatas={getDatas}/></div>
               
               <div className="search-input-container">
                     <FontAwesomeIcon icon={faSearch} className="search-icon" />
@@ -180,6 +188,10 @@ const handleClickDelete = (row) => {
                 <div className='count-div'>
                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
                   <span>{' '}Results: {totalCount}</span>
+                </div>
+                <div>
+                <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+
                 </div>
               </div>
           </div>

@@ -175,16 +175,19 @@ function Table() {
       return;
     }
     const result = datas.filter((item) => {
-      const fullName = `${item.fname} ${item.lname}`.toLowerCase();
-      return fullName.includes(search.toLowerCase());
-  
+      const nameMatch = 
+      (item.fname.toLowerCase().includes(search.toLowerCase())) || 
+      (item.lname.toLowerCase().includes(search.toLowerCase()));
     
-    const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
-    // Apply both name and status filters
-      return nameMatch && (filterValue === '' || statusMatch);
-   });
+   //   const nextContactDateMatch = item.nextContactDate.toLowerCase().includes(search.toLowerCase());
+
+      const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+     // Apply both name and status filters
+       return nameMatch && (filterValue === '' || statusMatch);
+    });
     setFilteredDatas(result);
   }, [search, datas,filterValue]);
+
 
 
   
@@ -209,41 +212,7 @@ function Table() {
           highlightOnHover
           subHeader
           subHeaderComponent={
-            // <div className='table-top container-fluid'>
-            //   <div className='row'>
-            //     <div className='col-md-7'>
-            //       <div className='row d-flex justify-content-between'>
-            //       <div className='col-5 col-sm-4 d-flex justify-content-start'>
-            //       <AddModal getDatas={getDatas} />
-            //       </div>
-            //       <div className='col-7 col-sm-5 search-input-container'>
-            //       <FontAwesomeIcon icon={faSearch} className='search-icon' />
-            //       <input
-            //         type='text'
-            //         placeholder='Search'
-            //         className='w-100 search-control'
-            //         value={search}
-            //         onChange={(e) => setSearch(e.target.value)}
-            //       />
-            //     </div>
-            //     </div>
-            //     </div>
-             
-            //     <div className='col-md-5'>
-            //     <div className='row  d-flex justify-content-end'>
-            //       <div className='col-8 col-sm-7 '>
-            //         <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-            //       </div>
-            //       <div className=' col-4 col-sm-3 col-lg-4 col-xl-3' >
-            //         <div className='count-div'>
-            //         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-            //         <span>{' '} {totalCount}</span>
-            //         </div>
-            //       </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            // </div>
+       
 
             <div className='table-top'>
          
@@ -271,7 +240,7 @@ function Table() {
                    </div>
                    <div>
                      {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-                     <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                     <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
                    </div>
                    </div>
                    <button className='nav-btn nav-close-btn' onClick={showNavbar}>
