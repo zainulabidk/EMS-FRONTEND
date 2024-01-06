@@ -10,7 +10,9 @@ import Button from 'react-bootstrap/Button';
 import '../../style/table.css'
 import Filter from './Filter';
 import { ModalHeader } from 'react-bootstrap';
-import AddModal from './AddModal'
+import AddModal from './AddModal';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Import necessary FontAwesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -70,24 +72,17 @@ navRef.current.classList.toggle("responsive_nav");
       console.error(error);
     }
   };
-
-  // const getDatas = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/enquirymode');
-  //     console.log('Responsse from zain:', response.data.enquiryModes);
-  //     setDatas(response.data.enquiryModes);
-  //     setFilteredDatas(response.data.enquiryModes);
-  //     console.log("helo"+esponse.data.enquiryModes);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+ 
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
       const response = await axios.put(`http://localhost:3000/enquiryType/${orgId}`, updatedData);
-      console.log('Update response:', response.data);
-      getDatas(); // Refresh the data after update
+      toast.success('Data successfully Updated', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        className: 'toast-message',
+      });
+    getDatas();  
     } catch (error) {
       console.error('Error updating data:', error);
     }
@@ -156,23 +151,48 @@ const handleClickDelete = (row) => {
     getDatas();
   }, []);
 
+
   useEffect(() => {
     if (!Array.isArray(datas)) {
       console.error("Datas is not an array!");
       return;
     }
-
+  
     const result = datas.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
+      const nameMatch = item?.name && item.name.toLowerCase().includes(search.toLowerCase());
+      const descpMatch = item?.descp && item.descp.toLowerCase().includes(search.toLowerCase());
+      const statusMatch = item?.status && item.status.toLowerCase().includes(filterValue.toLowerCase());
+  
+      // Apply both name and status filters
+      return (nameMatch || descpMatch) && (filterValue === '' || statusMatch);
     });
+  
+    console.log('Filtered Data:', result); // Log the filtered data for debugging
     setFilteredDatas(result);
-  }, [search, datas]);
+  }, [search, datas, filterValue]);
+
+  // useEffect(() => {
+  //   if (!Array.isArray(datas)) {
+  //     console.error("Datas is not an array!");
+  //     return;
+  //   }
+
+  //   const result = datas.filter((item) => {
+  //     const nameMatch =
+  //       (item.name.toLowerCase().includes(search.toLowerCase())) ||
+  //       (item.descp.toLowerCase().includes(search.toLowerCase()));
+  
+  //       const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+  //       return nameMatch && (filterValue === '' || statusMatch);
+  //    });
+  //    setFilteredDatas(result);
+  // }, [search, datas]);
 
   return (
     <>
     <div className='table-div'>
       <Datatable className='table-data-div'
-        title='Enquiry Mode'
+        title='Enquiry Typ'
         columns={columns}
         data={filteredDatas}
         pagination

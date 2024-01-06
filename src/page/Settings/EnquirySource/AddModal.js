@@ -13,7 +13,7 @@ import '../../style/addmodel.css';
 import { Container } from 'react-bootstrap';
 
 
-function AddModal() {
+function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -44,7 +44,8 @@ function AddModal() {
 
         
         const response = await axios.post('http://localhost:3000/enquirysource', values);
-        
+
+        getDatas();
         toast.success('Data successfully added', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
@@ -56,7 +57,7 @@ function AddModal() {
         handleClose();
 
         // Refresh the page after successful submission
-        window.location.reload();
+        // window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -64,7 +65,7 @@ function AddModal() {
         } else if (error.request) {
           console.log('No response received from the server.');
         } else {
-          console.log('Error:', error.message);
+          toast.log('Error:', error.message);
           // Handle other errors
         }
       }

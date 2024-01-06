@@ -174,16 +174,19 @@ function Table() {
       return;
     }
     const result = datas.filter((item) => {
-      const fullName = `${item.fname} ${item.lname}`.toLowerCase();
-      return fullName.includes(search.toLowerCase());
-  
+      const nameMatch = 
+      (item.fname.toLowerCase().includes(search.toLowerCase())) || 
+      (item.lname.toLowerCase().includes(search.toLowerCase()));
     
-    const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
-    // Apply both name and status filters
-      return nameMatch && (filterValue === '' || statusMatch);
-   });
+   //   const nextContactDateMatch = item.nextContactDate.toLowerCase().includes(search.toLowerCase());
+
+      const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+     // Apply both name and status filters
+       return nameMatch && (filterValue === '' || statusMatch);
+    });
     setFilteredDatas(result);
   }, [search, datas,filterValue]);
+
 
 
   
@@ -236,7 +239,7 @@ function Table() {
                    </div>
                    <div>
                      {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-                     <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                     <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
                    </div>
                    </div>
                    <button className='nav-btn nav-close-btn' onClick={showNavbar}>

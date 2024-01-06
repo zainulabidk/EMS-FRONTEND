@@ -28,24 +28,41 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
         setShow(false)
       }
 
-    const onDelete = (_id) => {
-      const response = axios.patch(`http://localhost:3000/users/${_id}`)
-          .then(() => {
-            if (response.status === 200) {
+    // const onDelete = (_id) => {
+    //   const response = axios.patch(`http://localhost:3000/users/${_id}`)
+    //       .then(() => {
+    //         if (response.status === 200) {
              
-        toast.success('Data successfully added', {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1000,
-          className: 'toast-message',
-        });
-              }
-            getDatas();
-          })
-          .catch((error) => {
-            console.error('Error deleting data:', error);
-          });
-      };
+    //     toast.success('Data successfully added', {
+    //       position: toast.POSITION.TOP_RIGHT,
+    //       autoClose: 1000,
+    //       className: 'toast-message',
+    //     });
+    //           }
+    //         getDatas();
+    //       })
+    //       .catch((error) => {
+    //         console.error('Error deleting data:', error);
+    //       });
+    //   };
     
+    const onDelete = (_id) => {
+      axios.patch(`http://localhost:3000/enquirymode/${_id}`)
+        .then(() => {
+          
+          toast.error('User Successfully Deleted !', {
+                toastId: 'success',
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+              })
+            
+          getDatas();
+        })
+        .catch((error) => {
+          console.error('Error deleting data:', error);
+          toast.error("Error in deleting the user",{ autoClose: 1000 })
+        });
+    };
 
 
 

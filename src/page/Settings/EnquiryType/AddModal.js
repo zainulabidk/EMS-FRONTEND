@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Container } from 'react-bootstrap';
 
-function AddModal() {
+function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -37,16 +37,18 @@ function AddModal() {
       try {
         // Validate the newItem object using Formik and Yup
         await validationSchema.validate(values, { abortEarly: false });
-
-        
+   
         const response = await axios.post('http://localhost:3000/enquiryType', values);
-        console.log('Response:', response.data);
-        alert('Successfully added');
+        // console.log('Response:', response.data);
+    
+        getDatas();
+        toast.success('Data successfully added', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          className: 'toast-message',
+        });
 
         handleClose();
-
-        // Refresh the page after successful submission
-        window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -54,12 +56,38 @@ function AddModal() {
         } else if (error.request) {
           console.log('No response received from the server.');
         } else {
-          console.log('Error:', error.message);
-          // Handle other errors
+          toast.error('Error:', error.message);
         }
       }
     },
   });
+  //   onSubmit: async (values) => {
+  //     try {
+  //       // Validate the newItem object using Formik and Yup
+  //       await validationSchema.validate(values, { abortEarly: false });
+
+        
+  //       const response = await axios.post('http://localhost:3000/enquiryType', values);
+  //       console.log('Response:', response.data);
+  //       alert('Successfully added');
+
+  //       handleClose();
+
+  //       // Refresh the page after successful submission
+  //       window.location.reload();
+  //     } catch (error) {
+  //       if (error.response) {
+  //         console.log('Error Response:', error.response.data);
+  //         console.log('Status Code:', error.response.status);
+  //       } else if (error.request) {
+  //         console.log('No response received from the server.');
+  //       } else {
+  //         console.log('Error:', error.message);
+  //         // Handle other errors
+  //       }
+  //     }
+  //   },
+  // });
 
   return (
     <>

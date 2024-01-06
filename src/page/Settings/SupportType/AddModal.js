@@ -42,7 +42,7 @@ function AddModal({getDatas}) {
         await validationSchema.validate(values, { abortEarly: false });
 
         const response = await axios.post('http://localhost:3000/supportType',values);
-        console.log('Response:', response.data);
+        // console.log('Response:', response.data);
         getDatas();
         toast.success('Data Added successfully!',{ autoClose: 1000 });
     
