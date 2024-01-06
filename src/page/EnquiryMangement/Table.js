@@ -20,7 +20,7 @@ import {
   CTableRow,
 } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEye, faTrash ,faFilter ,faSearch,faClock,faCalendar,faReply,faBell, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faTrash ,faFilter ,faSearch,faUserClock ,faClock,faCalendar,faReply,faBell, faPhone } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
 import FollowUpModal from './FollowUpAdd';
 import Filter from './Filter';
@@ -168,7 +168,7 @@ const totalCount = filteredDatas ? filteredDatas.length : 0;
             <FontAwesomeIcon icon={faTrash} />
           </Button>
           <Button  className='btn btn-2 me-3 ps-0'  onClick={() => handleFollowUpClick(row._id)}>
-              <FontAwesomeIcon icon={faPhone } />
+              <FontAwesomeIcon icon={faUserClock  } />
             </Button>
 
         </div>
@@ -189,18 +189,23 @@ const totalCount = filteredDatas ? filteredDatas.length : 0;
     
       const nameMatch =
       (item.fName && item.fName.toLowerCase().includes(search.toLowerCase())) ||
-      (item.lName && item.lName.toLowerCase().includes(search.toLowerCase()));
-      const mobileMatch = item.mobile && item.mobile.toString().includes(search);
+      (item.lName && item.lName.toLowerCase().includes(search.toLowerCase())) ||
+      (item.email && item.email.toLowerCase().includes(search.toLowerCase())) ||
+      (item.mobile && item.mobile.toString().includes(search))
+
 
       const statusMatch = item.status && item.status.toLowerCase().includes(filterValue.toLowerCase());
       const enqNoMatch = item.enqNo && item.enqNo.toString().includes(search);
 
-     // Apply both name and status filters
-     return (nameMatch || mobileMatch || enqNoMatch ) && (filterValue === '' || statusMatch);
+
+     return (nameMatch  || enqNoMatch ) && (filterValue === '' || statusMatch);
 
     });
     setFilteredDatas(result);
   }, [search, datas,filterValue]);
+
+
+  
 
 
   const rowPreDisabled = row => row.disabled;
@@ -319,42 +324,7 @@ const ExpandedComponent = ({ data }) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-        //   <div className='table-top container-fluid'>
-        //   <div className='row'>
-        //     <div className='col-md-7'>
-        //       <div className='row d-flex justify-content-between'>
-        //       <div className='col-5 col-sm-4 d-flex justify-content-start'>
-        //       <AddModal getDatas={getDatas} />
-        //       </div>
-        //       <div className='col-7 col-sm-5 search-input-container'>
-        //       <FontAwesomeIcon icon={faSearch} className='search-icon' />
-        //       <input
-        //         type='text'
-        //         placeholder='Search'
-        //         className='w-100 search-control'
-        //         value={search}
-        //         onChange={(e) => setSearch(e.target.value)}
-        //       />
-        //     </div>
-        //     </div>
-        //     </div>
-         
-        //     <div className='col-md-5'>
-        //     <div className='row  d-flex justify-content-end'>
-        //       <div className='col-8 col-sm-7 '>
-        //         <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-        //       </div>
-        //       <div className=' col-4 col-sm-3 col-lg-4 col-xl-3' >
-        //         <div className='count-div'>
-        //         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-        //         <span>{' '}  {totalCount}</span>
-        //         </div>
-        //       </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-
+      
         <div className='table-top'>
          
         <div  className='left-div'>

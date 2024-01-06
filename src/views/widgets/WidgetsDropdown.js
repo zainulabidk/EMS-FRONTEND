@@ -93,7 +93,7 @@ useEffect(()=>{
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4 widget-div"
-          color="primary"
+          // color="primary"
 
           value={
             <>
@@ -125,7 +125,7 @@ useEffect(()=>{
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4 widget-div"
-          color="info"
+          // color="info"
           value={
             <>
             <h4>Total Licensee</h4>
@@ -153,7 +153,7 @@ useEffect(()=>{
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4 widget-div"
-          color="warning"
+          // color="warning"
           value={
             <>
             <h4>New</h4>
@@ -184,7 +184,7 @@ useEffect(()=>{
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4 widget-div"
-          color="danger"
+          // color="danger"
           value={
             <>
             <h4>Pending</h4>

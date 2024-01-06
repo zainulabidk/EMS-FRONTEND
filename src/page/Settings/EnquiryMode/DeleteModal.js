@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import '../../style/delete.css';
+import { Container } from 'react-bootstrap';
 
 const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
@@ -28,13 +29,15 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-        axios.patch(`http://localhost:3000/enquirymode/${_id}`)
+      const response = axios.patch(`http://localhost:3000/users/${_id}`)
           .then(() => {
             if (response.status === 200) {
-                toast.success('User Successfully Deleted !', {
-                  toastId: 'success',
-                  position: toast.POSITION.TOP_RIGHT,
-                })
+             
+        toast.success('Data successfully added', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          className: 'toast-message',
+        });
               }
             getDatas();
           })
@@ -48,17 +51,24 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
       return (
         <>
+              <ToastContainer autoClose={50000} />
+
         <Modal show={show} backdrop="static" centered onHide={handleModalClose} animation={false} dialogClassName="delete-modal" >
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="text-center fw-bold">
-            Are you sure want to delete ?
+          <Modal.Body >
+            <Container>
+            <p>Are you sure want to delete ?</p>
+            </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" className="text-white" onClick={handleModalClose}>
+            {/* <Button variant="primary" className="text-white" onClick={handleModalClose}>
               Cancel
-            </Button>
+            </Button> */}
+            <Button style={{ background: '#e7e7e7', color: 'rgb(89 89 89)', border: '1px solid rgb(228 228 228)' }} onClick={handleModalClose}>
+            Cancel
+          </Button>
             <Button
               variant="success"
               className="text-white"

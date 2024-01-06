@@ -320,7 +320,9 @@ const fetchSupportType = async () => {
       value={formik.values.leadQuality}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-      className={`form-select ${formik.touched.leadQuality && formik.errors.leadQuality ? 'is-invalid' : ''}`}
+      className={`form-select ${formik.touched.leadQuality && formik.errors.leadQuality ?(
+        <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+      ) : null}`}
     >
       <option value="" disabled>
         Lead Quality
@@ -542,7 +544,9 @@ const fetchSupportType = async () => {
       value={formik.values.enqSource}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-      className={`form-select ${formik.touched.enqSource && formik.errors.enqSource ? 'is-invalid' : ''}`}
+      className={`form-select ${formik.touched.enqSource && formik.errors.enqSource ? (
+        <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+      ) : null}`}
     >
       <option value="" disabled>
         Enquiry Source
@@ -570,7 +574,9 @@ const fetchSupportType = async () => {
                 value={formik.values.enqType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-               className={`form-select ${formik.touched.enqType && formik.errors.enqType ? 'is-invalid' : ''}`}
+               className={`form-select ${formik.touched.enqType && formik.errors.enqType ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+              ) : null}`}
               >
                 <option value="" disabled selected >
                    Enquiry Type
@@ -598,7 +604,9 @@ const fetchSupportType = async () => {
                 value={formik.values.enqMode}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`form-select ${formik.touched.enqMode && formik.errors.enqMode ? 'is-invalid' : ''}`}
+                className={`form-select ${formik.touched.enqMode && formik.errors.enqMode ? (
+                  <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+                ) : null}`}
        
               >
                 <option value="" disabled>
@@ -626,7 +634,9 @@ const fetchSupportType = async () => {
                 value={formik.values.enqTo}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`form-select ${formik.touched.enqTo && formik.errors.enqTo ? 'is-invalid' : ''}`}
+                className={`form-select ${formik.touched.enqTo && formik.errors.enqTo ? (
+                  <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+                ) : null}`}
        
               >
                 <option value="" disabled>
@@ -657,7 +667,9 @@ const fetchSupportType = async () => {
                 value={formik.values.supportType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`form-select ${formik.touched.supportType && formik.errors.supportType ? 'is-invalid' : ''}`}
+                className={`form-select ${formik.touched.supportType && formik.errors.supportType ? (
+                  <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+                ) : null}`}
               >
                 <option value="" disabled>
                   Support Type

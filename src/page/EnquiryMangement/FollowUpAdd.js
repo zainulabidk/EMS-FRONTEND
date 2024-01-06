@@ -38,7 +38,7 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
     nextContactDate: Yup.string().required('Next Contact Date is required'),
     remarks:Yup.string().required('Remark is required'),
   });
-
+setUserRoles
   const formik = useFormik({
     initialValues: {
       enqId: enqId || '', 

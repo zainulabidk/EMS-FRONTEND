@@ -132,12 +132,12 @@ function AddModal({getDatas}) {
           <Modal.Title style={{ fontSize: '18px' }}>Which type of support do you need ?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
+        <Container>
           <Form onSubmit={formik.handleSubmit}>
                  
           {/* Support Type Dropdown */}
          <Form.Group className="mb-3" controlId="supportType">
-           
+         <Form.Label style={{fontSize:'14px'}}>Support Type</Form.Label>
               <Form.Control
                 as="select"
                 name="supportType"
@@ -163,7 +163,7 @@ function AddModal({getDatas}) {
             
           {/* Support Type Dropdown */}
          <Form.Group className="mb-3" controlId="supportTo">
-           
+         <Form.Label style={{fontSize:'14px'}}>Support To</Form.Label>
            <Form.Control
              as="select"
              name="supportTo"
@@ -202,6 +202,7 @@ function AddModal({getDatas}) {
 
           
           </Form>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

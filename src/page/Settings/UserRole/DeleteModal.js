@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import '../../style/delete.css';
+import { Container } from 'react-bootstrap';
 
 const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
 
@@ -28,7 +29,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-      const response = axios.patch(`http://localhost:3000/userroles/${_id}`)
+      const response = axios.patch(`http://localhost:3000/users/${_id}`)
           .then(() => {
             if (response.status === 200) {
              
@@ -56,13 +57,18 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
           <Modal.Header closeButton >
             <Modal.Title>Delete Confirmation</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="text-center fw-bold">
-            Are you sure want to delete ?
+          <Modal.Body >
+            <Container>
+            <p>Are you sure want to delete ?</p>
+            </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" className="text-white" onClick={handleModalClose}>
+            {/* <Button variant="primary" className="text-white" onClick={handleModalClose}>
               Cancel
-            </Button>
+            </Button> */}
+            <Button style={{ background: '#e7e7e7', color: 'rgb(89 89 89)', border: '1px solid rgb(228 228 228)' }} onClick={handleModalClose}>
+            Cancel
+          </Button>
             <Button
               variant="success"
               className="text-white"

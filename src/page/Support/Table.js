@@ -127,10 +127,10 @@ const handleClickDelete = (row) => {
       selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.supportType.name}</div>,
       sortable: true,
     },
-    {
-      name: "SUPPORT TO",
-      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{`${row.supportTo.fname} ${row.supportTo.lname}`}</div> ,
-    },
+    // {
+    //   name: "SUPPORT TO",
+    //   selector: (row) => <div style={{ textTransform: 'capitalize' }}>{` ${row.supportTo.name}`}</div> ,
+    // },
     {
       name: "REMARKS",
       selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.remarks}</div> ,

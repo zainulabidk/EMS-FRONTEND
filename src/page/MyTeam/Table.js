@@ -71,9 +71,8 @@ function Table() {
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/users');
-      console.log('API Response:', response.data);
       const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
-      console.log('Filtered Data:', filteredData);
+   
       setDatas(filteredData);
       // setFilteredDatas(filteredData);
     } catch (error) {
@@ -115,7 +114,7 @@ function Table() {
       selector: (row) => `${row.fname} ${row.lname}`,
       sortable: true,
       cell: (row) => (
-        <div className="capitalize">
+        <div className="capitalize-text">
           {`${row.fname} ${row.lname}`}
         </div>
       ),
@@ -140,7 +139,7 @@ function Table() {
         }
       },
       cell: (row) => (
-        <div className="capitalize">
+        <div className="capitalize-text">
           {`${row.userRoles.name}`}
         </div>
       ),
@@ -209,41 +208,7 @@ function Table() {
           highlightOnHover
           subHeader
           subHeaderComponent={
-            // <div className='table-top container-fluid'>
-            //   <div className='row'>
-            //     <div className='col-md-7'>
-            //       <div className='row d-flex justify-content-between'>
-            //       <div className='col-5 col-sm-4 d-flex justify-content-start'>
-            //       <AddModal getDatas={getDatas} />
-            //       </div>
-            //       <div className='col-7 col-sm-5 search-input-container'>
-            //       <FontAwesomeIcon icon={faSearch} className='search-icon' />
-            //       <input
-            //         type='text'
-            //         placeholder='Search'
-            //         className='w-100 search-control'
-            //         value={search}
-            //         onChange={(e) => setSearch(e.target.value)}
-            //       />
-            //     </div>
-            //     </div>
-            //     </div>
-             
-            //     <div className='col-md-5'>
-            //     <div className='row  d-flex justify-content-end'>
-            //       <div className='col-8 col-sm-7 '>
-            //         <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-            //       </div>
-            //       <div className=' col-4 col-sm-3 col-lg-4 col-xl-3' >
-            //         <div className='count-div'>
-            //         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-            //         <span>{' '} {totalCount}</span>
-            //         </div>
-            //       </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            // </div>
+            
 
             <div className='table-top'>
          

@@ -6,6 +6,7 @@ import axios from 'axios';
 import '../../style/addmodel.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Container } from 'react-bootstrap';
 
 function AddModal() {
   const [show, setShow] = React.useState(false);
@@ -71,6 +72,7 @@ function AddModal() {
           <Modal.Title style={{ fontSize: '18px' }}>Add Enquiry Type</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Container>
           <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3 " controlId="name" >
           <Form.Label style={{ fontSize: '14px' }}>Name</Form.Label>
@@ -103,6 +105,7 @@ function AddModal() {
               ) : null}
             </Form.Group>
           </Form>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

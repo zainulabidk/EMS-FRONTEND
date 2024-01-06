@@ -8,6 +8,7 @@ import '../../style/addmodel.css';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Container } from 'react-bootstrap';
 
 function App({getDatas}) {
   const [show, setShow] = React.useState(false);
@@ -74,6 +75,7 @@ function App({getDatas}) {
           <Modal.Title style={{ fontSize: '18px' }}>Add Organization Type</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Container>
           <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="name">
               <Form.Label style={{ fontSize: '14px' }}>OrgType</Form.Label>
@@ -104,6 +106,7 @@ function App({getDatas}) {
               ) : null}
             </Form.Group>
           </Form>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

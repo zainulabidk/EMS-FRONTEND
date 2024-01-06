@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import '../../style/addmodel.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Container } from 'react-bootstrap';
 
 function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
@@ -72,6 +73,7 @@ function AddModal({getDatas}) {
           <Modal.Title style={{ fontSize: '18px' }}>Add Support Type</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Container>
           <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="name">
               <Form.Label style={{ fontSize: '14px' }}>Support Type</Form.Label>
@@ -101,39 +103,9 @@ function AddModal({getDatas}) {
                 <div className="error" style={{color:'red'}}>{formik.errors.descp}</div>
               ) : null}
             </Form.Group>
-      {/*
-            <Form.Group className="mb-3" controlId="isActive">
-              <Form.Label style={{ fontSize: '14px' }}>Active Services</Form.Label>
-              <div className="d-flex justify-content-between">
-              
-                <Form.Check
-                  type="switch"
-                  // label="Active"
-                  id="isActiveSwitch"
-                  name="isActive"
-                  checked={formik.values.isActive}
-                  onChange={() => {
-                    formik.setFieldValue('isActive', !formik.values.isActive);
-                  }}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              {formik.errors.isActive && formik.touched.isActive ? (
-                <p
-                  style={{
-                    fontSize: '10px',
-                    color: 'red',
-                    marginTop: '1px',
-                    marginLeft: '2%',
-                  }}
-                  className="form-error"
-                >
-                  {formik.errors.isActive}
-                </p>
-              ) : null}
-            </Form.Group>
-                */}
+ 
           </Form>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

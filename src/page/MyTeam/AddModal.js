@@ -18,7 +18,6 @@ const App = ({getDatas, fetchUserRoles}) => {
   const [userRoles, setUserRoles] = useState([]);
 
 
-// userroles fetch: deafult get userroles
 
   
 useEffect(() => {
@@ -97,7 +96,7 @@ useEffect(() => {
         });
     
         handleClose();
-        getDatas();
+         getDatas();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);

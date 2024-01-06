@@ -140,7 +140,9 @@ const handleClickDelete = (row) => {
     const result = datas.filter((item) => {
       const nameMatch = 
       (item.enqId.fName.toLowerCase().includes(search.toLowerCase())) || 
-      (item.enqId.lName.toLowerCase().includes(search.toLowerCase()));
+      (item.enqId.lName.toLowerCase().includes(search.toLowerCase())) ||
+      (item.nextContactDate && item.nextContactDate.toString().includes(search));
+
     
    //   const nextContactDateMatch = item.nextContactDate.toLowerCase().includes(search.toLowerCase());
 
@@ -208,7 +210,7 @@ const handleClickDelete = (row) => {
          
 <div  className='left-div'>
      <div className="search-input-container">
-       <FontAwesomeIcon icon={faSearch} className="search-icon" />
+       <FontAwesomeIcon icon={faSearch} className="search-icon " />
        <input
          type='text'
          placeholder='Search'
