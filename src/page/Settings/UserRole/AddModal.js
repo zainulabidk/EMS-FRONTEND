@@ -7,10 +7,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../../style/addmodel.css';
 
 
-function AddModal() {
+function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -34,26 +33,14 @@ function AddModal() {
       isDeleted: false,
     },
     validationSchema: validationSchema,
+
     onSubmit: async (values) => {
       try {
-        // Validate the newItem object using Formik and Yup
         await validationSchema.validate(values, { abortEarly: false });
-
-        
         const response = await axios.post('http://localhost:3000/userroles', values);
-        console.log('Response:', response.data);
-        alert('Successfully added');
-
-        toast.success('Data successfully added', {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1000,
-          className: 'toast-message',
-        });
-
+        getDatas();
+        toast.success('Data Added successfully!',{ autoClose: 1000 });
         handleClose();
-
-        // Refresh the page after successful submission
-        window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -62,11 +49,12 @@ function AddModal() {
           console.log('No response received from the server.');
         } else {
           console.log('Error:', error.message);
-          // Handle other errors
+          toast.error('Error creating data Please try again.',{ autoClose: 1000 });
         }
       }
     },
   });
+
 
   return (
     <>

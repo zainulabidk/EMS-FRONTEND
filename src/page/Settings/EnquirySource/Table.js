@@ -142,17 +142,26 @@ function Table() {
     getDatas();
   }, []);
 
+
   useEffect(() => {
     if (!Array.isArray(datas)) {
       console.error("Datas is not an array!");
       return;
     }
-
+  
     const result = datas.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
-    });
-    setFilteredDatas(result);
-  }, [search, datas]);
+      const nameMatch =
+        (item.name.toLowerCase().includes(search.toLowerCase())) ||
+        (item.desc.toLowerCase().includes(search.toLowerCase()));
+  
+
+          // Apply both name and status filters
+        const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+          return nameMatch && (filterValue === '' || statusMatch);
+       });
+       setFilteredDatas(result);
+
+  }, [search, datas, filterValue]);
 
   return (
     <>

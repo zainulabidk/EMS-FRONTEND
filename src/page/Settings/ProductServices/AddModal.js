@@ -35,15 +35,10 @@ function AddModal({getDatas}) {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        // Validate the newItem object using Formik and Yup
         await validationSchema.validate(values, { abortEarly: false });
-
-        getDatas();
         const response = await axios.post('http://localhost:3000/productService', values);
-        console.log('Response:', response.data);
-    
+        getDatas();
         toast.success('Data Added successfully!',{ autoClose: 1000 });
-    
         handleClose();
       } catch (error) {
         if (error.response) {

@@ -10,7 +10,9 @@ import Button from 'react-bootstrap/Button';
 import '../../style/table.css'
 import Filter from './Filter';
 import { ModalHeader } from 'react-bootstrap';
-import AddModal from './AddModal'
+import AddModal from './AddModal';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Import necessary FontAwesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +20,7 @@ import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-so
 import DeleteModal from './DeleteModal';
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useRef } from 'react';
+
 
 
 
@@ -61,15 +64,15 @@ navRef.current.classList.toggle("responsive_nav");
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirymode');
-      console.log('API Response:', response.data.enquiryModes);
       const filteredData = response.data.enquiryModes.filter(enqmode => enqmode.isDeleted === false || enqmode.isDeleted === undefined);
-      console.log('Filtered Data:', filteredData);
+      // console.log('Filtered Data:', filteredData);
       setDatas(filteredData);
       // setFilteredDatas(filteredData);
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   // const getDatas = async () => {
   //   try {
@@ -86,8 +89,12 @@ navRef.current.classList.toggle("responsive_nav");
   const handleUpdate = async (orgId, updatedData) => {
     try {
       const response = await axios.put(`http://localhost:3000/enquirymode/${orgId}`, updatedData);
-      console.log('Update response:', response.data);
-      getDatas(); // Refresh the data after update
+      toast.success('Data successfully Updated', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        className: 'toast-message',
+      });
+            getDatas();  
     } catch (error) {
       console.error('Error updating data:', error);
     }
@@ -161,12 +168,20 @@ const handleClickDelete = (row) => {
       console.error("Datas is not an array!");
       return;
     }
-
+  
     const result = datas.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
-    });
-    setFilteredDatas(result);
-  }, [search, datas]);
+      const nameMatch =
+        (item.name.toLowerCase().includes(search.toLowerCase())) ||
+        (item.desc.toLowerCase().includes(search.toLowerCase()));
+  
+        const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
+        return nameMatch && (filterValue === '' || statusMatch);
+     });
+     setFilteredDatas(result);
+  
+   
+  }, [search, datas, filterValue]);
+  
 
   return (
     <>
@@ -185,32 +200,7 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-        //   <div className='table-top'>
-        //       <div ><AddModal getDatas={getDatas}  /></div>
-        //       <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
-        //         <div>
-        //           <div className="search-input-container">
-        //             <FontAwesomeIcon icon={faSearch} className="search-icon" />
-        //             <input
-        //               type="text"
-        //               placeholder="Search"
-        //               className="w-35 form-control-srch"
-        //               value={search}
-        //               onChange={(e) => setSearch(e.target.value)}
-        //             />
-        //           </div>
-        //         </div>
-
-        //         <div className='count-div'>
-        //           <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-        //           <span>{' '}Results: {totalCount}</span>
-        //         </div>
-        //         <div>
-        //          {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-        //          <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-        //        </div>
-        //       </div>
-        //   </div>
+    
         <div className='table-top'>
          
         <div  className='left-div'>
