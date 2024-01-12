@@ -133,8 +133,8 @@
   
   .search-icon {
     position: absolute;
-    top: 40%;
-    right: 11px;
+        top: 40%;
+        right: 11px;
     transform: translateY(-50%);
     color: #a2a2a2;
     cursor: pointer;
@@ -212,13 +212,20 @@ text-transform: capitalize;
             display: block;
             opacity: 1;
         }
+        .right-div .nav-close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: white;
+        }
     
         .right-div{
             position: absolute;
             top: -28px;
             right: -7px;
             transform: translateY(-100vh);
-            z-index: 1000000;
+            /* z-index: 1000000; */
+            /* background-color: white; */
             padding: 9px;
             display: flex;
             align-items: center;
@@ -226,12 +233,19 @@ text-transform: capitalize;
         }
     
         .inner-div{
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        top: 33px;
-        right: 50px;
-        background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 7%);
+            top: 55px;
+            right: 20px;
+            background-color: rgb(255, 255, 255);
+            padding: 18px;
+            z-index: 10;
+        }
+        .count-div{
+            margin-right: 0px !important;
+            margin-bottom: 10px;
         }
           
         .table-top .responsive_nav{
@@ -241,7 +255,7 @@ text-transform: capitalize;
         .right-div .nav-close-btn{
         position: absolute;
         top: 2rem;
-        right: 2rem;
+        right: 31px;
         }
     
     }

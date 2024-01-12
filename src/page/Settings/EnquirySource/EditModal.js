@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import '../../style/edit.css';
 import { useEffect } from 'react';
+import { Container } from 'react-bootstrap';
 
 function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
   // Formik form configuration
@@ -51,6 +52,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
         <Modal.Title>Edit Enquiry Source</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+   
       <Form onSubmit={formik.handleSubmit}>
           
           <Form.Group className="mb-3" controlId="name">
@@ -86,7 +88,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
 
             
       </Form>
-  
+     
       </Modal.Body>
       <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

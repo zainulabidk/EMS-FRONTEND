@@ -15,19 +15,39 @@ const App = ({getDatas}) => {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
-  const [query, setQuery] = useState('');    //filter
+
 
 // userroles fetch: deafult get userroles
+
+  // useEffect(() => {
+  //   const fetchUserRoles = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3000/userroles');
+  //       const filteredEnqTo = response.data.userRole.filter(to => !to.isDeleted);
+  //       setUserRoles(filteredEnqTo);
+  //      console.log(filteredEnqTo);
+  
+  //       setUserRoles(response.data.userRole);
+  //       formik.setValues((prevValues) => ({
+  //         ...prevValues,
+  //         userRoles: response.data.userRole[0]._id, 
+  //       }));
+  //     } catch (error) {
+  //       console.error('Error fetching user roles:', error);
+  //     }
+  //   };
+  
+  //   fetchUserRoles();
+  // }, []);
 
   useEffect(() => {
     const fetchUserRoles = async () => {
       try {
         const response = await axios.get('http://localhost:3000/userroles');
         const filteredEnqTo = response.data.userRole.filter(to => !to.isDeleted);
-        setUserRoles(filteredEnqTo);
-        console.log(filteredEnqTo);
-        
-        setUserRoles(response.data.userRole);
+        setUserRoles(filteredEnqTo);  // <-- Here is the first update
+  
+        setUserRoles(response.data.userRole);  // <-- Here is the second update
         formik.setValues((prevValues) => ({
           ...prevValues,
           userRoles: response.data.userRole[0]._id, 
@@ -39,6 +59,7 @@ const App = ({getDatas}) => {
   
     fetchUserRoles();
   }, []);
+  
   
 
   const handleClose = () => {
@@ -93,7 +114,7 @@ const App = ({getDatas}) => {
         handleClose();
         getDatas(); 
         // Refresh the page after successful submission
-      //  window.location.reload();
+       window.location.reload();
       } catch (error) {
         if (error.response) {
           console.log('Error Response:', error.response.data);
@@ -109,27 +130,6 @@ const App = ({getDatas}) => {
   });
 
 
-   
-
-  //       toast.success('Data successfully added', {
-  //         position: toast.POSITION.TOP_RIGHT,
-  //         autoClose: 1000,
-  //         className: 'toast-message',
-  //       });
-
-  //       handleClose();
-  //     } catch (error) {
-  //       console.error('Error adding user:', error);
-  //       toast.error('Error adding user. Please try again.', {
-  //         position: toast.POSITION.TOP_RIGHT,
-  //         autoClose: 2000,
-  //         className: 'toast-message',
-  //       });
-  //     }
-  //   },
-  // });
-
-
   return (
     <>
       <ToastContainer autoClose={50000} />
@@ -139,7 +139,7 @@ const App = ({getDatas}) => {
 
       <Modal className='modal-box' show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontSize: '17px' }}>Add My Team</Modal.Title>
+          <Modal.Title style={{ fontSize: '17px' }}>Add Licensee</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -226,24 +226,28 @@ const App = ({getDatas}) => {
                   </Form.Group>
                 </Col>
 
-                <Col md={6}>
-  <Form.Group className="mb-3 "style={{position:'relative'}} controlId="password">
-  <Form.Label style={{fontSize:'14px'}}>Password</Form.Label>
+                             
+<Col md={6}>
+  <Form.Group className="mb-3" style={{ position: 'relative' }} controlId="password">
+    <Form.Label style={{ fontSize: '14px' }}>Password</Form.Label>
+    <div className="password-input-container">
       <Form.Control
         type={showPassword ? 'text' : 'password'}
         name="password"
-        placeholder=' Password'
+        placeholder="Password"
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={() => formik.setFieldTouched('password', true)}
         onFocus={() => formik.setFieldTouched('password', false)}
-        className={(formik.touched.password && formik.errors.password) ? 'error-border' : ''}
+        className={(formik.touched.password && formik.errors.password)}
+        autoComplete="new-password"  // Add this line
       />
       <div className="input-group-append">
         <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
-          {showPassword ? <BsEyeSlash /> : <BsEye />}
+          {showPassword ? <BsEye /> : <BsEyeSlash />}
         </div>
       </div>
+    </div>
     {formik.touched.password && formik.errors.password ? (
       <div className="error">
         {formik.errors.password}

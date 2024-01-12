@@ -86,6 +86,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
         <Modal.Title>Edit Support Enquiry</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <Container>
       <Form onSubmit={formik.handleSubmit}>
           
              
@@ -168,6 +169,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
             </Col>
             </Row>
       </Form>
+      </Container>
       </Modal.Body>
       <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

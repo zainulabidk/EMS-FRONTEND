@@ -71,9 +71,8 @@ function Table() {
   const getDatas = async () => {
     try {
       const response = await axios.get('http://localhost:3000/users');
-      console.log('API Response:', response.data);
       const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
-      console.log('Filtered Data:', filteredData);
+   
       setDatas(filteredData);
       // setFilteredDatas(filteredData);
     } catch (error) {
@@ -115,7 +114,7 @@ function Table() {
       selector: (row) => `${row.fname} ${row.lname}`,
       sortable: true,
       cell: (row) => (
-        <div className="capitalize">
+        <div className="capitalize-text">
           {`${row.fname} ${row.lname}`}
         </div>
       ),
@@ -140,7 +139,7 @@ function Table() {
         }
       },
       cell: (row) => (
-        <div className="capitalize">
+        <div className="capitalize-text">
           {`${row.userRoles.name}`}
         </div>
       ),
@@ -212,7 +211,7 @@ function Table() {
           highlightOnHover
           subHeader
           subHeaderComponent={
-       
+            
 
             <div className='table-top'>
          

@@ -136,7 +136,7 @@ const handleClickDelete = (row) => {
     },
     {
       name: "DESCRIPTION",
-      selector: (row) => row.desc,
+      selector: (row) => row.descp,
     },
     {
       name: "ACTIONS",

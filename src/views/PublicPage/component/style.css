@@ -150,10 +150,10 @@
 
 /* footer start */
 
-.section_padding{
+/* .section_padding{
     padding: 4rem 6rem;
      
-}
+} */
 .footer{
     background-color:#002448;
     margin-top: 100px;
@@ -161,7 +161,7 @@
 .footer-content{
   text-align: center;
   color: white;
-  margin: 30px 0px;
+  padding: 65px 0px 40px 0px;
 }
 .footer-content p{
   color: #ffffffb0;
@@ -213,7 +213,9 @@
     cursor: pointer;
 }
 .sb_footer_below{
-    display: flex;
+    display: flex ;
+    width: 100%;
+    padding: 0px 25px;
      flex-direction: row;
      justify-content: space-between;
      margin-top: 0.2rem;   

@@ -44,6 +44,9 @@ function Table() {
 
 
 
+ 
+
+
 
 
 
@@ -51,25 +54,13 @@ function Table() {
 const getDatas = async () => {
   try {
     const response = await axios.get('http://localhost:3000/users');
-    console.log('API Response:', response.data);
     const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
-    console.log('Filtered Data:', filteredData);
     setDatas(filteredData);
     // setFilteredDatas(filteredData);
   } catch (error) {
     console.error(error);
   }
 };
-
-  // const getDatas = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/users');
-  //     setDatas(response.data.users);
-  //     setFilteredDatas(response.data.users);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
 
 
 
@@ -118,9 +109,14 @@ const handleClickDelete = (row) => {
 };
   const columns = [
     {
-      name: "Name",
-      selector: (row) => row.fname,
+      name: "NAME",
+      selector: (row) => `${row.fname} ${row.lname}`,
       sortable: true,
+      cell: (row) => (
+        <div className="capitalize-text">
+          {`${row.fname} ${row.lname}`}
+        </div>
+      ),
     },
     {
       name: "Email",
@@ -133,7 +129,13 @@ const handleClickDelete = (row) => {
     {
       name: "User Type",
       selector: (row) => row.userType,
+      cell: (row) => (
+        <div className="capitalize-text">
+          {`${row.userType} `}
+        </div>
+      ),
     },
+   
     {
       name: "Actions",
       cell: (row) => (
@@ -156,29 +158,34 @@ const handleClickDelete = (row) => {
 
   useEffect(() => {
     getDatas();
+    // fetchUserRoles();
   }, []);
+
+  
   useEffect(() => {
     if (!Array.isArray(datas)) {
-      console.error("Datas is not an array!");
+      console.error("Datas is not an array!" ,datas);
       return;
     }
 
-    // Apply name filter
-    const result = datas.filter((lice) => {
-      const nameMatch = lice.fname.toLowerCase().includes(search.toLowerCase());
-      return nameMatch;
+    const result = datas.filter((item) => {
+    
+      const nameMatch =
+      (item.fName && item.fName.toLowerCase().includes(search.toLowerCase())) ||
+      (item.lName && item.lName.toLowerCase().includes(search.toLowerCase())) ||
+      (item.email && item.email.toLowerCase().includes(search.toLowerCase())) ||
+      (item.mobile && item.mobile.toString().includes(search));
+
+
+      const statusMatch = item.status && item.status.toLowerCase().includes(filterValue.toLowerCase());
+      const enqNoMatch = item.enqNo && item.enqNo.toString().includes(search);
+
+
+     return (nameMatch  || enqNoMatch ) && (filterValue === '' || statusMatch);
+
     });
-
-    // Apply user type filter
-    const licenseeResult = result.filter((user) => user.userType === 'licensee');
-
-    // Apply status filter
-    const filteredResult = licenseeResult.filter((lice) =>
-      lice.status.toLowerCase().includes(filterValue.toLowerCase())
-    );
-
-    setFilteredDatas(filteredResult);
-  }, [search, datas, filterValue]);
+    setFilteredDatas(result);
+  }, [search, datas,filterValue]);
 
   const totalCount = filteredDatas.length;
 

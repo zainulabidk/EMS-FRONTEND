@@ -10,7 +10,7 @@ import '../style/edit.css';
 import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
   // Formik form configuration
@@ -63,6 +63,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
         <Modal.Title>Edit Support Type</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+   <Container>
       <Form onSubmit={formik.handleSubmit}>
       
           <Form.Group className="mb-3" controlId="name">
@@ -128,7 +129,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
             </Form.Group>
           
       </Form>
-
+      </Container>
       </Modal.Body>
       <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>

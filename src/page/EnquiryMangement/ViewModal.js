@@ -21,29 +21,40 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
           <Row className='first-row'>
             <h5>Details</h5>
             <Col md={3}>
-            <p className='view-label'>EnqNo:</p>
-            <p className='view-data'> {selectedDatas?.enqNo}</p>
-            </Col>
-            <Col md={3}>
             <p className='view-label'>Name</p>
-              <p className='view-data'> {`${selectedDatas?.fName} ${selectedDatas?.lName} `}</p>
+            <p className='view-data'>{`${selectedDatas?.fName} ${selectedDatas?.lName} `}</p>
             </Col>
             <Col md={3}>
-              <p className='view-label'>Gender</p>
-              <p className='view-data'> {selectedDatas?.gender ? 'male' : 'female'}</p>
+            <p className='view-label'>Reference Id</p>
+            <p className='view-data'>{`${selectedDatas?.referenceId} ${selectedDatas?.referenceId} `}</p>
             </Col>
-           
             <Col md={3}>
-              <p className='view-label'>Email</p>
-              <p className='view-data'> {selectedDatas?.email}</p>
+            <p className='view-label'>Lead Quality</p>
+              <p className='view-data'> {`${selectedDatas?.leadQuality} ${selectedDatas?.leadQuality} `}</p>
+            </Col>
+            <Col md={3}>
+              <p className='view-label'>Remarks</p>
+              <p className='view-data'> {selectedDatas?.remarks}</p>
+            </Col>
+          
+          
+            <Col md={3}>
+              <p className='view-label'>Description</p>
+              <p className='view-data'> {selectedDatas?.enqDescp}</p>
             </Col>
             </Row>
 
             <Row className='first-row'>
-            <h5>Details</h5>
+            <h5>Address</h5>
+         
+            <Col md={3}>
+              <p className='view-label'>Email</p>
+              <p className='view-data'>{selectedDatas?.email}</p>
+            </Col>
+
             <Col md={3}>
               <p className='view-label'>Mobile</p>
-              <p className='view-data'> {selectedDatas?.mobile}</p>
+              <p className='view-data'>{selectedDatas?.mobile}</p>
             </Col>
 
             <Col md={3}>
@@ -59,13 +70,20 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
               <p className='view-label'>State</p>
               <p className='view-data'> {selectedDatas?.state}</p>
             </Col>
-           
+            <Col md={3}>
+              <p className='view-label'>Gender</p>
+              <p className='view-data'> {selectedDatas?.remarks ? 'male' : 'female'}</p>
+            </Col>
             </Row>
             <Row className='first-row'>
-            <h5>Details</h5>
+            <h5>More Details</h5>
             <Col md={3}>
               <p className='view-label'>EnqSource</p>
               <p className='view-data'> {selectedDatas?.enqSource?.name}</p>
+            </Col>
+            <Col md={3}>
+              <p className='view-label'>EnqType</p>
+              <p className='view-data'> {selectedDatas?.enqType?.name}</p>
             </Col>
             <Col md={3}>
               <p className='view-label'>SupportType</p>
@@ -75,34 +93,16 @@ function ViewModal({ showModal, handleClose, selectedDatas }) {
               <p className='view-label'>EnqMode</p>
               <p className='view-data'> {selectedDatas?.enqMode?.name}</p>
             </Col>
-            <Col md={3}>
-              <p className='view-label'>EnqType</p>
-              <p className='view-data'> {selectedDatas?.enqType?.name}</p>
-            </Col>
-
-           
-            </Row>
-           
-            <Row className='first-row'>
-            <h5>Details</h5>
-            <Col md={3}>
-              <p className='view-label'>LeadQuality</p>
-              <p className='view-data'> {selectedDatas?.leadQuality}</p>
-            </Col>
+      
             <Col md={3}>
               <p className='view-label'>EnqTo</p>
               <p className='view-data'> {selectedDatas?.enqTo?.name}</p>
             </Col>
+        
+
            
-            <Col md={3}>
-              <p className='view-label'>Description</p>
-              <p className='view-data'> {selectedDatas?.enqDescp}</p>
-            </Col>
-            <Col md={3}>
-              <p className='view-label'>Remarks</p>
-              <p className='view-data'> {selectedDatas?.remarks}</p>
-            </Col>
             </Row>
+          
           
         </Container>
       </Modal.Body>

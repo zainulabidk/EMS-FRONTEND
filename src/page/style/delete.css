@@ -11,20 +11,24 @@
 }
 
 .delete-modal .modal-header, .delete-modal .modal-footer {
-  border: none;
+  /* border: none; */
   text-align: center;
 }
 .delete-modal .modal-footer{
   text-align: center;
-  margin: 5px 15px 15px 15px;
+  /* margin: 5px 15px 15px 15px; */
   display: flex; 
-  justify-content: center; 
+  /* justify-content: center;  */
 }
 
 
 .delete-modal .modal-footer .btn-success {
-  background-color: #003366; 
-  border-color: #003366; 
+  background-color: #e20000c4;
+
+  border-color: #ff000040;
 }
 
 
+p{
+  font-weight: 500;
+}

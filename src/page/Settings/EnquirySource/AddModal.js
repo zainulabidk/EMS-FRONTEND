@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import ToggleButton from 'react-toggle-button';
 
 import '../../style/addmodel.css';
+import { Container } from 'react-bootstrap';
 
 
 function AddModal({getDatas}) {
@@ -83,6 +84,7 @@ function AddModal({getDatas}) {
           <Modal.Title style={{ fontSize: '18px' }}>Add Enquiry Source</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+       <Container>
           <Form onSubmit={formik.handleSubmit}>
           
           <Form.Group className="mb-3" controlId="name">
@@ -117,6 +119,7 @@ function AddModal({getDatas}) {
 
           
           </Form>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleClose}>
