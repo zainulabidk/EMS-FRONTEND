@@ -11,6 +11,15 @@ import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 
 function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
+
+  
+  const capitalizeFirstLetter = (value) => {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
   // Formik form configuration
   const formik = useFormik({
     initialValues: {

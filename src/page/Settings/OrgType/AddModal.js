@@ -78,7 +78,7 @@ function App({getDatas}) {
           <Container>
           <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="name">
-              <Form.Label style={{ fontSize: '14px' }}>OrgType</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>OrgType</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter OrgType"
@@ -92,7 +92,7 @@ function App({getDatas}) {
               ) : null}
             </Form.Group>
             <Form.Group className="mb-3" controlId="descp">
-              <Form.Label style={{ fontSize: '14px' }}>Description</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 placeholder="Enter descp"

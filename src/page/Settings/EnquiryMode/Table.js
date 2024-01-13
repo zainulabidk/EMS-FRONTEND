@@ -61,30 +61,25 @@ navRef.current.classList.toggle("responsive_nav");
     }
   };
 
-  const getDatas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/enquirymode');
-      const filteredData = response.data.enquiryModes.filter(enqmode => enqmode.isDeleted === false || enqmode.isDeleted === undefined);
-      // console.log('Filtered Data:', filteredData);
-      setDatas(filteredData);
-      // setFilteredDatas(filteredData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  
 
-  // const getDatas = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/enquirymode');
-  //     console.log('Responsse from zain:', response.data.enquiryModes);
-  //     setDatas(response.data.enquiryModes);
-  //     setFilteredDatas(response.data.enquiryModes);
-  //     console.log("helo"+esponse.data.enquiryModes);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+    
+const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
+
+const getDatas = async () => {
+  try {
+    const { enquiryModes } = (await axios.get('http://localhost:3000/enquirymode')).data;
+    const filteredData = enquiryModes.map(({ name, desc, ...rest }) => ({
+      ...rest,
+      name: capitalize(name),
+      desc: capitalize(desc),
+    })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+
+    setDatas(filteredData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+  
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
@@ -134,23 +129,25 @@ const handleClickDelete = (row) => {
       name: "NAME",
       selector: (row) => row.name,
       sortable: true,
+   
     },
     {
       name: "DESCRIPTION",
       selector: (row) => row.desc,
+     
     },
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
-          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
-        </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+         <Button   className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
+          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
+        </Button>
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
         </div>

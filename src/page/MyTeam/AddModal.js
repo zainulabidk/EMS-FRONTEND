@@ -20,27 +20,25 @@ const App = ({getDatas, fetchUserRoles}) => {
 
 
   
-useEffect(() => {
-  const fetchUserRoles = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/userroles');
-      const filteredUserRoles = response.data.userRole.filter(role => !role.isDeleted);
-      setUserRoles(filteredUserRoles.map(role => role._id));
-      
-      
-
-      setUserRoles(response.data.userRole);
-      formik.setValues((prevValues) => ({
-        ...prevValues,
-        userRoles: response.data.userRole._id, 
-      }));
-    } catch (error) {
-      console.error('Error fetching user roles:', error);
-    }
-  };
-
-  fetchUserRoles();
-}, []);
+  useEffect(() => {
+    const fetchUserRoles = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/userroles');
+        const filteredUserRoles = response.data.userRole.filter(role => role.isDeleted === false);
+     
+        setUserRoles(filteredUserRoles);
+  
+        formik.setValues((prevValues) => ({
+          ...prevValues,
+          userRoles: filteredUserRoles.map(role => role._id),
+        }));
+      } catch (error) {
+        console.error('Error fetching user roles:', error);
+      }
+    };
+  
+    fetchUserRoles();
+  }, []);
 
   
 
@@ -112,7 +110,13 @@ useEffect(() => {
     
   });
 
-
+  const capitalizeFirstLetter = (value) => {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
 
   return (
@@ -131,28 +135,27 @@ useEffect(() => {
             <Form onSubmit={formik.handleSubmit}>
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3 " controlId="fname" >
-                    <Form.Label style={{fontSize:'14px'}}>First Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="fname"
-                      placeholder=" First Name"
-                      value={formik.values.fname}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-           
-                    />
-                    {formik.touched.fname && formik.errors.fname ? (
-                      <div className="error">
-                        {formik.errors.fname}
-                      </div>
-                    ) : null}
-                  </Form.Group>
+                <Form.Group className="mb-3" controlId="fname">
+  <Form.Label className="mandatory-label" style={{ fontSize: '14px' }}>
+    First Name
+  </Form.Label>
+  <Form.Control
+    type="text"
+    name="fname"
+    placeholder="First Name"
+    value={formik.values.fname}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+  />
+  {formik.touched.fname && formik.errors.fname ? (
+    <div className="error">{formik.errors.fname}</div>
+  ) : null}
+</Form.Group>
                 </Col>
 
                 <Col md={6}>
                 <Form.Group className="mb-3 " controlId="lname" >
-                    <Form.Label style={{fontSize:'14px'}}>Last Name</Form.Label>
+                    <Form.Label className="mandatory-label" style={{fontSize:'14px'}}>Last Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="lname"
@@ -173,7 +176,7 @@ useEffect(() => {
 
                 <Col md={6}>
                 <Form.Group className="mb-3 " controlId="email" >
-                    <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
+                    <Form.Label className="mandatory-label" style={{fontSize:'14px'}}>Email</Form.Label>
                     <Form.Control
   type="email"
   name="email"
@@ -195,7 +198,7 @@ useEffect(() => {
 
                 <Col md={6}>
                 <Form.Group className="mb-3 " controlId="mobile" >
-                    <Form.Label style={{fontSize:'14px'}}>Mobile</Form.Label>
+                    <Form.Label className="mandatory-label" style={{fontSize:'14px'}}>Mobile</Form.Label>
                     <Form.Control
                       type="text"
                       name="mobile"
@@ -215,7 +218,7 @@ useEffect(() => {
                 
 <Col md={6}>
   <Form.Group className="mb-3" style={{ position: 'relative' }} controlId="password">
-    <Form.Label style={{ fontSize: '14px' }}>Password</Form.Label>
+    <Form.Label className="mandatory-label" style={{ fontSize: '14px' }}>Password</Form.Label>
     <div className="password-input-container">
       <Form.Control
         type={showPassword ? 'text' : 'password'}
@@ -241,37 +244,10 @@ useEffect(() => {
     ) : null}
   </Form.Group>
 </Col>
-{/* 
-                <Col md={6}>
-  <Form.Group className="mb-3 "style={{position:'relative'}} controlId="password">
-  <Form.Label style={{fontSize:'14px'}}>Password</Form.Label>
-  <Form.Control
-  type={showPassword ? 'text' : 'password'}
-  name="password"
-  placeholder="Password"
-  value={formik.values.password}
-  onChange={formik.handleChange}
-  onBlur={() => formik.setFieldTouched('password', true)}
-  onFocus={() => formik.setFieldTouched('password', false)}
-  className={(formik.touched.password && formik.errors.password) }
-  autoComplete="new-password"  // Add this line
-/>
 
-      <div className="input-group-append">
-        <div className="password-toggle-icon input-group-text" onClick={togglePasswordVisibility}>
-          {showPassword ?   <BsEye />: <BsEyeSlash />}
-        </div>
-      </div>
-    {formik.touched.password && formik.errors.password ? (
-      <div className="error">
-        {formik.errors.password}
-      </div>
-    ) : null}
-  </Form.Group>
-</Col> */}
                 <Col md={6}>
                   <Form.Group  className="mb-3 " controlId="confirmPassword">
-                  <Form.Label style={{fontSize:'14px'}}>Confirm Password</Form.Label>
+                  <Form.Label className="mandatory-label" style={{fontSize:'14px'}}>Confirm Password</Form.Label>
                   <Form.Control
   type="password"
   placeholder="Confirm Password"
@@ -294,7 +270,7 @@ useEffect(() => {
                 </Col>
                 <Col md={6}>
                 <Form.Group  className="mb-3 " controlId="confirmPassword">
-                  <Form.Label style={{fontSize:'14px'}}>User Role</Form.Label>
+                  <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>User Role</Form.Label>
                 <Form.Select
   className='input-controll'
   name="userRoles"
@@ -307,7 +283,7 @@ useEffect(() => {
   <option value="" label="Select a role" />
   {userRoles.map(role => (
   <option key={role._id} value={role._id}>
-    {role.name}
+    {capitalizeFirstLetter (role.name)}
   </option>
 ))}
 

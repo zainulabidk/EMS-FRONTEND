@@ -164,11 +164,19 @@ const AppHeaderDropdown = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          {/* <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button> */}
+
+          <Button style={{ background: 'none', color: '#5bb6ea', border: '1px solid #5bb6ea' }} onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Saved
+          {/* <Button variant="primary" onClick={handleSubmit}>
+            Save
+          </Button> */}
+
+          <Button style={{ background: '#5bb6ea', border: 'none', fontWeight: '600' }} onClick={handleSubmit}>
+          Save
           </Button>
         </Modal.Footer>
       </Modal>

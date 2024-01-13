@@ -83,7 +83,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
     <ToastContainer autoClose={1000}/>
     <Modal show={showModal} onHide={handleModalHide} backdrop="static" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Support Enquiry</Modal.Title>
+        <Modal.Title>Edit Follow-Up</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -120,7 +120,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
             </Col>
             <Col md={6}>
             <Form.Group className="mb-3" controlId="nextContactDate">
-            <Form.Label style={{ fontSize: '14px' }}>Next Contact Date</Form.Label>
+            <Form.Label style={{ fontSize: '14px' }}>Next Follow-Up Schedule</Form.Label>
               <Form.Control
                 type="text"
                 name="nextContactDate"

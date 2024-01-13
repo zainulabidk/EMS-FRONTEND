@@ -145,13 +145,14 @@ const handleClickDelete = (row) => {
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
-          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
-        </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2  me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+         <Button  className='btn  btn-1  me-3 ps-0' onClick={() => handleEdit(row)}>
+          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
+        </Button>
+       
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
         </div>

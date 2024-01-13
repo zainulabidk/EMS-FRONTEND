@@ -88,7 +88,7 @@ function AddModal({getDatas}) {
           <Form onSubmit={formik.handleSubmit}>
           
           <Form.Group className="mb-3" controlId="name">
-              <Form.Label style={{ fontSize: '14px' }}>Name</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Name"
@@ -102,7 +102,7 @@ function AddModal({getDatas}) {
               ) : null}
             </Form.Group>
             <Form.Group className="mb-3" controlId="desc">
-              <Form.Label style={{ fontSize: '14px' }}>Description</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Description</Form.Label>
               <Form.Control
               as="textarea"
                 type="text"

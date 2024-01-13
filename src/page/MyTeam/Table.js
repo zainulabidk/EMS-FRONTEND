@@ -68,17 +68,48 @@ function Table() {
     deleteModalShow();
   };
 
-  const getDatas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/users');
-      const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/users');
+  //     const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
    
-      setDatas(filteredData);
-      // setFilteredDatas(filteredData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     setDatas(filteredData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+//   const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
+
+// const getDatas = async () => {
+//   try {
+//     const { users } = (await axios.get('http://localhost:3000/users')).data;
+//     const filteredData = users.map(({ fname, lname, ...rest }) => ({
+//       ...rest,
+//       fname: capitalize(fname),
+//       lname: capitalize(lname),
+//     })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+
+//     setDatas(filteredData);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+const getDatas = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/users');
+    console.log('API Response:', response.data);
+
+
+    const filteredData = response.data.users.filter(user => user.userRoles.name !== "licensee");
+
+    console.log('Filtered Data:', filteredData);
+    setDatas(filteredData);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 
 
@@ -113,11 +144,7 @@ function Table() {
       name: "NAME",
       selector: (row) => `${row.fname} ${row.lname}`,
       sortable: true,
-      cell: (row) => (
-        <div className="capitalize-text">
-          {`${row.fname} ${row.lname}`}
-        </div>
-      ),
+   
     },
     {
       name: "EMAIL",
@@ -138,23 +165,20 @@ function Table() {
           return 'Unknown Role';
         }
       },
-      cell: (row) => (
-        <div className="capitalize-text">
-          {`${row.userRoles.name}`}
-        </div>
-      ),
+     
     },
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
           <div>
+          <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
+              <FontAwesomeIcon icon={faEye} />
+            </Button>
             <Button className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
               <FontAwesomeIcon icon={faEdit} />
             </Button>
-            <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
-              <FontAwesomeIcon icon={faEye} />
-            </Button>
+        
             <Button className='btn btn-3  me-3 ps-0' onClick={() => handleClickDelete(row)}>
               <FontAwesomeIcon icon={faTrash} />
             </Button>

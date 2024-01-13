@@ -9,36 +9,59 @@ console.log( 'expandible FollowUp',selectedDatas);
    <>
     <Modal show={showModal} onHide={handleClose}  backdrop="static" centered>
       <Modal.Header closeButton>
-        <Modal.Title>FollowUp Details</Modal.Title>
+        <Modal.Title>Follow-Up Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
 
       <Container>
           <Row>
-            <Col md={6}>
-            <p className='view-label'>followUpDetails:</p>
-            <p className='view-data'> {selectedDatas?.followUpDetails}</p>
-            </Col>
-            <Col md={6}>
-              <p className='view-label'>nextContactDate</p>
-              <p className='view-data'> {selectedDatas?.nextContactDate}</p>
-            </Col> 
+          <Col md={6} className='pe-0'>
+           <Form.Label style={{fontSize:'14px'}}>Follow-Up Details</Form.Label>
+              <Form.Control
+                as="textarea"
+                disabled={true} 
+                value={`${selectedDatas?.followUpDetails || ''}`}
+                className='custom-disabled-input'
+              />
+         </Col>
+
+                  <Col md={6} className='pe-0'>
+           <Form.Label style={{fontSize:'14px'}}>Remarks</Form.Label>
+              <Form.Control
+                as="textarea"
+                disabled={true} 
+                value={`${selectedDatas?.remarks || ''}`}
+                className='custom-disabled-input'
+              />
+         </Col>
+         <Col md={6}>
+           <Form.Label style={{fontSize:'14px'}}>Next Contact Date</Form.Label>
+              <Form.Control
+                            disabled={true} 
+                value={`${selectedDatas?.nextContactDate || ''}`}
+                className='custom-disabled-input'
+              />
+         </Col>
+         <Col md={6}>
+           <Form.Label style={{fontSize:'14px'}}>Created At</Form.Label>
+              <Form.Control
+                            disabled={true} 
+                value={`${selectedDatas?.createdAt || ''}`}
+                className='custom-disabled-input'
+              />
+         </Col>
+         <Col md={6}>
+           <Form.Label style={{fontSize:'14px'}}>Created By</Form.Label>
+              <Form.Control
+                            disabled={true} 
+                value={`${selectedDatas?.createdBy || ''}`}
+                className='custom-disabled-input'
+              />
+         </Col>
+       
             </Row>
             <Row>
-            <Col md={6}>
-              <p className='view-label'>CreatedAt</p>
-              <p className='view-data'> {selectedDatas?.createdAt}</p>
-            </Col> 
-            <Col md={6}>
-              <p className='view-label'>CreatedBy</p>
-              <p className='view-data'> {selectedDatas?.createdBy}</p>
-            </Col>
-            </Row>
-            <Row>
-            <Col md={6}>
-              <p className='view-label'>Remarks</p>
-              <p className='view-data'> {selectedDatas?.remarks}</p>
-            </Col>          
+   
             </Row>          
         </Container>
       </Modal.Body>

@@ -47,9 +47,9 @@
     position: relative;
     width: calc(33.33% - 2px);
     box-sizing: border-box;
-    font-weight: 600;
+    /* font-weight: 600; */
     color: #bcbcbc;
-    border: 1px solid #dee2e6;
+    /* border: 1px solid #dee2e6; */
     border-top: none;
   }
   
@@ -58,7 +58,7 @@
     /* border: none;
     background: #94cff1;
     color: white; */
-    border-bottom: 3px solid #5bb6ea;
+    border-bottom: 2px solid #5bb6ea;
     color: #5bb6ea;
 }
 

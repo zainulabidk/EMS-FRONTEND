@@ -44,6 +44,7 @@ const [showFollowUpModal, setShowFollowUpModal] = useState(false);  //followUp
   const [filterValue, setFilterValue] = useState(''); 
   const [query, setQuery] = useState('');   
   const navRef = useRef();  
+  
   const showNavbar = () => {
   navRef.current.classList.toggle("responsive_nav");
 }
@@ -56,21 +57,36 @@ const [showFollowUpModal, setShowFollowUpModal] = useState(false);  //followUp
   };
 
 
+  
 
-  const getDatas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/enquiries');
-      console.log('Responsse from saba:', response.data);
-      setDatas(response.data.enquiry);
-      setFilteredDatas(response.data.enquiry);
-      console.log(response.data.enquiry);
 
-      // Fetch lead quality options from the server or set them manually
-      setLeadQualityOptions(['High', 'Medium', 'Low']);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+  const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
+
+const getDatas = async () => {
+  try {
+    const { enquiry } = (await axios.get('http://localhost:3000/enquiries')).data;
+    const filteredData = enquiry.map(({ fName, lName, gender, district, location, state, leadQuality, remarks,enqDescp, ...rest }) => ({
+      ...rest,
+      fName: capitalize(fName),
+      lName: capitalize(lName),
+      gender: capitalize(gender),
+      district: capitalize(district),
+      location: capitalize(location),
+      state: capitalize(state),
+      leadQuality: capitalize(leadQuality),
+      remarks: capitalize(remarks),
+      enqDescp: capitalize(enqDescp),
+
+    })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+
+    setDatas(filteredData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 
   useEffect(() => {
     getDatas();
@@ -139,30 +155,32 @@ const totalCount = filteredDatas ? filteredDatas.length : 0;
    
     {
       name: "ENQ NO",
-      selector: (row) =><div style={{ textTransform: 'capitalize' }}>{ row.enqNo}</div>,
+      selector: (row) => row.enqNo,
       sortable: true,
     },
   
     {
       name: "NAME",
-      selector: (row) =><div style={{ textTransform: 'capitalize' }}>{ `${row.fName} ${row.lName}`}</div>,
+      selector: (row)=> `${row.fName} ${row.lName}`,
+     
     },
 
     {
       name: "MOBILE",
-      selector: (row) =><div style={{ textTransform: 'capitalize' }}>{ row.mobile}</div>,
+      selector: (row) =>row.mobile,
     },
+    
 
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
         <div>
+        <Button  className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
+            <FontAwesomeIcon icon={faEye} />
+          </Button>
           <Button  className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
             <FontAwesomeIcon icon={faEdit} />
-          </Button>
-          <Button  className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
-            <FontAwesomeIcon icon={faEye} />
           </Button>
           <Button  className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
             <FontAwesomeIcon icon={faTrash} />
@@ -191,6 +209,7 @@ const totalCount = filteredDatas ? filteredDatas.length : 0;
       (item.fName && item.fName.toLowerCase().includes(search.toLowerCase())) ||
       (item.lName && item.lName.toLowerCase().includes(search.toLowerCase())) ||
       (item.email && item.email.toLowerCase().includes(search.toLowerCase())) ||
+      (item.enqNo && item.email.toLowerCase().includes(search.toLowerCase())) ||
       (item.mobile && item.mobile.toString().includes(search))
 
 
@@ -285,13 +304,14 @@ const ExpandedComponent = ({ data }) => {
      <CTableBody>
         {followUpData.map((followUp, index) => (
          <CTableRow key={index} className="follow-up-table-row">
-           <CTableDataCell className='text-start'>{followUp.followUpDetails.substring(0,13)}..</CTableDataCell>
+       
+<CTableDataCell className='text-start'>{capitalizeFirstLetter(followUp.followUpDetails.substring(0, 13))}..</CTableDataCell>
            <CTableDataCell className='text-start'>{followUp.nextContactDate}</CTableDataCell>
-           <CTableDataCell className='text-start'>{followUp.remarks.substring(0,13)}..</CTableDataCell>
-           <CTableDataCell className='text-start'>{followUp.status}</CTableDataCell>
+           <CTableDataCell className='text-start'>{capitalizeFirstLetter(followUp.remarks.substring(0, 13))}..</CTableDataCell>
+           <CTableDataCell className='text-start'>{capitalizeFirstLetter(followUp.status.substring(0, 13))}..</CTableDataCell>
            <CTableDataCell className='text-start'>
              <div className="d-flex justify-content-start">
-               <FontAwesomeIcon icon={faEye} style={{  color: '#5bb6ea'}} 
+               <FontAwesomeIcon icon={faEye} style={{  color: '#5bb6ea', cursor:'pointer'}} 
              onClick={() => handleClickView(followUp)}/>
              </div>
            </CTableDataCell>
@@ -305,7 +325,9 @@ const ExpandedComponent = ({ data }) => {
     </>
   );
 };
-
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
   return (
     <>
     <ToastContainer />
@@ -324,6 +346,7 @@ const ExpandedComponent = ({ data }) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
+          // <button>hello</button>
       
         <div className='table-top'>
          

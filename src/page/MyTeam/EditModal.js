@@ -34,6 +34,14 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
   };
 
 
+  const capitalizeFirstLetter = (value) => {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   const formik = useFormik({
     initialValues: {
       fname: selectedDatas?.fname || '',
@@ -157,7 +165,7 @@ function EditModal({ showModal, handleClose, selectedDatas, handleUpdate }) {
   <option value="" disabled selected >User Role</option>
   {userRole.map(type => (
     <option key={type._id} value={type._id}>
-      {type.name}
+      {capitalizeFirstLetter (type.name)}
     </option>
   ))}
         </Form.Control>

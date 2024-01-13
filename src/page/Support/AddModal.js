@@ -2,7 +2,7 @@ import React,{useState,useEffect}from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { Container, Row, Col } from 'react-bootstrap';
+  import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -14,6 +14,13 @@ import 'react-toastify/dist/ReactToastify.css';
 function AddModal({getDatas}) {
 
 
+  const capitalizeFirstLetter = (value) => {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
   const [show, setShow] = React.useState(false);
 
   const [supportType, setSupportType] = useState([]);
@@ -129,15 +136,15 @@ function AddModal({getDatas}) {
 
       <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontSize: '18px' }}>Which type of support do you need ?</Modal.Title>
+          <Modal.Title >Which type of support do you need ?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Container>
           <Form onSubmit={formik.handleSubmit}>
-                 
-          {/* Support Type Dropdown */}
+   <Row>
+   <Col md={6}>
          <Form.Group className="mb-3" controlId="supportType">
-         <Form.Label style={{fontSize:'14px'}}>Support Type</Form.Label>
+         <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Support Type</Form.Label>
               <Form.Control
                 as="select"
                 name="supportType"
@@ -151,7 +158,7 @@ function AddModal({getDatas}) {
                 </option>
                 {supportType.map(type => (
                   <option key={type._id} value={type._id}>
-                     {type.name}
+                     {capitalizeFirstLetter (type.name)}
                   </option>
                 ))}
               </Form.Control>
@@ -159,11 +166,11 @@ function AddModal({getDatas}) {
                 <div className="error" style={{color:'red'}}>{formik.errors.supportType}</div>
               ) : null}
             </Form.Group>
-
-            
+            </Col>
+            <Col md={6}>
           {/* Support Type Dropdown */}
          <Form.Group className="mb-3" controlId="supportTo">
-         <Form.Label style={{fontSize:'14px'}}>Support To</Form.Label>
+         <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Support To</Form.Label>
            <Form.Control
              as="select"
              name="supportTo"
@@ -177,7 +184,7 @@ function AddModal({getDatas}) {
              </option>
              {supportTo.map(to => (
                <option key={to._id} value={to._id}>
-                  {`${to.fname} ${to.lname}`}
+                  {capitalizeFirstLetter (`${to.fname} ${to.lname}`)}
                </option>
              ))}
            </Form.Control>
@@ -185,9 +192,9 @@ function AddModal({getDatas}) {
              <div className="error" style={{color:'red'}}>{formik.errors.supportTo}</div>
            ) : null}
          </Form.Group>
-           
+         </Col>
             <Form.Group className="mb-3" controlId="remarks">
-            <Form.Label style={{ fontSize: '14px' }}>Remarks</Form.Label>
+            <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Remarks</Form.Label>
               <Form.Control
                 as="textarea"
                 name="remarks"
@@ -200,7 +207,7 @@ function AddModal({getDatas}) {
               ) : null}
             </Form.Group>
 
-          
+            </Row>
           </Form>
           </Container>
         </Modal.Body>

@@ -28,6 +28,8 @@ function Table() {
   const [filterValue, setFilterValue] = useState(''); 
   const [query, setQuery] = useState(''); 
   const navRef = useRef();  
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const showNavbar = () => {
   navRef.current.classList.toggle("responsive_nav");
 }
@@ -91,17 +93,26 @@ const handleClickDelete = (row) => {
   const columns = [
    
     {
+      name: "ENQ NO",
+      selector: (row) =><div>{row.enqId ? `${row.enqId.enqNo}` :''}</div>,
+      sortable: true,
+    },
+    {
       name: "NAME",
       selector: (row) =><div style={{ textTransform: 'capitalize' }}>{row.enqId ? `${row.enqId.fName} ${row.enqId.lName}` :''}</div>,
       sortable: true,
     },
-    {
-      name: "DETAILS",
-      selector: (row) =>  <div style={{ textTransform: 'capitalize' }}>{row.followUpDetails}</div> ,
-    },
+
     {
       name: "CONTACT DATE",
-      selector: (row) => <div style={{ textTransform: 'capitalize' }}>{row.nextContactDate}</div> ,
+      selector: (row) => {
+        const formattedDate = new Date(row.nextContactDate).toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+        });
+        return <div style={{ textTransform: 'capitalize' }}>{formattedDate}</div>;
+      },
     },
     {
       name: "STATUS",
@@ -112,13 +123,14 @@ const handleClickDelete = (row) => {
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
-          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
-        </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+         <Button className='btn  btn-1  me-3 ps-0' onClick={() => handleEdit(row)}>
+          <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
+        </Button>
+     
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
         </div>
@@ -142,16 +154,19 @@ const handleClickDelete = (row) => {
       (item.enqId.fName.toLowerCase().includes(search.toLowerCase())) || 
       (item.enqId.lName.toLowerCase().includes(search.toLowerCase())) ||
       (item.nextContactDate && item.nextContactDate.toString().includes(search));
-
+      const dateRangeMatch =
+      (!startDate || new Date(item.nextContactDate) >= new Date(startDate)) &&
+      (!endDate || new Date(item.nextContactDate) <= new Date(endDate));
     
    //   const nextContactDateMatch = item.nextContactDate.toLowerCase().includes(search.toLowerCase());
 
       const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
      // Apply both name and status filters
-       return nameMatch && (filterValue === '' || statusMatch);
+    
+     return nameMatch && (filterValue === '' || statusMatch) && dateRangeMatch;
     });
     setFilteredDatas(result);
-  }, [search, datas,filterValue]);
+  }, [search, datas, filterValue, startDate, endDate]);
 
 
   return (
@@ -172,81 +187,61 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-       
-/* <div className='table-top container-fluid'>
-<div className='row'>
-  <div className='col-md-7'>
-    <div className='row d-flex justify-content-between'>
-   
-    <div className='col-7 col-sm-5 search-input-container'>
-    <FontAwesomeIcon icon={faSearch} className='search-icon' />
-    <input
-      type='text'
-      placeholder='Search'
-      className='w-100 search-control'
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-    />
-  </div>
-  </div>
-  </div>
+          <div className='table-top'>
+            <div className='left-div'>
+              <div className="search-input-container">
+                <FontAwesomeIcon icon={faSearch} className="search-icon " />
+                <input
+                  type='text'
+                  placeholder='Search'
+                  className='w-35 search-control'
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
 
-  <div className='col-md-5'>
-  <div className='row  d-flex justify-content-end'>
-    <div className='col-8 col-sm-7 '>
-      <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-    </div>
-    <div className=' col-4 col-sm-3 col-lg-4 col-xl-3' >
-      <div className='count-div'>
-      <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-      <span>{' '}  {totalCount}</span>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
-</div> */
-<div className='table-top'>
-         
-<div  className='left-div'>
-     <div className="search-input-container">
-       <FontAwesomeIcon icon={faSearch} className="search-icon " />
-       <input
-         type='text'
-         placeholder='Search'
-         className='w-35 search-control'
-         value={search}
-         onChange={(e) => setSearch(e.target.value)}
-       />
-     </div>
-     </div>
-     
-     <div  ref={navRef} className='right-div' >
-       <div className='inner-div'>
-       <div className='count-div me-2'>
-         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-         <span>{' '}Results: {totalCount}</span>
-       </div>
-       <div>
-         {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-         <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-       </div>
-       </div>
-       <button className='nav-btn nav-close-btn' onClick={showNavbar}>
-    <FaTimes/>
-</button>
-     </div>
-     <button className='nav-btn' onClick={showNavbar}>
-<FaBars/>
-</button>
-   </div>
-
-
-     
+            <div ref={navRef} className='right-div'>
+              <div className='inner-div'>
+                <div className='count-div me-2'>
+                  <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+                  <span>{' '}Results: {totalCount}</span>
+                </div>
+                <div>
+                  <Filter onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                </div>
+                <div className="date-range-container">
+                  <label htmlFor="startDate">From:</label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    value={startDate || ''}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                  <label htmlFor="endDate">To:</label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    value={endDate || ''}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                  <button onClick={() => getDatas()}>Apply</button>
+                </div>
+              </div>
+              <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+                <FaTimes />
+              </button>
+            </div>
+            <button className='nav-btn' onClick={showNavbar}>
+              <FaBars />
+            </button>
+          </div>
         }
         subHeaderAlign='right'
       />
-      </div>
+    </div>
+
+   
 
       {/* Modal for Editing */}
       <EditModal showModal={showEditModal} handleClose={handleClose} selectedDatas={selectedDatas} handleUpdate={handleUpdate} />

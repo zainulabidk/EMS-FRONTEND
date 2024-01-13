@@ -1,4 +1,5 @@
 import {React,useState,useEffect} from 'react'
+import { cilEnvelopeOpen,cilUser, cilPlus, cilClock   } from '@coreui/icons';
 import {
   CRow,
   CCol,
@@ -8,12 +9,13 @@ import {
   CDropdownToggle,
   CWidgetStatsA,
 } from '@coreui/react'
-import { getStyle } from '@coreui/utils'
+// import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
-import axios from 'axios'
-
+import axios from 'axios';
+import yourImage from '../../assets/images/bar-graph.jpg';
+import lineChart from '../../assets/images/line-chart.jpg';
 const WidgetsDropdown = () => {
 
 // vendors count
@@ -92,15 +94,24 @@ useEffect(()=>{
     <CRow>
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
-          className="mb-4 widget-div"
-          // color="primary"
+          className="mb-4 widget-div1"
+
 
           value={
             <>
-            <h4>Total Enquiry</h4>
-          
-            {/* <h4>{datas ? datas : 0}</h4> */}
-            <h4>{datas ? datas : 0}</h4>
+ 
+             <div className='icon-div' style={{ backgroundColor: '#cee6ff', height: '50px', width: '50px', borderRadius: '15px',display:'flex',justifyContent:'center', alignItems:'center' }}>
+                {/* Icon implementation here */}
+                {/* <CIcon icon={cilArrowTop} size="2xl" /> */}
+                {/* <CIcon icon="cil-envelope-open" size="2xl" /> */}
+                <CIcon icon={cilEnvelopeOpen} size="lg" className='icon1' />
+                
+              </div>
+      
+            <p className='widget-p m-0'>Total Enquiry</p>
+        
+            <p className='count-num mb-2'>{datas ? datas : 0}</p>
+           
        
             </>
           }
@@ -108,28 +119,27 @@ useEffect(()=>{
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
+                <CIcon icon={cilOptions} size="lg" className="text-high-emphasis-inverse" />
+               
               </CDropdownToggle>
             
             </CDropdown>
           }
-          chart={
-            <CChartLine
-              className="mt-3 mx-3"
-              style={{ height: '40px' }}
-             
-            />
-          }
+        
         />
       </CCol>
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
-          className="mb-4 widget-div"
+          className="mb-4 widget-div2"
           // color="info"
           value={
             <>
-            <h4>Total Licensee</h4>
-            <h4>{licenseeCount ? licenseeCount : 0}</h4>
+            <div style={{backgroundColor: '#fcdfee', height:'50px', width:'50px', borderRadius:'15px',display:'flex',justifyContent:'center', alignItems:'center'}}>
+            {/* <CIcon icon={cilUser} size="2xl" className='icon1' style={{ fill: 'blue' }} /> */}
+            <CIcon icon={cilUser} size="lg"  className='icon1' />
+            </div>
+           <p className='widget-p m-0'>Total Licensee</p>
+           <p className='count-num mb-2'>{licenseeCount ? licenseeCount : 0}</p>
             </>
           }
        
@@ -137,29 +147,26 @@ useEffect(()=>{
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
+                <CIcon icon={cilOptions} size="lg" className="text-high-emphasis-inverse" />
               </CDropdownToggle>
               
             </CDropdown>
           }
-          chart={
-            <CChartLine
-              className="mt-3 mx-3"
-              style={{ height: '40px' }}
-            />
-          }
+      
         />
       </CCol>
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
-          className="mb-4 widget-div"
-          // color="warning"
+          className="mb-4 widget-div3"
+      
           value={
             <>
-            <h4>New</h4>
-          
-            {/* <h4>{datas ? datas : 0}</h4> */}
-            <h4>{New ? New : 0}</h4>
+            <div style={{backgroundColor: '#dcf2e5', height:'50px', width:'50px', borderRadius:'15px',display:'flex',justifyContent:'center', alignItems:'center'}}>
+            <CIcon icon={cilPlus} size="lg"  className='icon1' />
+  
+            </div>
+           <p className='widget-p m-0'>New Enquiry</p>
+           <p className='count-num mb-2'>{New ? New : 0}</p>
        
             </>
           }
@@ -171,26 +178,22 @@ useEffect(()=>{
              
             </CDropdown>
           }
-          chart={
-            <CChartLine
-              className="mt-3"
-              style={{ height: '40px' }}
-            
-            
-            />
-          }
+      
         />
       </CCol>
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
-          className="mb-4 widget-div"
-          // color="danger"
+          className="mb-4 widget-div4"
+
           value={
             <>
-            <h4>Pending</h4>
-          
-            {/* <h4>{datas ? datas : 0}</h4> */}
-            <h4>{pending ? pending : 0}</h4>
+            <div style={{backgroundColor: '#eadbf8', height:'50px', width:'50px', borderRadius:'15px', display:'flex',justifyContent:'center', alignItems:'center'}}>
+            <CIcon icon={cilClock} size="lg"  className='icon1' />
+             
+            </div>
+            <p className='widget-p m-0'>Pending</p>
+        
+            <p className='count-num mb-2'>{pending ? pending : 0}</p>
        
             </>
           }
@@ -202,17 +205,40 @@ useEffect(()=>{
                
             </CDropdown>
           }
-          chart={
-            <CChartBar
-              className="mt-3 mx-3"
-              style={{ height: '40px' }}
-            
-            />
-          }
+         
         />
       </CCol>
+
+      {/* <CCol  lg={6}>
+ 
+          <div className='widgettt '>
+            <div className='top-div'>
+            <p>Monthly Enquiry</p>
+            </div>
+            <img src={yourImage} className='graph'></img>
+          </div>
+ 
+      </CCol>
+
+      <CCol sm={6} lg={3}>
+ 
+          <div className='widgettt'></div>
+
+     </CCol>
+
+     <CCol sm={6} lg={3}>
+ 
+           <div className='widgettt p-0' >
+            <div className='upper-div'></div>
+           <img src={lineChart} className='graph'></img>
+           </div>
+        
+      </CCol> */}
+
     </CRow>
   )
 }
 
 export default WidgetsDropdown
+
+

@@ -1,3 +1,7 @@
+
+a{
+  text-decoration: none !important;
+}
 /* TopNavbar.css */
 
 .navbar {
@@ -192,7 +196,7 @@
 }
 .sb_footer_links_div a{
     color: rgba(252, 252, 252, 0.333);
-    text-decoration: none;
+    text-decoration: none !important;
 }
 .socialmedia{
     display: flex;
@@ -287,7 +291,7 @@ hr{
   font-weight: 700;
 }
 .abt-btn{
-  background-color: #1983fb;
+  background-color: #003366;
     outline: 4px solid #c1dbfe;
     border-radius: 5px;
     color: white;
@@ -374,7 +378,7 @@ font-size: 40px;
     justify-content: end;
 }
 .ctn-btn{
-  background-color: #1983fb;
+  background-color: #003366;
   outline: 4px solid #c1dbfe;
   border-radius: 5px;
   color: white;

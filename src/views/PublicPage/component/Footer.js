@@ -15,7 +15,7 @@ export default function Footer() {
             <div className='sb_footer_below'>
                 <div className='sb_footer_copyright'>
                     <p>
-                        @{new Date().getFullYear()} codeInn. All right reserved.
+                        @{new Date().getFullYear()} FullStack. All right reserved.
                     </p>
                 </div>
                 <div className='sb_footer_below_links'>

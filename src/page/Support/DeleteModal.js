@@ -29,7 +29,7 @@ const DeleteModal = ({getDatas,deleteclose, dlt,id}) => {
       }
 
     const onDelete = (_id) => {
-      const response = axios.patch(`http://localhost:3000/users/${_id}`)
+      const response = axios.patch(`http://localhost:3000/support/${_id}`)
           .then(() => {
             if (response.status === 200) {
              

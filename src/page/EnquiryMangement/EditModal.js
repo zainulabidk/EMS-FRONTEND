@@ -13,12 +13,24 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function EditModal({ showModal, handleClose, selectedDatas, handleUpdate,}) {
 
+
+
+
     const [enquirySources, setEnquirySources] = useState([]);
     const [enquiryType,setEnquiryTpe] = useState([]);
     const [enquiryMode,setEnquiryMode] = useState([]);
     const [enqTo, setEnqTo] = useState([]);
     const [supportType,setSupportType] =useState([]);
     const [leadQuality, setLeadQuality] = useState(['High', 'Medium', 'Low']);
+
+
+    const capitalizeFirstLetter = (value) => {
+      return value
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    };
 
   const [toggle,setToggle] =useState(1)
 
@@ -136,13 +148,15 @@ const formik = useFormik({
   initialValues: {
     enqNo: selectedDatas?.enqNo || '',
     enqDescp: selectedDatas?.enqDescp || '',
-    enqMode: selectedDatas?.enqMode || '',
+    enqMode: selectedDatas?.enqMode?._id || '',
     enqSource: selectedDatas?.enqSource || '',
     enqType: selectedDatas?.enqType || '',
     supportType: selectedDatas?.supportType || '',
     fName: selectedDatas?.fName || '',
     lName: selectedDatas?.lName || '',
     email: selectedDatas?.email || '',
+    gender: selectedDatas?.gender || '',
+
     mobile: selectedDatas?.mobile || '',
     location: selectedDatas?.location || '',
     district: selectedDatas?.district || '',
@@ -154,27 +168,30 @@ const formik = useFormik({
     status: selectedDatas?.status || '',
   },
   validationSchema: Yup.object({
-    enqNo: Yup.string().required('EnqNo is required'),
-    enqDescp: Yup.string().required('EnqDescp is required'),
+    enqNo: Yup.string().required('Enquiry Number is required'),
+    enqDescp: Yup.string().required('Enquiry Description is required'),
     enqMode: Yup.string().required('Enquiry Mode is required'),
     enqSource: Yup.string().required('Enquiry Source is required'),
     enqType: Yup.string().required('Enquiry Type is required'),
     supportType: Yup.string().required('Support Type is required'),
-    fName: Yup.string().required('fName is required'),
-    lName: Yup.string().required('lName is required'),
+    fName: Yup.string().required('First Name is required'),
+    lName: Yup.string().required('Last Name is required'),
     email: Yup.string().required('Email is required'),
     mobile: Yup.string().required('Mobile is required'),
-    location: Yup.string().required('Location To is required'),
-    district: Yup.string().required('District To is required'),
+    location: Yup.string().required('Location is required'),
+    district: Yup.string().required('District  is required'),
     enqTo: Yup.string().required('Enquiry To is required'),
-    leadQuality: Yup.string().required('leadQuality is required'),
+    leadQuality: Yup.string().required('lead Quality is required'),
     state: Yup.string().required('State is required'),
-    referenceId: Yup.string().required('ReferenceId is required'),
-    remarks: Yup.string().required('Remarks is required'),
+    referenceId: Yup.string().required('Reference Id is required'),
+    remarks: Yup.string().required('Remarks are required'),
     status: Yup.string().required('Status is required'),
+ 
+    // gender: Yup.string().required('Gender is required'),
   }),
   onSubmit: (values) => {
-    handleUpdate(selectedDatas?._id, values);
+  // handleUpdate(selectedDatas?._id, values);
+  handleUpdate(selectedDatas?._id, values);
     handleClose();
   },
 });
@@ -184,18 +201,20 @@ const handleModalHide = () => {
   handleClose();
 };
 
+
 useEffect(() => {
-  console.log("selectedDatas:", selectedDatas);
 
   formik.setValues({
     enqNo: selectedDatas?.enqNo || '',
     enqDescp: selectedDatas?.enqDescp || '',
-    enqMode: selectedDatas?.enqMode || '',
+    enqMode: selectedDatas?.enqMode?._id || '',
     enqSource: selectedDatas?.enqSource?._id || '',
     enqType: selectedDatas?.enqType?._id || '',
     supportType: selectedDatas?.supportType?._id || '',
     fName: selectedDatas?.fName || '',
     lName: selectedDatas?.lName || '',
+    gender: selectedDatas?.gender || '',
+
     email: selectedDatas?.email || '',
     mobile: selectedDatas?.mobile || '',
     location: selectedDatas?.location || '',
@@ -216,7 +235,7 @@ useEffect(() => {
       <ToastContainer autoClose={1000}/>
     <Modal show={showModal} onHide={handleModalHide} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered  className="custom-modal" >
       <Modal.Header closeButton>
-        <Modal.Title className='modal-title'>Edit Enquiries</Modal.Title>
+        <Modal.Title className='modal-title'>Edit Enquiry</Modal.Title>
       </Modal.Header>
       <Modal.Body>
       <Container>
@@ -227,13 +246,13 @@ useEffect(() => {
 
   <div className='tabs'>
     <div  onClick={() => toggleTab(1)}  className={`${toggle === 1 ? 'tab active-tab' :'tab'}`}>
-      Details
+    Personal  Details
     </div>
     <div  onClick={() => toggleTab(2)}  className={`${toggle === 2 ? 'tab active-tab' :'tab'}`}>
-      Address
+    Additional Details
     </div>
     <div  onClick={() => toggleTab(3)}  className={`${toggle === 3 ? 'tab active-tab' :'tab'}`}>
-      More
+    Enquiry Details
     </div>
   </div>
 </div>
@@ -280,100 +299,6 @@ useEffect(() => {
             </Col>
 
             <Col md={6}>
-            <Form.Group className="mb-3" controlId="referenceId">
-            <Form.Label style={{fontSize:'14px'}}>Reference Id</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="ReferenceId"
-                name="referenceId"
-                value={formik.values.referenceId}
-                onChange={formik.handleChange}         
-                onBlur={formik.handleBlur}
-               style={{marginTop:'-10px'}}
-              />
-               {formik.touched.referenceId && formik.errors.referenceId ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
-              ) : null}
-          
-          
-            </Form.Group>
-            
-            </Col>
-            <Col md={6}>
-  <Form.Group className="mb-3" controlId="leadQuality">
-  <Form.Label style={{fontSize:'14px'}}>Lead Quality</Form.Label>
-    <Form.Control
-      as="select"
-      name="leadQuality"
-      value={formik.values.leadQuality}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      className={`form-select ${formik.touched.leadQuality && formik.errors.leadQuality ? 'is-invalid' : ''}`}
-      
-    >
-      <option value=" " disabled>
-        Lead Quality
-      </option>
-      {leadQuality.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </Form.Control>
-    {formik.touched.leadQuality && formik.errors.leadQuality ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.leadQuality}</div>
-              ) : null}
-  </Form.Group>
-</Col>
-  
-<Col md={6}>
-  <Form.Group className="mb-3" controlId="remarks">
-  <Form.Label style={{fontSize:'14px'}}>Remarks</Form.Label>
-    <Form.Control
-      as="textarea"
-      placeholder="Remarks"
-      name="remarks"
-      value={formik.values.remarks}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      style={{ height: '46px', paddingTop: '0'}}
-    />
-        {formik.touched.remarks && formik.errors.remarks ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.remarks}</div>
-              ) : null}
-          
-  </Form.Group>
-</Col>
-
-
-<Col md={6}>
-            <Form.Group className="mb-3" controlId="enqDescp">
-            <Form.Label style={{fontSize:'14px'}}>Description</Form.Label>              
-              <Form.Control
-                as="textarea"
-                placeholder="enqDescp"
-                name="enqDescp"
-                value={formik.values.enqDescp}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{ height: '46px', paddingTop: '0' }}
-              />
-                {formik.touched.enqDescp && formik.errors.enqDescp ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqDescp}</div>
-              ) : null}
-          
-            </Form.Group>
-            </Col>
-
-   
-          
-            </Row>
-    </div>
-               
-    <div className={`${toggle === 2 ? 'content active-content' :'content'}`}>
-    <Row>
-
-    <Col md={6}>
               <Form.Group className="mb-3" controlId="email">
               <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
                 <Form.Control
@@ -408,6 +333,7 @@ useEffect(() => {
   
               </Col>
 
+              
               <Col md={6}>
   
               <Form.Group className="mb-3" controlId="location">
@@ -427,6 +353,106 @@ useEffect(() => {
               </Col>
 
               <Col md={6}>
+  <Form.Group className="mb-3" controlId="gender">
+    <Form.Label style={{ fontSize: '14px' }}>Gender</Form.Label>
+    <div className="radio-group">
+      <Form.Check
+        type="radio"
+        label="Male"
+        name="gender"
+        id="male"
+        value="male"
+        checked={formik.values.gender === 'male'}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      <Form.Check
+        type="radio"
+        label="Female"
+        name="gender"
+        id="female"
+        value="female"
+        checked={formik.values.gender === 'female'}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      <Form.Check
+        type="radio"
+        label="Other"
+        name="gender"
+        id="other"
+        value="other"
+        checked={formik.values.gender === 'other'}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+    </div>
+    {formik.touched.gender && formik.errors.gender && (
+      <div className="error" style={{ color: 'red' }}>
+        {formik.errors.gender}
+      </div>
+    )}
+  </Form.Group>
+</Col>
+
+
+
+          
+            </Row>
+    </div>
+               
+    <div className={`${toggle === 2 ? 'content active-content' :'content'}`}>
+    <Row>
+
+  
+    <Col md={6}>
+            <Form.Group className="mb-3" controlId="referenceId">
+            <Form.Label style={{fontSize:'14px'}}>Reference Id</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="ReferenceId"
+                name="referenceId"
+                value={formik.values.referenceId}
+                onChange={formik.handleChange}         
+                onBlur={formik.handleBlur}
+              />
+               {formik.touched.referenceId && formik.errors.referenceId ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
+              ) : null}
+          
+          
+            </Form.Group>
+            
+            </Col>
+
+
+            <Col md={6}>
+  <Form.Group className="mb-3" controlId="leadQuality">
+  <Form.Label style={{fontSize:'14px'}}>Lead Quality</Form.Label>
+    <Form.Control
+      as="select"
+      name="leadQuality"
+      value={formik.values.leadQuality}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      className={`form-select ${formik.touched.leadQuality && formik.errors.leadQuality ? 'is-invalid' : ''}`}
+      
+    >
+      <option value=" " disabled>
+        Lead Quality
+      </option>
+      {leadQuality.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </Form.Control>
+    {formik.touched.leadQuality && formik.errors.leadQuality ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.leadQuality}</div>
+              ) : null}
+  </Form.Group>
+</Col>
+<Col md={6}>
               <Form.Group className="mb-3" controlId="district">
               <Form.Label style={{fontSize:'14px'}}>District</Form.Label>
                 <Form.Control
@@ -462,55 +488,45 @@ useEffect(() => {
             
               </Form.Group>
            </Col>
-               
-                
 
-            
-    <Col md={6}>
-  <Form.Group className="mb-3" controlId="gender">
-  <Form.Label style={{ fontSize: '14px'}}>Gender</Form.Label>
-    <div className="radio-group"  >
-      <Form.Check
-        type="radio"
-        label="Male"
-        name="gender"
-        id="male"
-        value="male"
-        checked={formik.values.gender === 'male'}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-
-      <Form.Check
-        type="radio"
-        label="Female"
-        name="gender"
-        id="female"
-        value="female"
-        checked={formik.values.gender === 'female'}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-       
-      />
-        <Form.Check
-        type="radio"
-        label="Other"
-        name="gender"
-        id="other"
-        value="other"
-        checked={formik.values.gender === 'other'}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-    </div>
-
-    {formik.touched.gender && formik.errors.gender && (
-      <div className="error" style={{ color: 'red' }}>
-        {formik.errors.gender}
-      </div>
-    )}
+          <Col md={6}>
+  <Form.Group className="mb-3" controlId="remarks">
+  <Form.Label style={{fontSize:'14px'}}>Remarks</Form.Label>
+    <Form.Control
+      as="textarea"
+      placeholder="Remarks"
+      name="remarks"
+      value={formik.values.remarks}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      style={{ height: '46px', paddingTop: '0'}}
+    />
+        {formik.touched.remarks && formik.errors.remarks ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.remarks}</div>
+              ) : null}
+          
   </Form.Group>
 </Col>
+
+<Col md={6}>
+            <Form.Group className="mb-3" controlId="enqDescp">
+            <Form.Label style={{fontSize:'14px'}}>Description</Form.Label>              
+              <Form.Control
+                as="textarea"
+                placeholder="enqDescp"
+                name="enqDescp"
+                value={formik.values.enqDescp}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                style={{ height: '46px', paddingTop: '0' }}
+              />
+                {formik.touched.enqDescp && formik.errors.enqDescp ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.enqDescp}</div>
+              ) : null}
+          
+            </Form.Group>
+            </Col>
+   
 
            
              </Row>
@@ -538,7 +554,7 @@ useEffect(() => {
      </option>
       {enquirySources.map(source => (
        <option key={source._id} value={source._id}>
-         {source.name}
+         {capitalizeFirstLetter( source.name)}
        </option>
      ))}
    </Form.Control>
@@ -565,7 +581,7 @@ useEffect(() => {
            </option>
            {enquiryType.map(type => (
              <option key={type._id} value={type._id}>
-               {type.name}
+               {capitalizeFirstLetter (type.name)}
              </option>
            ))}
          </Form.Control>
@@ -594,7 +610,7 @@ useEffect(() => {
                 </option>
                 {enquiryMode.map(mode => (
                   <option key={mode._id} value={mode._id}>
-                    {mode.name}
+                    {capitalizeFirstLetter( mode.name)}
                   </option>
                 ))}
               </Form.Control>
@@ -622,7 +638,7 @@ useEffect(() => {
          </option>
          {enqTo.map(to => (
            <option key={to._id} value={to._id}>
-             {to.name}
+             {capitalizeFirstLetter (to.name)}
            </option>
          ))}
        </Form.Control>
@@ -649,7 +665,7 @@ useEffect(() => {
                  </option>
                  {supportType.map(support => (
                    <option key={support._id} value={support._id}>
-                      {support.name}
+                      {capitalizeFirstLetter( support.name)}
                    </option>
                  ))}
                </Form.Control>
@@ -659,47 +675,6 @@ useEffect(() => {
              </Form.Group>
              </Col>
 
-     {/* <Col md={6}>
-            <Form.Group className="mb-3" controlId="status">
-          
-              <Form.Control
-                type="text"
-                placeholder="status"
-                name="status"
-                value={formik.values.status}
-                onChange={formik.handleChange}         
-                onBlur={formik.handleBlur}
-               style={{marginTop:'-10px'}}
-              />
-               {formik.touched.status && formik.errors.status ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.status}</div>
-              ) : null}
-          
-          
-            </Form.Group>
-            
-            </Col>
-       
-<Col md={6}>
-            <Form.Group className="mb-3 " controlId="enqNo">
-         
-              <Form.Control
-                type="text"       
-                name="enqNo"
-                value={formik.values.enqNo}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                style={{marginTop:'5px'}}
-              />
-          {formik.touched.enqNo && formik.errors.enqNo ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.enqNo}</div>
-              ) : null}
-              
-        
-          
-            </Form.Group>
-
-          </Col> */}
 
        
 </Row>

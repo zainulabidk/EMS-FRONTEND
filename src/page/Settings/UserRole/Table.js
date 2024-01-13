@@ -15,6 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faEye, faTrash, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from './DeleteModal';
 import Filter from './Filter';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useRef } from 'react';
+
 
 function Table() {
   const [datas, setDatas] = useState([]);
@@ -27,6 +30,10 @@ function Table() {
   const [deleteModal,setDeleteModal] =useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [query, setQuery] = useState('');  
+  const navRef = useRef();  
+  const showNavbar = () => {
+  navRef.current.classList.toggle("responsive_nav");
+  }
 
   const handleClose = () => {
     setShowEditModal(false);
@@ -52,14 +59,19 @@ const handleClickDelete = (row) => {
 };
 
  
+
+
+  const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
   const getDatas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/userroles');
-      // setDatas(response.data.userRole);
-      const filteredData = response.data.userRole.filter(userRole => userRole.isDeleted === false || userRole.isDeleted === undefined);
-      console.log('Filtered Data:', filteredData);
+      const { userRole } = (await axios.get('http://localhost:3000/userroles')).data;
+      const filteredData = userRole.map(({ name, desc, ...rest }) => ({
+        ...rest,
+        name: capitalize(name),
+        desc: capitalize(desc),
+      })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+  
       setDatas(filteredData);
-      // setFilteredDatas(response.data.userRole);
     } catch (error) {
       console.error(error);
     }
@@ -104,23 +116,25 @@ const handleClickDelete = (row) => {
       name: "NAME",
       selector: (row) => row.name,
       sortable: true,
+   
     },
     {
       name: "DESCRIPTION",
       selector: (row) => row.desc,
+     
     },
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
+         <Button  className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
           <FontAwesomeIcon icon={faEdit} />
         </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} />
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> 
         </Button>
         </div>
@@ -170,31 +184,69 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-          <div className='table-top'>
-              <div ><AddModal getDatas={getDatas}/></div>
+          // <div className='table-top'>
+          //     <div ><AddModal getDatas={getDatas}/></div>
               
-              <div className="search-input-container">
-                    <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="w-35 search-control"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </div>
-              <div style={{display:'flex',alignItems:'center', justifyContent:'space-between'}}>
+          //     <div className="search-input-container">
+          //           <FontAwesomeIcon icon={faSearch} className="search-icon" />
+          //           <input
+          //             type="text"
+          //             placeholder="Search"
+          //             className="w-35 search-control"
+          //             value={search}
+          //             onChange={(e) => setSearch(e.target.value)}
+          //           />
+          //         </div>
+          //     <div style={{display:'flex',alignItems:'center', justifyContent:'space-between'}}>
           
-                <div className='count-div'>
-                  <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-                  <span>{' '}Results: {totalCount}</span>
-                </div>
-                <div>
-                <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+          //       <div className='count-div'>
+          //         <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+          //         <span>{' '}Results: {totalCount}</span>
+          //       </div>
+          //       <div>
+          //       <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
 
-                </div>
-              </div>
-          </div>
+          //       </div>
+          //     </div>
+          // </div>
+
+          <div className='table-top'>
+         
+          <div  className='left-div'>
+               <div>
+                 <AddModal getDatas={getDatas} />
+               </div>
+               <div className="search-input-container">
+                 <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                 <input
+                   type='text'
+                   placeholder='Search'
+                   className='w-35 search-control'
+                   value={search}
+                   onChange={(e) => setSearch(e.target.value)}
+                 />
+               </div>
+               </div>
+               
+               <div  ref={navRef} className='right-div'>
+                 <div className='inner-div'>
+                 <div className='count-div me-2'>
+                   <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
+                   <span>{' '}Results: {totalCount}</span>
+                 </div>
+                 <div>
+                   {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
+                   <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
+                 </div>
+                 </div>
+                 <button className='nav-btn nav-close-btn' onClick={showNavbar}>
+              <FaTimes/>
+         </button>
+               </div>
+               <button className='nav-btn' onClick={showNavbar}>
+         <FaBars/>
+     </button>
+             </div>
         }
         subHeaderAlign='right'
       />

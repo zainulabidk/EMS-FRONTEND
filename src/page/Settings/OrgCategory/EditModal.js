@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import '../style/edit.css';
+import '../../style/edit.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { Container } from 'react-bootstrap';

@@ -50,28 +50,37 @@ navRef.current.classList.toggle("responsive_nav");
     setShowDeleteModal(true);
   };
 
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3000/enquiryType/${selectedDatas._id}`);
-      getDatas();
-      handleClose();
-    } catch (error) {
-      console.error('Error deleting data:', error);
-    }
-  };
+ 
 
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/enquiryType');
+  //     console.log('API Response:', response.data.enquiryType);
+  //     const filteredData = response.data.enquiryType.filter(enqmode => enqmode.isDeleted === false || enqmode.isDeleted === undefined);
+  //     console.log('Filtered Data:', filteredData);
+  //     setDatas(filteredData);
+  //     // setFilteredDatas(filteredData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
   const getDatas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/enquiryType');
-      console.log('API Response:', response.data.enquiryType);
-      const filteredData = response.data.enquiryType.filter(enqmode => enqmode.isDeleted === false || enqmode.isDeleted === undefined);
-      console.log('Filtered Data:', filteredData);
+      const { enquiryType } = (await axios.get('http://localhost:3000/enquiryType')).data;
+      const filteredData = enquiryType.map(({ name, descp, ...rest }) => ({
+        ...rest,
+        name: capitalize(name),
+        descp: capitalize(descp),
+      })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+  
       setDatas(filteredData);
-      // setFilteredDatas(filteredData);
     } catch (error) {
       console.error(error);
     }
   };
+   
  
 
   const handleUpdate = async (orgId, updatedData) => {
@@ -122,23 +131,25 @@ const handleClickDelete = (row) => {
       name: "NAME",
       selector: (row) => row.name,
       sortable: true,
+    
     },
     {
       name: "DESCRIPTION",
       selector: (row) => row.descp,
+    
     },
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
+         <Button className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
           <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
         </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
         </div>
@@ -170,29 +181,13 @@ const handleClickDelete = (row) => {
     console.log('Filtered Data:', result); // Log the filtered data for debugging
     setFilteredDatas(result);
   }, [search, datas, filterValue]);
-
-  // useEffect(() => {
-  //   if (!Array.isArray(datas)) {
-  //     console.error("Datas is not an array!");
-  //     return;
-  //   }
-
-  //   const result = datas.filter((item) => {
-  //     const nameMatch =
-  //       (item.name.toLowerCase().includes(search.toLowerCase())) ||
-  //       (item.descp.toLowerCase().includes(search.toLowerCase()));
-  
-  //       const statusMatch = item.status.toLowerCase().includes(filterValue.toLowerCase());
-  //       return nameMatch && (filterValue === '' || statusMatch);
-  //    });
-  //    setFilteredDatas(result);
-  // }, [search, datas]);
+ 
 
   return (
     <>
     <div className='table-div'>
       <Datatable className='table-data-div'
-        title='Enquiry Typ'
+        title='Enquiry Type'
         columns={columns}
         data={filteredDatas}
         pagination

@@ -34,11 +34,11 @@ function AddModal({enqId,getDatas, showFollowUpModal, setShowFollowUpModal }) {
   // Validation schema using Yup
   const validationSchema = Yup.object({
     enqId: Yup.string().required('enqId is required'),
-    followUpDetails: Yup.string().required('Follow Up Details is required'),
-    nextContactDate: Yup.string().required('Next Contact Date is required'),
-    remarks:Yup.string().required('Remark is required'),
+    followUpDetails: Yup.string().required('Follow-Up Details are required'),
+    nextContactDate: Yup.string().required('Next Follow_Up Schedule is required'),
+    remarks:Yup.string().required('Remarks are required'),
   });
-setUserRoles
+ 
   const formik = useFormik({
     initialValues: {
       enqId: enqId || '', 
@@ -81,6 +81,7 @@ setUserRoles
       }
     },
   });
+  const currentDate = new Date().toISOString().split('T')[0];
 
   return (
     <>
@@ -88,29 +89,14 @@ setUserRoles
    
       <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"  backdrop="static" centered>
         <Modal.Header closeButton>
-          <Modal.Title className='modal-title'>Add FollowUp</Modal.Title>
+          <Modal.Title className='modal-title'>Add Follow-Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
       <Container>
           <Form onSubmit={formik.handleSubmit}>
-           
-            <Form.Group className="mb-3" controlId="nextContactDate">
-            <Form.Label style={{ fontSize: '14px' }}>Next Contact Date</Form.Label>
-              <Form.Control
-                type="date"
-                name="nextContactDate"
-                placeholder='Contact Date'
-                value={formik.values.nextContactDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.nextContactDate && formik.errors.nextContactDate ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.nextContactDate}</div>
-              ) : null}
-            </Form.Group>
-          
+   
             <Form.Group className="mb-3" controlId="followUpDetails">
-            <Form.Label style={{ fontSize: '14px' }}>FollowUp Details</Form.Label>
+            <Form.Label style={{ fontSize: '14px' }}>Follow-Up Details</Form.Label>
               <Form.Control
                 as="textarea"
                 name="followUpDetails"
@@ -125,7 +111,7 @@ setUserRoles
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="remarks">
-            <Form.Label style={{ fontSize: '14px' }}>Remark</Form.Label>
+            <Form.Label style={{ fontSize: '14px' }}>Remarks</Form.Label>
               <Form.Control
                 as="textarea"
                 name="remarks"
@@ -138,7 +124,25 @@ setUserRoles
                 <div className="error" style={{color:'red'}}>{formik.errors.remarks}</div>
               ) : null}
             </Form.Group>
-            
+
+            <Col md={12}>
+        <Form.Group className="mb-3" controlId="nextContactDate">
+          <Form.Label style={{ fontSize: '14px' }}>Next Follow-Up Schedule</Form.Label>
+          <Form.Control
+            type="date"
+            name="nextContactDate"
+            placeholder='Contact Date'
+            value={formik.values.nextContactDate}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            min={currentDate} // Set the minimum date to the current date
+          />
+          {formik.touched.nextContactDate && formik.errors.nextContactDate ? (
+            <div className="error" style={{ color: 'red' }}>{formik.errors.nextContactDate}</div>
+          ) : null}
+        </Form.Group>
+      </Col>
+
           </Form>
           </Container>
         </Modal.Body>

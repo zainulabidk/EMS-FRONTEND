@@ -12,11 +12,24 @@ import './style/Tab.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
 const AddModal = ({getDatas}) => {
 
+
+  
     const [toggle,setToggle] =useState(1);
     const [currentTab, setCurrentTab] = useState(1);
 
+
+    
+const capitalizeFirstLetter = (value) => {
+  return value
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
 const toggleTab = (index)=>{
 setToggle(index);
@@ -47,6 +60,7 @@ fetchSupportType();
   };
   const handleShow = () => setShow(true);
 
+  
   const fetchEnquirySource = async () => {
     try {
       const response = await axios.get('http://localhost:3000/enquirySource');
@@ -54,7 +68,7 @@ fetchSupportType();
       .sort((a, b) => {
         const nameA = a.name.toUpperCase();
         const nameB = b.name.toUpperCase();
-        if (nameA < nameB) return -1; // Sort in alphabetical ascending order
+        if (nameA < nameB) return -1; 
         if (nameA > nameB) return 1;
         return 0;
       });  
@@ -149,17 +163,18 @@ const fetchSupportType = async () => {
     enqType: Yup.string().required('Enquiry Type is required'),
     supportType: Yup.string().required('Support Type is required'),
     fName: Yup.string().required('First Name is required'),
-    lName: Yup.string().required('last Name is required'),
-    enqDescp: Yup.string().required('Description is required'),
+    lName: Yup.string().required('Last Name is required'),
+    // enqDescp: Yup.string().required('Description is required'),
     email: Yup.string().required('Email is required'),
     mobile: Yup.string().required('Mobile is required'),
-    location: Yup.string().required('Location To is required'),
-    district: Yup.string().required('District To is required'),
+    location: Yup.string().required('Location is required'),
+    district: Yup.string().required('District is required'),
     enqTo: Yup.string().required('Enquiry To is required'),
-    leadQuality: Yup.string().required('LeadQuality is required'),
+    leadQuality: Yup.string().required('Lead Quality is required'),
     state: Yup.string().required('State is required'),
-    referenceId: Yup.string().required('ReferenceId is required'),
-    remarks: Yup.string().required('Remarks is required'),
+    // referenceId: Yup.string().required('Reference Id is required'),
+    remarks: Yup.string().required('Remarks are required'),
+    gender:Yup.string().required('Gender is required'),
   });
 
   const formik = useFormik({
@@ -169,7 +184,7 @@ const fetchSupportType = async () => {
       enqType: '',
       enqMode: '',
       supportType: '',
-      enqDescp: '',
+      // enqDescp: '',
       fName: '',
       lName: '',
       gender: '',
@@ -181,7 +196,7 @@ const fetchSupportType = async () => {
       status:"new",
       enqTo: '',
       leadQuality:'',
-      referenceId: '',
+      // referenceId: '',
       remarks: '',
     },
     validationSchema: validationSchema,
@@ -214,6 +229,28 @@ const fetchSupportType = async () => {
     },
   });
 
+  const districts = [
+    { _id: '1', name: 'Kasaragod' },
+    { _id: '2', name: 'Kannur' },
+    { _id: '3', name: 'Wayanad' },
+    { _id: '4', name: 'Kozhikode' },
+    { _id: '5', name: 'Malappuram' },
+    { _id: '6', name: 'Palakkad' },
+    { _id: '7', name: 'Thrissur' },
+    { _id: '8', name: 'Ernakulam' },
+    { _id: '9', name: 'Idukki' },
+    { _id: '10', name: 'Kottayam' },
+    { _id: '11', name: 'Alappuzha' },
+    { _id: '12', name: 'Pathanamthitta' },
+    { _id: '13', name: 'Kollam' },
+    { _id: '14', name: 'Thiruvananthapuram' },
+  ];
+  
+  // Sort the districts array in alphabetical order
+  const sortedDistricts = districts.sort((a, b) => a.name.localeCompare(b.name));
+  
+  console.log(sortedDistricts);
+
   return (
     <>
       <ToastContainer />
@@ -233,13 +270,13 @@ const fetchSupportType = async () => {
 
   <div className='tabs'>
     <div  onClick={() => toggleTab(1)}  className={`${toggle === 1 ? 'tab active-tab' :'tab'}`}>
-      Details
+    Personal  Details
     </div>
     <div  onClick={() => toggleTab(2)} style={{borderLeft:'none', borderRight:'none'}}  className={`${toggle === 2 ? 'tab active-tab' :'tab'}`}>
-      Address
+    Additional Details
     </div>
     <div  onClick={() => toggleTab(3)}  className={`${toggle === 3 ? 'tab active-tab' :'tab'}`}>
-      More
+    Enquiry Details
     </div>
   </div>
 </div>
@@ -251,7 +288,7 @@ const fetchSupportType = async () => {
          
            <Col md={6}>
             <Form.Group className="mb-3" controlId="fName">
-            <Form.Label style={{fontSize:'14px'}}>First Name</Form.Label>
+            <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>First Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="First Name"
@@ -268,7 +305,7 @@ const fetchSupportType = async () => {
             </Form.Group>
             </Col>
              <Col md={6}>
-            <Form.Label style={{fontSize:'14px'}}>Last Name</Form.Label>
+            <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Last Name</Form.Label>
             <Form.Group className="mb-3" controlId="lName">           
               <Form.Control
                 type="text"
@@ -285,35 +322,149 @@ const fetchSupportType = async () => {
           
             </Form.Group>
             </Col>
-     
+            <Col md={6}>
+              <Form.Group className="mb-3" controlId="email">
+              <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.email && formik.errors.email ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.email}</div>
+              ) : null}
+            
+              </Form.Group>
+               </Col>
+
+               <Col md={6}>
+              <Form.Group className="mb-3" controlId="mobile">
+              <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Mobile</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Mobile"
+                  name="mobile"
+                  value={formik.values.mobile}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+               {formik.touched.mobile && formik.errors.mobile ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.mobile}</div>
+              ) : null}
+            
+              </Form.Group>
+  
+              </Col>
+
+              <Col md={6}>
+  
+  <Form.Group className="mb-3" controlId="location">
+  <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Location</Form.Label>
+    <Form.Control
+      type="text"
+      placeholder="Location"
+      name="location"
+      value={formik.values.location}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+    />
+   {formik.touched.location && formik.errors.location ? (
+    <div className="error" style={{color:'red'}}>{formik.errors.location}</div>
+  ) : null}
+  </Form.Group>
+  </Col>
+
+  <Col md={6}>
+  <Form.Group className="mb-3" controlId="gender">
+  <Form.Label className='mandatory-label' style={{ fontSize: '14px',marginTop:'2px'}}>Gender</Form.Label>
+  <div className="radio-group">
+      <Form.Check
+        type="radio"
+        label="Male"
+        name="gender"
+        id="male"
+        value="Male"
+        checked={formik.values.gender === 'Male'}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+
+      <Form.Check
+        type="radio"
+        label="Female"
+        name="gender"
+        id="female"
+        value="Female"
+        checked={formik.values.gender === 'Female'}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+        <Form.Check
+        type="radio"
+        label="Others"
+        name="gender"
+        id="other"
+        value="other"
+        checked={formik.values.gender === 'other'}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+    </div>
+
+    {formik.touched.gender && formik.errors.gender && (
+      <div className="error mt-3" style={{ color: 'red' }}>
+        {formik.errors.gender}
+      </div>
+    )}
+  </Form.Group>
+</Col>
           
 
 
+          
+
+
+           
+           
+           
+          
+            
+          
+            </Row>
+    </div>
+
+    <div className={`${toggle === 2 ? 'content active-content' :'content'}`}>
+    <Row>
+              
+            
 <Col md={6}>
  <Form.Label style={{fontSize:'14px'}}>Reference Id</Form.Label>
             <Form.Group className="mb-3" controlId="referenceId">
            
               <Form.Control
                 type="text"
-                placeholder="ReferenceId"
+                placeholder="Reference Id"
                 name="referenceId"
                 value={formik.values.referenceId}
                 onChange={formik.handleChange}         
                 onBlur={formik.handleBlur}
            
               />
-               {formik.touched.referenceId && formik.errors.referenceId ? (
+               {/* {formik.touched.referenceId && formik.errors.referenceId ? (
                 <div className="error" style={{color:'red'}}>{formik.errors.referenceId}</div>
-              ) : null}
+              ) : null} */}
           
           
             </Form.Group>
             
             </Col>
-       
+
             <Col md={6}>
   <Form.Group className="mb-3" controlId="leadQuality">
-  <Form.Label style={{fontSize:'14px'}}>Lead Quality</Form.Label>
+  <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Lead Quality</Form.Label>
     <Form.Control
       as="select"
       name="leadQuality"
@@ -339,8 +490,51 @@ const fetchSupportType = async () => {
   </Form.Group>
 </Col>
 
+
+
 <Col md={6}>
-            <Form.Label style={{fontSize:'14px'}}>Remarks</Form.Label>
+        <Form.Group className="mb-3" controlId="district">
+          <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>District</Form.Label>
+          <Form.Select
+            name="district"
+            value={formik.values.district}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value="" label="Select a District" />
+            {districts.map(district => (
+              <option key={district._id} value={district.name}>
+                {district.name}
+              </option>
+            ))}
+          </Form.Select>
+          {formik.touched.district && formik.errors.district ? (
+            <div className="error" style={{ color: 'red' }}>{formik.errors.district}</div>
+          ) : null}
+        </Form.Group>
+      </Col>
+                
+                <Col md={6}>
+                <Form.Group className="mb-3" controlId="state">
+                <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>State</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="State"
+                  name="state"
+                  value={formik.values.state}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+        
+                />
+              {formik.touched.state && formik.errors.state ? (
+                <div className="error" style={{color:'red'}}>{formik.errors.state}</div>
+              ) : null}
+            
+              </Form.Group>
+           </Col>
+           
+<Col md={6}>
+            <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Remarks</Form.Label>
   <Form.Group className="mb-3" controlId="remarks">
     <Form.Control
       as="textarea"
@@ -357,9 +551,7 @@ const fetchSupportType = async () => {
           
   </Form.Group>
 </Col>
-           
-           
-            <Col md={6}>
+<Col md={6}>
             <Form.Group className="mb-3" controlId="enqDescp">
             <Form.Label style={{fontSize:'14px'}}>Description</Form.Label>       
               <Form.Control
@@ -371,163 +563,26 @@ const fetchSupportType = async () => {
                 onBlur={formik.handleBlur}
                 style={{ height: '46px', paddingTop: '0' }}
               />
-                {formik.touched.enqDescp && formik.errors.enqDescp ? (
+                {/* {formik.touched.enqDescp && formik.errors.enqDescp ? (
                 <div className="error" style={{color:'red'}}>{formik.errors.enqDescp}</div>
-              ) : null}
+              ) : null} */}
           
             </Form.Group>
             </Col>
-          
-            
-          
-            </Row>
-    </div>
-
-    <div className={`${toggle === 2 ? 'content active-content' :'content'}`}>
-    <Row>
-              
-              <Col md={6}>
-              <Form.Group className="mb-3" controlId="email">
-              <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.touched.email && formik.errors.email ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.email}</div>
-              ) : null}
-            
-              </Form.Group>
-               </Col>
-               <Col md={6}>
-              <Form.Group className="mb-3" controlId="mobile">
-              <Form.Label style={{fontSize:'14px'}}>Mobile</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Mobile"
-                  name="mobile"
-                  value={formik.values.mobile}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-               {formik.touched.mobile && formik.errors.mobile ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.mobile}</div>
-              ) : null}
-            
-              </Form.Group>
-  
-              </Col>
+         
+       
              </Row>
          <Row>  
-  <Col md={6}>
+ 
   
-              <Form.Group className="mb-3" controlId="location">
-              <Form.Label style={{fontSize:'14px'}}>Location</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Location"
-                  name="location"
-                  value={formik.values.location}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-               {formik.touched.location && formik.errors.location ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.location}</div>
-              ) : null}
-              </Form.Group>
-              </Col>
-  
-              <Col md={6}>
-              <Form.Group className="mb-3" controlId="district">
-              <Form.Label style={{fontSize:'14px'}}>District</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="District"
-                  name="district"
-                  value={formik.values.district}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-        
-                />
-                {formik.touched.district && formik.errors.district ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.district}</div>
-              ) : null}
-            
-              </Form.Group>
-                </Col>
+              
                
               </Row>
               <Row>
           
         
-                <Col md={6}>
-                <Form.Group className="mb-3" controlId="state">
-                <Form.Label style={{fontSize:'14px'}}>State</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="State"
-                  name="state"
-                  value={formik.values.state}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-        
-                />
-              {formik.touched.state && formik.errors.state ? (
-                <div className="error" style={{color:'red'}}>{formik.errors.state}</div>
-              ) : null}
-            
-              </Form.Group>
-           </Col>
-         
              
-            <Col md={6}>
-  <Form.Group className="mb-3" controlId="gender">
-  <Form.Label style={{ fontSize: '14px',marginTop:'2px'}}>Gender</Form.Label>
-  <div className="radio-group">
-      <Form.Check
-        type="radio"
-        label="Male"
-        name="gender"
-        id="male"
-        value="male"
-        checked={formik.values.gender === 'male'}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-
-      <Form.Check
-        type="radio"
-        label="Female"
-        name="gender"
-        id="female"
-        value="female"
-        checked={formik.values.gender === 'female'}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-        <Form.Check
-        type="radio"
-        label="Other"
-        name="gender"
-        id="other"
-        value="other"
-        checked={formik.values.gender === 'other'}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-    </div>
-
-    {formik.touched.gender && formik.errors.gender && (
-      <div className="error" style={{ color: 'red' }}>
-        {formik.errors.gender}
-      </div>
-    )}
-  </Form.Group>
-</Col>
+            
 
            </Row>
     </div>
@@ -537,7 +592,7 @@ const fetchSupportType = async () => {
        <Col md={6}>
   {/* Enquiry Source Dropdown */}
   <Form.Group className="mb-3" controlId="enqSource">
-  <Form.Label style={{fontSize:'14px'}}>Enquiry Source</Form.Label>
+  <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Enquiry Source</Form.Label>
     <Form.Control
       as="select"
       name="enqSource"
@@ -553,7 +608,7 @@ const fetchSupportType = async () => {
       </option>
       {enquirySources.map(source => (
         <option key={source._id} value={source._id}>
-          {source.name}
+          {capitalizeFirstLetter (source.name)}
         </option>
       ))}
     </Form.Control>
@@ -567,7 +622,7 @@ const fetchSupportType = async () => {
          
               {/* Enquiry Type Dropdown */}
               <Form.Group className="mb-3" controlId="enqType">
-              <Form.Label style={{fontSize:'14px'}}>Enquiry Type</Form.Label>
+              <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Enquiry Type</Form.Label>
               <Form.Control
                 as="select"
                 name="enqType"
@@ -583,7 +638,7 @@ const fetchSupportType = async () => {
                 </option>
                 {enquiryType.map(type => (
                   <option key={type._id} value={type._id}>
-                    {type.name}
+                    {capitalizeFirstLetter (type.name)}
                   </option>
                 ))}
               </Form.Control>
@@ -597,7 +652,7 @@ const fetchSupportType = async () => {
 <Col md={6}>
                {/* Enquiry Mode Dropdown */}
                  <Form.Group className="mb-3" controlId="enqMode">
-                 <Form.Label style={{fontSize:'14px'}}>Enquiry Mode</Form.Label>
+                 <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Enquiry Mode</Form.Label>
               <Form.Control
                 as="select"
                 name="enqMode"
@@ -614,7 +669,7 @@ const fetchSupportType = async () => {
                 </option>
                 {enquiryMode.map(mode => (
                   <option key={mode._id} value={mode._id}>
-                    {mode.name}
+                    {capitalizeFirstLetter (mode.name)}
                   </option>
                 ))}
               </Form.Control>
@@ -627,7 +682,7 @@ const fetchSupportType = async () => {
                 <Col md={6}>
           {/* Enquiry To Dropdown */}
              <Form.Group className="mb-3" controlId="enqTo">
-             <Form.Label style={{fontSize:'14px'}}>Enquiry To</Form.Label>
+             <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Enquiry To</Form.Label>
               <Form.Control
                 as="select"
                 name="enqTo"
@@ -644,7 +699,7 @@ const fetchSupportType = async () => {
                 </option>
                 {enqTo.map(to => (
                   <option key={to._id} value={to._id}>
-                    {to.name}
+                    {capitalizeFirstLetter (to.name)}
                   </option>
                 ))}
               </Form.Control>
@@ -660,7 +715,7 @@ const fetchSupportType = async () => {
              <Col md={6}>
           {/* Support Type Dropdown */}
          <Form.Group className="mb-3" controlId="supportType">
-         <Form.Label style={{fontSize:'14px'}}>Support Type</Form.Label>
+         <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Support Type</Form.Label>
               <Form.Control
                 as="select"
                 name="supportType"
@@ -676,7 +731,7 @@ const fetchSupportType = async () => {
                 </option>
                 {supportType.map(support => (
                   <option key={support._id} value={support._id}>
-                     {support.name}
+                     {capitalizeFirstLetter (support.name)}
                   </option>
                 ))}
               </Form.Control>

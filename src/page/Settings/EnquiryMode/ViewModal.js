@@ -6,6 +6,15 @@ import '../../style/view.css';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function ViewModal({ showModal, handleClose, selectedDatas }) {
+
+  
+  const capitalizeFirstLetter = (value) => {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static" keyboard={false}>
       <Modal.Header closeButton>

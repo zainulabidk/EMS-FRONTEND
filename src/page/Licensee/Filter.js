@@ -40,11 +40,11 @@ const [filterValue, setFilterValue] = useState('');
                       >
                        All
                       </option>
-                      <option >new</option>
-                      <option >pending</option>
-                      <option >active</option>
-                      <option >converted</option>
-                      <option >blocked</option>
+                      <option >New</option>
+                      <option >Pending</option>
+                      <option >Active</option>
+                      <option >Converted</option>
+                      <option >Blocked</option>
                      
                     </Form.Select>
                   </div>

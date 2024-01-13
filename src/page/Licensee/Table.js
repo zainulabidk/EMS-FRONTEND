@@ -44,24 +44,46 @@ function Table() {
 
 
 
- 
+useEffect(() => {
+  const fetchUserRoles = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/userroles');
+      const roles = response.data.userRole.map(role => role.name);
+      setRoleOptions(['all', ...roles]);
+    } catch (error) {
+      console.error('Error fetching user roles:', error);
+    }
+  };
+
+  fetchUserRoles();
+}, []);
 
 
-
-
-
-
+// const getDatas = async () => {
+//   try {
+//     const response = await axios.get('http://localhost:3000/users');
+//     const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
+//     setDatas(filteredData);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 const getDatas = async () => {
   try {
     const response = await axios.get('http://localhost:3000/users');
-    const filteredData = response.data.users.filter(user => user.isDeleted === false || user.isDeleted === undefined);
-    setDatas(filteredData);
-    // setFilteredDatas(filteredData);
+    console.log('API Response:', response.data);
+
+    // Filter the data based on the user type "licensee"
+    const licenseeData = response.data.users.filter(user => 
+      (user.isDeleted === false || user.isDeleted === undefined) &&
+      user.userRoles.name === 'licensee'
+    );
+
+    setDatas(licenseeData);
   } catch (error) {
     console.error(error);
   }
 };
-
 
 
   const handleUpdate = async (Dataid, updatedData) => {
@@ -127,27 +149,36 @@ const handleClickDelete = (row) => {
       selector: (row) => row.mobile,
     },
     {
-      name: "User Type",
-      selector: (row) => row.userType,
+      name: "USER ROLE",
+      selector: (row) => {
+        if (Array.isArray(row.userRoles)) {
+          return row.userRoles.map((userRole) => userRole.name).join(', ');
+        } else if (row.userRoles && typeof row.userRoles === 'object') {
+          return row.userRoles.name;
+        } else {
+          return 'Unknown Role';
+        }
+      },
       cell: (row) => (
-        <div className="capitalize-text">
-          {`${row.userType} `}
+        <div className="capitalize">
+          {/* {${row.userRoles.name}} */}
+          {`${row.userRoles && row.userRoles.name ? row.userRoles.name : 'Unknown Role'}`}
         </div>
       ),
     },
-   
     {
       name: "Actions",
       cell: (row) => (
         <>
           <div>
-            <Button style={{ paddingLeft: '0px' }} className='btn btn-1 mx-1' onClick={() => handleEdit(row)}>
-              <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
-            </Button>
-            <Button className='btn btn-2 mx-1' onClick={() => handleViewDetails(row)}>
+          <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
               <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
             </Button>
-            <Button className='btn btn-3 ' onClick={() => handleClickDelete(row)}>
+            <Button  className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
+              <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
+            </Button>
+          
+            <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
           </div>

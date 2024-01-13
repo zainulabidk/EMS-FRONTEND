@@ -26,6 +26,16 @@ function AddModal({getDatas}) {
     desc: Yup.string().required('Description is required!'),
   });
 
+
+  
+  const capitalizeFirstLetter = (value) => {
+    return value
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -82,7 +92,7 @@ function AddModal({getDatas}) {
           <Form onSubmit={formik.handleSubmit}>
           
           <Form.Group className="mb-3" controlId="name">
-              <Form.Label style={{ fontSize: '14px' }}>Name</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Name"
@@ -96,7 +106,7 @@ function AddModal({getDatas}) {
               ) : null}
             </Form.Group>
             <Form.Group className="mb-3" controlId="desc">
-              <Form.Label style={{ fontSize: '14px' }}>Description</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Description</Form.Label>
               <Form.Control
               as="textarea"
                 type="text"

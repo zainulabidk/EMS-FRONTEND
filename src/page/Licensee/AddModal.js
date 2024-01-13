@@ -17,28 +17,6 @@ const App = ({getDatas}) => {
   const [userRoles, setUserRoles] = useState([]);
 
 
-// userroles fetch: deafult get userroles
-
-  // useEffect(() => {
-  //   const fetchUserRoles = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3000/userroles');
-  //       const filteredEnqTo = response.data.userRole.filter(to => !to.isDeleted);
-  //       setUserRoles(filteredEnqTo);
-  //      console.log(filteredEnqTo);
-  
-  //       setUserRoles(response.data.userRole);
-  //       formik.setValues((prevValues) => ({
-  //         ...prevValues,
-  //         userRoles: response.data.userRole[0]._id, 
-  //       }));
-  //     } catch (error) {
-  //       console.error('Error fetching user roles:', error);
-  //     }
-  //   };
-  
-  //   fetchUserRoles();
-  // }, []);
 
   useEffect(() => {
     const fetchUserRoles = async () => {
@@ -50,7 +28,8 @@ const App = ({getDatas}) => {
         setUserRoles(response.data.userRole);  // <-- Here is the second update
         formik.setValues((prevValues) => ({
           ...prevValues,
-          userRoles: response.data.userRole[0]._id, 
+          userType: 'admin',
+          userRoles: response.data.userRole.find(role => role.name === 'licensee')._id, 
         }));
       } catch (error) {
         console.error('Error fetching user roles:', error);
@@ -92,7 +71,7 @@ const App = ({getDatas}) => {
       password: '',
       confirmPassword: '',
       mobile: '',
-      userType: 'licensee',
+      userType: '',
       userRoles: '',
    
     },
@@ -147,7 +126,7 @@ const App = ({getDatas}) => {
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3 " controlId="fname" >
-                    <Form.Label style={{fontSize:'14px'}}>First Name</Form.Label>
+                    <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>First Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="fname"
@@ -167,7 +146,7 @@ const App = ({getDatas}) => {
 
                 <Col md={6}>
                 <Form.Group className="mb-3 " controlId="lname" >
-                    <Form.Label style={{fontSize:'14px'}}>Last Name</Form.Label>
+                    <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Last Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="lname"
@@ -188,7 +167,7 @@ const App = ({getDatas}) => {
 
                 <Col md={6}>
                 <Form.Group className="mb-3 " controlId="email" >
-                    <Form.Label style={{fontSize:'14px'}}>Email</Form.Label>
+                    <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Email</Form.Label>
                     <Form.Control
                       type="email"
                       name="email"
@@ -208,7 +187,7 @@ const App = ({getDatas}) => {
 
                 <Col md={6}>
                 <Form.Group className="mb-3 " controlId="mobile" >
-                    <Form.Label style={{fontSize:'14px'}}>Mobile</Form.Label>
+                    <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Mobile</Form.Label>
                     <Form.Control
                       type="text"
                       name="mobile"
@@ -229,7 +208,7 @@ const App = ({getDatas}) => {
                              
 <Col md={6}>
   <Form.Group className="mb-3" style={{ position: 'relative' }} controlId="password">
-    <Form.Label style={{ fontSize: '14px' }}>Password</Form.Label>
+    <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Password</Form.Label>
     <div className="password-input-container">
       <Form.Control
         type={showPassword ? 'text' : 'password'}
@@ -257,7 +236,7 @@ const App = ({getDatas}) => {
 </Col>
                 <Col md={6}>
                   <Form.Group  className="mb-3 " controlId="confirmPassword">
-                  <Form.Label style={{fontSize:'14px'}}>Confirm Password</Form.Label>
+                  <Form.Label className='mandatory-label' style={{fontSize:'14px'}}>Confirm Password</Form.Label>
                     <Form.Control
                       type="password"
                       placeholder="Confirm Password "
@@ -277,14 +256,14 @@ const App = ({getDatas}) => {
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-  <Form.Group className="mb-3 input-box" controlId="userType">
-    <Form.Label className='label' style={{ fontSize: '14px' }}>User Type</Form.Label>
+  <Form.Group className="mb-3 input-box" controlId="userRoles">
+    <Form.Label  className='label' style={{ fontSize: '14px' }}>User Role</Form.Label>
     <Form.Control
       className='input-controll'
       type="text"
       placeholder="Licensee"
-      name="userType"
-      value={formik.values.userType}
+      name="userrole"
+      value={formik.values.userRoles.name}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
       disabled

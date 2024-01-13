@@ -60,30 +60,37 @@ navRef.current.classList.toggle("responsive_nav");
     }
   };
 
+  // const getDatas = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/productService');
+  //     console.log('API Response:', response.data.product);
+  //     const filteredData = response.data.product.filter(product => product.isDeleted === false || product.isDeleted === undefined);
+  //     console.log('Filtered Data:', filteredData);
+  //     setDatas(filteredData);
+  //     // setFilteredDatas(filteredData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
+
   const getDatas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/productService');
-      console.log('API Response:', response.data.product);
-      const filteredData = response.data.product.filter(product => product.isDeleted === false || product.isDeleted === undefined);
-      console.log('Filtered Data:', filteredData);
+      const { product } = (await axios.get('http://localhost:3000/productService')).data;
+      const filteredData = product.map(({ name, descp, ...rest }) => ({
+        ...rest,
+        name: capitalize(name),
+        descp: capitalize(descp),
+      })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+  
       setDatas(filteredData);
-      // setFilteredDatas(filteredData);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // const getDatas = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/enquirymode');
-  //     console.log('Responsse from zain:', response.data.enquiryModes);
-  //     setDatas(response.data.enquiryModes);
-  //     setFilteredDatas(response.data.enquiryModes);
-  //     console.log("helo"+esponse.data.enquiryModes);
-  //   } catch (error) {
-  //     console.error(error);uctService
-  //   }
-  // };
+
 
   const handleUpdate = async (orgId, updatedData) => {
     try {
@@ -133,23 +140,25 @@ const handleClickDelete = (row) => {
       name: "NAME",
       selector: (row) => row.name,
       sortable: true,
+  
     },
     {
       name: "DESCRIPTION",
       selector: (row) => row.descp,
+    
     },
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
+         <Button className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
           <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
         </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
           <FontAwesomeIcon icon={faTrash} /> {/* Delete Icon */}
         </Button>
         </div>
@@ -209,32 +218,7 @@ const handleClickDelete = (row) => {
         highlightOnHover
         subHeader
         subHeaderComponent={
-        //   <div className='table-top'>
-        //       <div ><AddModal getDatas={getDatas}  /></div>
-        //       <div style={{display:'flex',alignItems:'center',width: '34%', justifyContent:'space-between'}}>
-        //         <div>
-        //           <div className="search-input-container">
-        //             <FontAwesomeIcon icon={faSearch} className="search-icon" />
-        //             <input
-        //               type="text"
-        //               placeholder="Search"
-        //               className="w-35 form-control-srch"
-        //               value={search}
-        //               onChange={(e) => setSearch(e.target.value)}
-        //             />
-        //           </div>
-        //         </div>
-
-        //         <div className='count-div'>
-        //           <FontAwesomeIcon icon={faFilter} style={{ marginRight: '5px' }} />
-        //           <span>{' '}Results: {totalCount}</span>
-        //         </div>
-        //         <div>
-        //          {/* <FilterDropdown datas={datas} setFilteredDatas={setFilteredDatas} roleOptions={roleOptions} /> */}
-        //          <Filter  onFilter={(newQuery, newFilterValue) => { setQuery(newQuery); setFilterValue(newFilterValue); }} />
-        //        </div>
-        //       </div>
-        //   </div>
+    
         <div className='table-top'>
          
         <div  className='left-div'>

@@ -56,16 +56,23 @@ function Table() {
   };
 
 
-  const getDatas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/enquirySource');
-      const filteredData = response.data.enquiriesSource.filter(enquiriesSource => enquiriesSource.isDeleted === false || enquiriesSource.isDeleted === undefined);
-       setDatas(filteredData);
-       // setFilteredDatas(response.data.enquiriesSource);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : str;
+
+const getDatas = async () => {
+  try {
+    const { enquiriesSource } = (await axios.get('http://localhost:3000/enquirySource')).data;
+    const filteredData = enquiriesSource.map(({ name, desc, ...rest }) => ({
+      ...rest,
+      name: capitalize(name),
+      desc: capitalize(desc),
+    })).filter(({ isDeleted }) => isDeleted === false || isDeleted === undefined);
+
+    setDatas(filteredData);
+  } catch (error) {
+    console.error(error);
+  }
+};
  
 
   const handleUpdate = async (orgId, updatedData) => {
@@ -103,33 +110,25 @@ function Table() {
       name: "NAME",
       selector: (row) => row.name,
       sortable: true,
-      cell: (row) => (
-        <div className="capitalize">
-          {`${row.name}`}
-        </div>
-      ),
+    
     },
     {
       name: "DESCRIPTION",
       selector: (row) => row.desc,
-      cell: (row) => (
-        <div className="capitalize">
-          {`${row.desc}`}
-        </div>
-      ),
+     
     },
     {
       name: "ACTIONS",
       cell: (row) => (
         <>
         <div>
-         <Button  style={{paddingLeft:'0px'}} className='btn  btn-1  mx-1' onClick={() => handleEdit(row)}>
+         <Button className='btn btn-1 me-3 ps-0' onClick={() => handleEdit(row)}>
           <FontAwesomeIcon icon={faEdit} /> {/* Edit Icon */}
         </Button>
-        <Button className='btn btn-2  mx-1' onClick={() => handleViewDetails(row)}>
+        <Button className='btn btn-2 me-3 ps-0' onClick={() => handleViewDetails(row)}>
           <FontAwesomeIcon icon={faEye} /> {/* View Details Icon */}
         </Button>
-        <Button className='btn btn-3  mx-1' onClick={() => handleClickDelete(row)}>
+        <Button className='btn btn-3 me-3 ps-0' onClick={() => handleClickDelete(row)}>
               <FontAwesomeIcon icon={faTrash} />
             </Button>
         </div>

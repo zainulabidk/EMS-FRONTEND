@@ -1,7 +1,6 @@
 import React, { Component, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
-import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './views/pages/AuthContext';
  import './App.css'
 const loading = (
@@ -11,9 +10,7 @@ const loading = (
 )
 
 // Containers
-
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
-
 // Pages
 const PublicPage = React.lazy(() => import('./views/PublicPage/App'))
 const Login = React.lazy(() => import('./views/pages/login/Login'))

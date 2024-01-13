@@ -7,6 +7,8 @@ import '../../style/addmodel.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Container } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddModal({getDatas}) {
   const [show, setShow] = React.useState(false);
@@ -39,7 +41,7 @@ function AddModal({getDatas}) {
         await validationSchema.validate(values, { abortEarly: false });
    
         const response = await axios.post('http://localhost:3000/enquiryType', values);
-        // console.log('Response:', response.data);
+     
     
         getDatas();
         toast.success('Data successfully added', {
@@ -61,33 +63,6 @@ function AddModal({getDatas}) {
       }
     },
   });
-  //   onSubmit: async (values) => {
-  //     try {
-  //       // Validate the newItem object using Formik and Yup
-  //       await validationSchema.validate(values, { abortEarly: false });
-
-        
-  //       const response = await axios.post('http://localhost:3000/enquiryType', values);
-  //       console.log('Response:', response.data);
-  //       alert('Successfully added');
-
-  //       handleClose();
-
-  //       // Refresh the page after successful submission
-  //       window.location.reload();
-  //     } catch (error) {
-  //       if (error.response) {
-  //         console.log('Error Response:', error.response.data);
-  //         console.log('Status Code:', error.response.status);
-  //       } else if (error.request) {
-  //         console.log('No response received from the server.');
-  //       } else {
-  //         console.log('Error:', error.message);
-  //         // Handle other errors
-  //       }
-  //     }
-  //   },
-  // });
 
   return (
     <>
@@ -103,7 +78,7 @@ function AddModal({getDatas}) {
           <Container>
           <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3 " controlId="name" >
-          <Form.Label style={{ fontSize: '14px' }}>Name</Form.Label>
+          <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Name</Form.Label>
                     <Form.Control
                       type="text"
                       name="name"
@@ -119,7 +94,7 @@ function AddModal({getDatas}) {
 
 
             <Form.Group className="mb-3" controlId="descp">
-            <Form.Label style={{ fontSize: '14px' }}>Description</Form.Label>
+            <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 placeholder="Description"

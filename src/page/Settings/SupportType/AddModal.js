@@ -61,6 +61,8 @@ function AddModal({getDatas}) {
     },
   });
 
+
+
   return (
     <>
     <ToastContainer/>
@@ -76,7 +78,7 @@ function AddModal({getDatas}) {
           <Container>
           <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="name">
-              <Form.Label style={{ fontSize: '14px' }}>Support Type</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Support Type</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Name"
@@ -90,7 +92,7 @@ function AddModal({getDatas}) {
               ) : null}
             </Form.Group>
             <Form.Group className="mb-3" controlId="descp">
-              <Form.Label style={{ fontSize: '14px' }}>Description</Form.Label>
+              <Form.Label className='mandatory-label' style={{ fontSize: '14px' }}>Description</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter descp"
